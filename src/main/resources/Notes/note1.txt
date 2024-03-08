@@ -1,0 +1,17 @@
+9 March 2024 01:18
+şuanda kursun hibernate jpa crud yani 3. ana başlığında öğrendiğim bazı konuları implement etmeye başladım
+
+notion da DB genel structure oluşturuldu ( ileri dönük bazı brainstorming durumları not edildi)
+
+db bağlantısı sağlanıp doğrudan java kodu ile db table oluşturuldu(users)
+
+properties de öğrendiğim özellikleri ekleyerek denedim
+
+postman collection oluşturuldu
+
+Actuator ile ilgili 3 endpoint denemesi yapıldı
+
+bu haliyle github a atıldı
+eklenecek her yeni şey ile ilgili bir branch açılıp ne yapıldı nasıl yapıldı takibi kolaylaştırılacak
+
+eklenen özellik master ana branche merge edilecek
