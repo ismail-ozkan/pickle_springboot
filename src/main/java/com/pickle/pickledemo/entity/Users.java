@@ -1,6 +1,9 @@
 package com.pickle.pickledemo.entity;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "users")
@@ -10,7 +13,6 @@ public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     @Column(name = "id") // it's optional
     private int id;
-
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")
@@ -18,6 +20,12 @@ public class Users {
     //@Column(name = "email")//opitonal
     private String email;
     private int age;
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_date", updatable = false)
+    private Date createdDate;
+
+
 
     public Users() {
     }
@@ -29,12 +37,13 @@ public class Users {
         this.age = age;
     }
 
-    public Users(int id, String firstName, String lastName, String email, int age) {
+    public Users(int id, String firstName, String lastName, String email, int age, Date createdDate) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.age = age;
+        this.createdDate = createdDate;
     }
 
     public int getId() {

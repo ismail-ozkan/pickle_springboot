@@ -1,4 +1,4 @@
-9 March 2024 01:18
+09.03.2024 01:18
 şuanda kursun hibernate jpa crud yani 3. ana başlığında öğrendiğim bazı konuları implement etmeye başladım
 
 notion da DB genel structure oluşturuldu ( ileri dönük bazı brainstorming durumları not edildi)
@@ -15,3 +15,19 @@ bu haliyle github a atıldı
 eklenecek her yeni şey ile ilgili bir branch açılıp ne yapıldı nasıl yapıldı takibi kolaylaştırılacak
 
 eklenen özellik master ana branche merge edilecek
+
+09.03.2024 23:14
+
+EntityManager interface object ile çeşitli methodlar kullanılarak db den data manipulasyonu yapılmıştır.
+entityManager.persist(), .find(), .merge(), .remove(), .createQuery(sql Query)
+query.getResultList()
+
+@Transactional anatasyonunu hangi methodlarda ihtiyaç olduğu -> CREATE UPDATE DELETE
+
+bunlar app class içerisidne oluşturulan CommandLineRunner @Bean methodu ile run edilerek çalıştırılmıştır.
+
+TODO SQL query pratik için fikir üretip uygulanacak, örneğin ad soyad birleştrime concat() gibi vs.
+
+ID auto increment için özellik konulması
+sql query:
+ALTER TABLE student_tracker.student AUTO_INCREMENT=3000;
