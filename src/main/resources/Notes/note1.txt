@@ -31,3 +31,9 @@ TODO SQL query pratik için fikir üretip uygulanacak, örneğin ad soyad birle�
 ID auto increment için özellik konulması
 sql query:
 ALTER TABLE student_tracker.student AUTO_INCREMENT=3000;
+
+11.03.2024 23:26
+yeni bir query uygulamasıyla casesenstive arama yapmaya ilişkin bir deneme yapıldı
+query : SELECT firstName FROM Users WHERE BINARY(firstName) LIKE:queryPieceParam
+şekilde parametreli olarak kullanıldı.
+

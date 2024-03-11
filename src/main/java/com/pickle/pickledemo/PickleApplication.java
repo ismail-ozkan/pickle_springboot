@@ -49,6 +49,7 @@ public class PickleApplication {
 			updatedUser.setAge(33);
 			usersDAO.updateUsers(updatedUser);*/
 
+			System.out.println(usersDAO.findInclude("il"));
 		};
     }
 
@@ -77,4 +78,9 @@ public class PickleApplication {
 		usersDAO.save(user3);
 
 	}
+
+	private List<String> findIncludedUserNames(UsersDAO usersDAO, String str){
+		return usersDAO.findInclude(str);
+	}
+
 }

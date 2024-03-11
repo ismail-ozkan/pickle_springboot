@@ -19,4 +19,6 @@ public interface UsersDAO {
     void deleteById(Integer id);
 
     void updateUsers(Users updatedUser);
+
+    List<String> findInclude(String str);
 }

@@ -61,6 +61,20 @@ public class UsersDAOImpl implements UsersDAO{
         entityManager.merge(updatedUser);
     }
 
+    @Override
+    public List<String> findInclude(String str) {
+        //1. way to use parameter in the query
+        String queryPiece = "%" + str + "%";
+        TypedQuery<String> query = entityManager.createQuery("SELECT firstName FROM Users WHERE BINARY(firstName) LIKE:queryPieceParam ", String.class);
+        query.setParameter("queryPieceParam",queryPiece);
+
+        return query.getResultList();
+
+
+        //2. way to use parameter in the query
+
+    }
+
     //TODO UPDATE ve DELETE methodlarıyla .executeUpdate() methodu kullanımı
 
     //TODO Query içerisinde Parametre kullanımı
