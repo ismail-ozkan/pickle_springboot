@@ -75,7 +75,21 @@ public class UsersDAOImpl implements UsersDAO{
 
     }
 
+
     //TODO UPDATE ve DELETE methodlarıyla .executeUpdate() methodu kullanımı
+    @Override
+    @Transactional
+    public void updateUserById(int id, Users theUser) {
+        Users foundUser = entityManager.find(Users.class, id);
+        foundUser.setFirstName(theUser.getFirstName());
+        foundUser.setLastName(theUser.getLastName());
+        foundUser.setAge(theUser.getAge());
+        foundUser.setEmail(theUser.getEmail());
+        System.out.println("The user with id " + id + " is updated");
+        entityManager.merge(foundUser);
+    }
+
+
 
     //TODO Query içerisinde Parametre kullanımı
 

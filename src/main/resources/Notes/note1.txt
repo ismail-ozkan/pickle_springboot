@@ -37,3 +37,6 @@ yeni bir query uygulamasıyla casesenstive arama yapmaya ilişkin bir deneme yap
 query : SELECT firstName FROM Users WHERE BINARY(firstName) LIKE:queryPieceParam
 şekilde parametreli olarak kullanıldı.
 
+13.03.2024 01:13
+update methodu eklenerek bir kullanıcı güncelleme yapıldlı
+@Transactional anatasyonu kullanılmasıne ilişkin struggle handle edildi.

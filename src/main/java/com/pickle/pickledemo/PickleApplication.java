@@ -49,9 +49,17 @@ public class PickleApplication {
 			updatedUser.setAge(33);
 			usersDAO.updateUsers(updatedUser);*/
 
-			System.out.println(usersDAO.findInclude("il"));
+//			System.out.println(usersDAO.findInclude("il"));
+
+			int id = 1;
+			Users theUser = new Users("ismail", "özkan", "ismail@mail.com", 33);
+			updateUserByUsingId(usersDAO, 1, theUser);
 		};
     }
+
+	private void updateUserByUsingId(UsersDAO usersDAO, int id, Users theUser) {
+		usersDAO.updateUserById(id, theUser);
+	}
 
 	private List<String> sortByName(UsersDAO usersDAO) {
 		return usersDAO.sortByName();

@@ -21,4 +21,6 @@ public interface UsersDAO {
     void updateUsers(Users updatedUser);
 
     List<String> findInclude(String str);
+
+    void updateUserById(int id, Users theUser);
 }
