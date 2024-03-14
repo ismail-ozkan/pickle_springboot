@@ -23,4 +23,6 @@ public interface UsersDAO {
     List<String> findInclude(String str);
 
     void updateUserById(int id, Users theUser);
+
+    void dropTable();
 }

@@ -51,11 +51,21 @@ public class PickleApplication {
 
 //			System.out.println(usersDAO.findInclude("il"));
 
-			int id = 1;
+			/*int id = 1;
 			Users theUser = new Users("ismail", "özkan", "ismail@mail.com", 33);
-			updateUserByUsingId(usersDAO, 1, theUser);
+			updateUserByUsingId(usersDAO, 1, theUser);*/
+
+			//cleanTable(usersDAO);
+
+
 		};
     }
+
+	private void cleanTable(UsersDAO usersDAO) {
+
+		usersDAO.dropTable();
+
+	}
 
 	private void updateUserByUsingId(UsersDAO usersDAO, int id, Users theUser) {
 		usersDAO.updateUserById(id, theUser);

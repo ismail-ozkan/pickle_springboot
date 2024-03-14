@@ -89,9 +89,17 @@ public class UsersDAOImpl implements UsersDAO{
         entityManager.merge(foundUser);
     }
 
+    @Override
+    @Transactional
+    public void dropTable() {
+        int deletedUserCount = entityManager.createQuery("DELETE FROM Users").executeUpdate();
+        System.out.println(deletedUserCount + " number of user/s deleted from the Users Table.");
+    }
 
 
     //TODO Query içerisinde Parametre kullanımı
+
+
 
     //TODO SQL query pratik için fikir üretip uygulanacak, örneğin ad soyad birleştrime concat() gibi vs.
 }
