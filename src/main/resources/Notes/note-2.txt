@@ -6,3 +6,4 @@ new folders adding
 new rest methods
 
 PickleApp CommandLineRunner içindeki yazılan tüm methodların REST API endpointe dönüştürülmesi hedeflendi
+/api/users get methodu ile tüm user listesine ilşkin endpoint entityManager ile db den çekilen dataları göstermek için kullanıldı
