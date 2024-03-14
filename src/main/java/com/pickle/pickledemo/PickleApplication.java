@@ -22,7 +22,7 @@ public class PickleApplication {
         SpringApplication.run(PickleApplication.class, args);
     }
 
-    @Bean
+    /*@Bean
     public CommandLineRunner commandLineRunner(UsersDAO usersDAO) {
         return runner -> {
 //			createUser(usersDAO);
@@ -30,36 +30,36 @@ public class PickleApplication {
 //			Users userById = findUserById(usersDAO);
 //			System.out.println(userById.toString());
 
-			/*List<Users> allUsers = findAllUsers(usersDAO);
+			*//*List<Users> allUsers = findAllUsers(usersDAO);
 			for (Users eachUser : allUsers) {
 				System.out.println(eachUser.toString());
-			}*/
-			/*String name = "ismail";
+			}*//*
+			*//*String name = "ismail";
 			Users foundUser = findByFirstName(usersDAO, name);
-			System.out.println(foundUser.toString());*/
+			System.out.println(foundUser.toString());*//*
 
-			/*List<String> sortedUsers = sortByName(usersDAO);
-			System.out.println(sortedUsers);*/
+			*//*List<String> sortedUsers = sortByName(usersDAO);
+			System.out.println(sortedUsers);*//*
 
-			/*int id1 = 4, id2 = 5;
+			*//*int id1 = 4, id2 = 5;
 			usersDAO.deleteById(id1);
-			usersDAO.deleteById(id2);*/
+			usersDAO.deleteById(id2);*//*
 
-			/*Users updatedUser = findUserById(usersDAO,1);
+			*//*Users updatedUser = findUserById(usersDAO,1);
 			updatedUser.setAge(33);
-			usersDAO.updateUsers(updatedUser);*/
+			usersDAO.updateUsers(updatedUser);*//*
 
 //			System.out.println(usersDAO.findInclude("il"));
 
-			/*int id = 1;
+			*//*int id = 1;
 			Users theUser = new Users("ismail", "özkan", "ismail@mail.com", 33);
-			updateUserByUsingId(usersDAO, 1, theUser);*/
+			updateUserByUsingId(usersDAO, 1, theUser);*//*
 
 			//cleanTable(usersDAO);
 
 
 		};
-    }
+    }*/
 
 	private void cleanTable(UsersDAO usersDAO) {
 

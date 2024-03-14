@@ -1,0 +1,8 @@
+14.03.2024
+REST CRUD API implementasyonuna geçiş
+frameworkü bu yapıya uygun şekillendirme
+new folders adding
+
+new rest methods
+
+PickleApp CommandLineRunner içindeki yazılan tüm methodların REST API endpointe dönüştürülmesi hedeflendi
