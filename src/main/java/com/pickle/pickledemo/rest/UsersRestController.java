@@ -3,6 +3,7 @@ package com.pickle.pickledemo.rest;
 import com.pickle.pickledemo.dao.UsersDAO;
 import com.pickle.pickledemo.entity.Users;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,11 +28,15 @@ public class UsersRestController {
     }
 
     @GetMapping("/users")
-    public List<Users> getusers() {
+    public List<Users> getUsers() {
         List<Users> usersList = usersDAO.findAll();
-
         return usersList;
+    }
 
+    // @PathVariable should have the same name in the method signature
+    @GetMapping("/users/{id}")
+    public Users getUsersById(@PathVariable int id) {
+       return usersDAO.findById(id);
     }
 
 
