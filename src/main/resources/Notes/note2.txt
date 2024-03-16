@@ -9,4 +9,7 @@ PickleApp CommandLineRunner içindeki yazılan tüm methodların REST API endpoi
 /api/users get methodu ile tüm user listesine ilşkin endpoint entityManager ile db den çekilen dataları göstermek için kullanıldı
 
 15.03.2024
-endpointlerde parametre kullanımına ilişkin geliştirme
+endpointlerde parametre kullanımına ilişkin geliştirme yapıldı
+
+16.03.2024
+@ExceptionHandler ile iki method geliştirildi, id yerine string veya db de olmayan bir id gönderildiğinde atılacak exception config edildi.

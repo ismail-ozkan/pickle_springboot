@@ -2,10 +2,9 @@ package com.pickle.pickledemo.rest;
 
 import com.pickle.pickledemo.dao.UsersDAO;
 import com.pickle.pickledemo.entity.Users;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -36,11 +35,33 @@ public class UsersRestController {
     // @PathVariable should have the same name in the method signature
     @GetMapping("/users/{id}")
     public Users getUsersById(@PathVariable int id) {
-       return usersDAO.findById(id);
+        if (!usersDAO.getAllIds().contains(id)) {
+            throw new UserNotFoundException("Id not found");
+        }
+        return usersDAO.findById(id);
     }
 
+    // with @ExceptionHandler annotation creating new method to show error when the user not found
+    @ExceptionHandler
+    public ResponseEntity<UsersErrorResponse> handleException(UserNotFoundException exp) {
+        UsersErrorResponse error = new UsersErrorResponse();
+        error.setStatus(HttpStatus.NOT_FOUND.value());
+        error.setMessage(exp.getMessage());
+        error.setTimeStamp(System.currentTimeMillis());
 
+        // return a new ResponseEntity object
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
 
+    @ExceptionHandler
+    public ResponseEntity<UsersErrorResponse> handleException(Exception exp) {
+        UsersErrorResponse error = new UsersErrorResponse();
+        error.setStatus(HttpStatus.BAD_REQUEST.value());
+        error.setMessage(exp.getMessage());
+        error.setTimeStamp(System.currentTimeMillis());
+
+        return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
+    }
 
 
 }

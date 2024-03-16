@@ -1,11 +1,13 @@
 package com.pickle.pickledemo.dao;
 
 import com.pickle.pickledemo.entity.Users;
+import com.pickle.pickledemo.rest.UserNotFoundException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -24,7 +26,12 @@ public class UsersDAOImpl implements UsersDAO{
     }
 
     @Override
-    public Users findById(int id) {
+    public Users findById(int id) throws UserNotFoundException {
+        //System.out.println("getAllIds().contains((Integer)id) = " + getAllIds().contains((Integer) id));
+        // check the id against the list
+        /*if (!getAllIds().contains((Integer)id)) {
+            throw new UserNotFoundException("User id is not found - " + id);
+        }*/
         return entityManager.find(Users.class, id);
     }
 
@@ -94,6 +101,12 @@ public class UsersDAOImpl implements UsersDAO{
     public void dropTable() {
         int deletedUserCount = entityManager.createQuery("DELETE FROM Users").executeUpdate();
         System.out.println(deletedUserCount + " number of user/s deleted from the Users Table.");
+    }
+
+    @Override
+    public List<Integer> getAllIds() {
+        //List<Integer> allIds = (List<Integer>) entityManager.createQuery("SELECT id FROM Users", Integer.class); // to accomplish implementation of less code
+        return entityManager.createQuery("SELECT id FROM Users", Integer.class).getResultList();
     }
 
 

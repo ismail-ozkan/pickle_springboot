@@ -83,10 +83,10 @@ public class PickleApplication {
 		return usersDAO.findAll();
 	}
 
-	private Users findUserById(UsersDAO usersDAO,int id) {
+	/*private Users findUserById(UsersDAO usersDAO,int id) {
 		Users foundUser = usersDAO.findById(id);
 		return foundUser;
-	}
+	}*/
 
 	private void createUser(UsersDAO usersDAO) {
 		Users user2 = new Users("Nihad","Özkan","nihadaozkan@mail.com",67);

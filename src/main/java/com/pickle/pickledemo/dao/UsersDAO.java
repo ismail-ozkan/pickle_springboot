@@ -1,6 +1,7 @@
 package com.pickle.pickledemo.dao;
 
 import com.pickle.pickledemo.entity.Users;
+import com.pickle.pickledemo.rest.UserNotFoundException;
 
 import java.util.List;
 
@@ -8,7 +9,7 @@ public interface UsersDAO {
 
     void save(Users user);
 
-    Users findById(int id);
+    Users findById(int id) throws UserNotFoundException;
 
     List<Users> findAll();
 
@@ -25,4 +26,6 @@ public interface UsersDAO {
     void updateUserById(int id, Users theUser);
 
     void dropTable();
+
+    List<Integer> getAllIds();
 }
