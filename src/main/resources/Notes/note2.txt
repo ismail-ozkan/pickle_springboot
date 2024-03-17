@@ -13,3 +13,6 @@ endpointlerde parametre kullanımına ilişkin geliştirme yapıldı
 
 16.03.2024
 @ExceptionHandler ile iki method geliştirildi, id yerine string veya db de olmayan bir id gönderildiğinde atılacak exception config edildi.
+
+17.03.2024
+Global exception handling implementation

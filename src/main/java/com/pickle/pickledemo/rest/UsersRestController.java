@@ -41,27 +41,6 @@ public class UsersRestController {
         return usersDAO.findById(id);
     }
 
-    // with @ExceptionHandler annotation creating new method to show error when the user not found
-    @ExceptionHandler
-    public ResponseEntity<UsersErrorResponse> handleException(UserNotFoundException exp) {
-        UsersErrorResponse error = new UsersErrorResponse();
-        error.setStatus(HttpStatus.NOT_FOUND.value());
-        error.setMessage(exp.getMessage());
-        error.setTimeStamp(System.currentTimeMillis());
-
-        // return a new ResponseEntity object
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler
-    public ResponseEntity<UsersErrorResponse> handleException(Exception exp) {
-        UsersErrorResponse error = new UsersErrorResponse();
-        error.setStatus(HttpStatus.BAD_REQUEST.value());
-        error.setMessage(exp.getMessage());
-        error.setTimeStamp(System.currentTimeMillis());
-
-        return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
-    }
 
 
 }
