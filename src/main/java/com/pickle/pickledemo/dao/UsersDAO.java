@@ -1,5 +1,6 @@
 package com.pickle.pickledemo.dao;
 
+import com.pickle.pickledemo.entity.Address;
 import com.pickle.pickledemo.entity.Users;
 import com.pickle.pickledemo.rest.UserNotFoundException;
 
@@ -28,4 +29,6 @@ public interface UsersDAO {
     void dropTable();
 
     List<Integer> getAllIds();
+
+    String getUserAddressById(Integer userId);
 }

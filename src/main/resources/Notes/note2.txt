@@ -16,3 +16,19 @@ endpointlerde parametre kullanımına ilişkin geliştirme yapıldı
 
 17.03.2024
 Global exception handling implementation
+
+API Design
+For users controller adding post, put and delete methods.
+While using put method to update a user we need to send all data to the server for now. It will configure to send partial data to update later.
+Added exceptions into them as well
+
+Connect two db tables -> users and address
+
+I decided to use Lombok annotations and add dependency
+
+@OneToOne(cascade = CascadeType.ALL)
+Cascade Ayarı: İlişkili entity'nin (adres) ana entity (kullanıcı) ile birlikte kaydedilmesini sağlamak için cascade ayarını kullanabilirsiniz. Bu, kullanıcı kaydedildiğinde adresin de otomatik olarak kaydedilmesini sağlar.
+
+A new endpoint to get user address adding
+19.03.2024
+missing part didn't complete.  incompatible with query return type error wait us tomorrow.

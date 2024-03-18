@@ -24,26 +24,31 @@ public class Users {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_date", updatable = false)
     private Date createdDate;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id")
+    private Address address;
 
 
 
     public Users() {
     }
 
-    public Users(String firstName, String lastName, String email, int age) {
+    public Users(String firstName, String lastName, String email, int age, Address address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.age = age;
+        this.address = address;
     }
 
-    public Users(int id, String firstName, String lastName, String email, int age, Date createdDate) {
+    public Users(int id, String firstName, String lastName, String email, int age, Date createdDate, Address address) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.age = age;
         this.createdDate = createdDate;
+        this.address = address;
     }
 
     public int getId() {
@@ -86,6 +91,14 @@ public class Users {
         this.age = age;
     }
 
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
     @Override
     public String toString() {
         return "Users{" + "id=" + id +
@@ -93,6 +106,7 @@ public class Users {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", age=" + age +
+                ", address" + address + '\'' +
                 '}';
     }
 }

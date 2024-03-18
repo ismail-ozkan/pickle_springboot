@@ -1,6 +1,7 @@
 package com.pickle.pickledemo.rest;
 
 import com.pickle.pickledemo.dao.UsersDAO;
+import com.pickle.pickledemo.entity.Address;
 import com.pickle.pickledemo.entity.Users;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,14 +34,41 @@ public class UsersRestController {
     }
 
     // @PathVariable should have the same name in the method signature
-    @GetMapping("/users/{id}")
-    public Users getUsersById(@PathVariable int id) {
-        if (!usersDAO.getAllIds().contains(id)) {
+    @GetMapping("/users/{userId}")
+    public Users getUsersById(@PathVariable int userId) {
+        if (!usersDAO.getAllIds().contains(userId)) {
             throw new UserNotFoundException("Id not found");
         }
-        return usersDAO.findById(id);
+        return usersDAO.findById(userId);
     }
 
+    @PostMapping("/users")
+    public Users createUser(@RequestBody Users user) {
+        usersDAO.save(user);
+        return user;
+    }
 
+    @PutMapping("/users")
+    public Users updateUser(@RequestBody Users user) {
+        if (!usersDAO.getAllIds().contains(user.getId())) {
+            throw new UserNotFoundException("Id not found");
+        }
+        usersDAO.updateUserById(user.getId(), user);
+        return user;
+    }
+
+    @DeleteMapping("/users/{userId}")
+    public String deleteUser(@PathVariable int userId) {
+        if (!usersDAO.getAllIds().contains(userId)) {
+            throw new UserNotFoundException("Id not found");
+        }
+        usersDAO.deleteById(userId);
+        return "User with " + userId + " was deleted.";
+    }
+
+    @GetMapping({"/users/address/{userId}"})
+    public String getUserAddress(@PathVariable int userId) {
+        return usersDAO.getUserAddressById(userId);
+    }
 
 }

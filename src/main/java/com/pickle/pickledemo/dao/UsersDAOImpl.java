@@ -1,5 +1,6 @@
 package com.pickle.pickledemo.dao;
 
+import com.pickle.pickledemo.entity.Address;
 import com.pickle.pickledemo.entity.Users;
 import com.pickle.pickledemo.rest.UserNotFoundException;
 import org.springframework.stereotype.Repository;
@@ -107,6 +108,11 @@ public class UsersDAOImpl implements UsersDAO{
     public List<Integer> getAllIds() {
         //List<Integer> allIds = (List<Integer>) entityManager.createQuery("SELECT id FROM Users", Integer.class); // to accomplish implementation of less code
         return entityManager.createQuery("SELECT id FROM Users", Integer.class).getResultList();
+    }
+
+    @Override
+    public String getUserAddressById(Integer userId) {
+        return entityManager.createQuery("SELECT address FROM Users WHERE id=:userId", String.class).setParameter("userId", userId).getResultList().get(0);
     }
 
 

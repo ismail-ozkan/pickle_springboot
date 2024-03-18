@@ -89,11 +89,11 @@ public class PickleApplication {
 	}*/
 
 	private void createUser(UsersDAO usersDAO) {
-		Users user2 = new Users("Nihad","Özkan","nihadaozkan@mail.com",67);
-		Users user3 = new Users("Taha","Özkan","haticeozkan@mail.com",60);
-
-		usersDAO.save(user2);
-		usersDAO.save(user3);
+//		Users user2 = new Users("Nihad","Özkan","nihadaozkan@mail.com",67);
+//		Users user3 = new Users("Taha","Özkan","haticeozkan@mail.com",60);
+//
+//		usersDAO.save(user2);
+//		usersDAO.save(user3);
 
 	}
 
