@@ -67,8 +67,8 @@ public class UsersRestController {
     }
 
     @GetMapping({"/users/address/{userId}"})
-    public String getUserAddress(@PathVariable int userId) {
-        return usersDAO.getUserAddressById(userId);
+    public Address getUserAddress(@PathVariable int userId) {
+        return usersDAO.findById(userId).getAddress();
     }
 
 }

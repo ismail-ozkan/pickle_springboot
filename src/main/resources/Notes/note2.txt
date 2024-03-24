@@ -32,3 +32,13 @@ Cascade Ayarı: İlişkili entity'nin (adres) ana entity (kullanıcı) ile birli
 A new endpoint to get user address adding
 19.03.2024
 missing part didn't complete.  incompatible with query return type error wait us tomorrow.
+
+---
+Servis katmanı eklenmesi
+Genellikle bir servis katmanı eklenir çünkü bu, iş mantığını işlemek, veritabanı etkileşimlerini yönetmek ve uygulama mantığını ayırmak için iyi bir uygulama mimarisidir.
+Controller sınıfı gelen HTTP isteğini alır, Service katmanına ileterek işlemi yaptırır, ardından Service katmanı da gerektiğinde DAO katmanını kullanarak veritabanı işlemlerini gerçekleştirir. Bu şekilde, iş mantığı katmanları birbirinden ayrılmış olur ve kodun bakımı ve testi daha kolay hale gelir. Ayrıca, ileride değişiklikler yapmak istediğinizde, sadece ilgili katmanı değiştirmeniz gerekir, diğer katmanlara dokunmanıza gerek kalmaz.
+
+24.03.2024
+4. section REST CRUD APIs done today.
+JPA repository is learnt. But:  
+Before implementing the JPA repository, a new branch and trial will be made regarding the global handle exception.
