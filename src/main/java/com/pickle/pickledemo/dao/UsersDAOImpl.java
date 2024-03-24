@@ -1,14 +1,12 @@
 package com.pickle.pickledemo.dao;
 
-import com.pickle.pickledemo.entity.Address;
 import com.pickle.pickledemo.entity.Users;
-import com.pickle.pickledemo.rest.UserNotFoundException;
+import com.pickle.pickledemo.rest.exceptions.UserNotFoundException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository

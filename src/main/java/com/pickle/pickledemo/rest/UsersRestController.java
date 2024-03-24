@@ -3,8 +3,7 @@ package com.pickle.pickledemo.rest;
 import com.pickle.pickledemo.dao.UsersDAO;
 import com.pickle.pickledemo.entity.Address;
 import com.pickle.pickledemo.entity.Users;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.pickle.pickledemo.rest.exceptions.UserNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;

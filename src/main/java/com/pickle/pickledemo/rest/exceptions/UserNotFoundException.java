@@ -1,4 +1,4 @@
-package com.pickle.pickledemo.rest;
+package com.pickle.pickledemo.rest.exceptions;
 
 public class UserNotFoundException extends RuntimeException {
 

@@ -1,8 +1,7 @@
 package com.pickle.pickledemo.dao;
 
-import com.pickle.pickledemo.entity.Address;
 import com.pickle.pickledemo.entity.Users;
-import com.pickle.pickledemo.rest.UserNotFoundException;
+import com.pickle.pickledemo.rest.exceptions.UserNotFoundException;
 
 import java.util.List;
 
