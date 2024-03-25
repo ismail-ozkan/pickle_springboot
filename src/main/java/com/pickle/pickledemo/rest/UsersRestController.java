@@ -2,7 +2,7 @@ package com.pickle.pickledemo.rest;
 
 import com.pickle.pickledemo.entity.Address;
 import com.pickle.pickledemo.entity.Users;
-import com.pickle.pickledemo.rest.exceptions.UserNotFoundException;
+import com.pickle.pickledemo.exceptions.UserNotFoundException;
 import com.pickle.pickledemo.service.UsersService;
 import org.springframework.web.bind.annotation.*;
 

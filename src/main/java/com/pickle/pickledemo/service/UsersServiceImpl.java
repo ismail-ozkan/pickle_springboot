@@ -3,7 +3,7 @@ package com.pickle.pickledemo.service;
 import com.pickle.pickledemo.dao.UsersRepository;
 import com.pickle.pickledemo.entity.Address;
 import com.pickle.pickledemo.entity.Users;
-import com.pickle.pickledemo.rest.exceptions.UserNotFoundException;
+import com.pickle.pickledemo.exceptions.UserNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
