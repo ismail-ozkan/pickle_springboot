@@ -1,10 +1,9 @@
 package com.pickle.pickledemo.rest;
 
-import com.pickle.pickledemo.dao.UsersDAO;
+import com.pickle.pickledemo.dao.UsersRepository;
 import com.pickle.pickledemo.entity.Address;
 import com.pickle.pickledemo.entity.Users;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.pickle.pickledemo.service.UsersService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
@@ -14,10 +13,10 @@ import java.util.List;
 @RequestMapping("/api")
 public class UsersRestController {
 
-    private final UsersDAO usersDAO;
+    private UsersService usersService;
 
-    public UsersRestController(UsersDAO usersDAO) {
-        this.usersDAO = usersDAO;
+    public UsersRestController(UsersService usersService) {
+        this.usersService = usersService;
     }
 
     // define @PostConstruct to load the users data ... only once!! like static methods, we can think
@@ -29,46 +28,43 @@ public class UsersRestController {
 
     @GetMapping("/users")
     public List<Users> getUsers() {
-        List<Users> usersList = usersDAO.findAll();
+        List<Users> usersList = usersService.findAll();
         return usersList;
     }
 
     // @PathVariable should have the same name in the method signature
     @GetMapping("/users/{userId}")
     public Users getUsersById(@PathVariable int userId) {
-        if (!usersDAO.getAllIds().contains(userId)) {
+        if (!usersService.findAll().contains(userId)) {
             throw new UserNotFoundException("Id not found");
         }
-        return usersDAO.findById(userId);
+        return usersService.findById(userId);
     }
 
     @PostMapping("/users")
     public Users createUser(@RequestBody Users user) {
-        usersDAO.save(user);
+        usersService.save(user);
         return user;
     }
 
-    @PutMapping("/users")
+    /*@PutMapping("/users")
     public Users updateUser(@RequestBody Users user) {
-        if (!usersDAO.getAllIds().contains(user.getId())) {
+        if (!usersService.getAllIds().contains(user.getId())) {
             throw new UserNotFoundException("Id not found");
         }
-        usersDAO.updateUserById(user.getId(), user);
+        usersService.save(user);
         return user;
-    }
+    }*/
 
     @DeleteMapping("/users/{userId}")
     public String deleteUser(@PathVariable int userId) {
-        if (!usersDAO.getAllIds().contains(userId)) {
-            throw new UserNotFoundException("Id not found");
-        }
-        usersDAO.deleteById(userId);
+        usersService.deleteById(userId);
         return "User with " + userId + " was deleted.";
     }
 
     @GetMapping({"/users/address/{userId}"})
     public Address getUserAddress(@PathVariable int userId) {
-        return usersDAO.findById(userId).getAddress();
+        return usersService.getAddressById(userId);
     }
 
 }

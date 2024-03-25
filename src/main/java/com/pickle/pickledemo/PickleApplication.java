@@ -1,11 +1,9 @@
 package com.pickle.pickledemo;
 
-import com.pickle.pickledemo.dao.UsersDAO;
+import com.pickle.pickledemo.dao.UsersRepository;
 import com.pickle.pickledemo.entity.Users;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 import java.util.List;
 
@@ -22,6 +20,8 @@ public class PickleApplication {
         SpringApplication.run(PickleApplication.class, args);
     }
 
+
+
     /*@Bean
     public CommandLineRunner commandLineRunner(UsersDAO usersDAO) {
         return runner -> {
@@ -30,7 +30,8 @@ public class PickleApplication {
 //			Users userById = findUserById(usersDAO);
 //			System.out.println(userById.toString());
 
-			*//*List<Users> allUsers = findAllUsers(usersDAO);
+			*/
+	/*List<Users> allUsers = findAllUsers(usersDAO);
 			for (Users eachUser : allUsers) {
 				System.out.println(eachUser.toString());
 			}*//*
@@ -61,34 +62,34 @@ public class PickleApplication {
 		};
     }*/
 
-	private void cleanTable(UsersDAO usersDAO) {
+	/*private void cleanTable(UsersRepository usersDAO) {
 
 		usersDAO.dropTable();
 
 	}
 
-	private void updateUserByUsingId(UsersDAO usersDAO, int id, Users theUser) {
+	private void updateUserByUsingId(UsersRepository usersDAO, int id, Users theUser) {
 		usersDAO.updateUserById(id, theUser);
 	}
 
-	private List<String> sortByName(UsersDAO usersDAO) {
+	private List<String> sortByName(UsersRepository usersDAO) {
 		return usersDAO.sortByName();
 	}
 
-	private Users findByFirstName(UsersDAO usersDAO, String name) {
+	private Users findByFirstName(UsersRepository usersDAO, String name) {
 		return usersDAO.findByFirstName(name);
 	}
 
-	private List<Users> findAllUsers(UsersDAO usersDAO) {
+	private List<Users> findAllUsers(UsersRepository usersDAO) {
 		return usersDAO.findAll();
 	}
 
-	/*private Users findUserById(UsersDAO usersDAO,int id) {
+	*//*private Users findUserById(UsersDAO usersDAO,int id) {
 		Users foundUser = usersDAO.findById(id);
 		return foundUser;
-	}*/
+	}*//*
 
-	private void createUser(UsersDAO usersDAO) {
+	private void createUser(UsersRepository usersDAO) {
 //		Users user2 = new Users("Nihad","Özkan","nihadaozkan@mail.com",67);
 //		Users user3 = new Users("Taha","Özkan","haticeozkan@mail.com",60);
 //
@@ -97,8 +98,8 @@ public class PickleApplication {
 
 	}
 
-	private List<String> findIncludedUserNames(UsersDAO usersDAO, String str){
+	private List<String> findIncludedUserNames(UsersRepository usersDAO, String str){
 		return usersDAO.findInclude(str);
-	}
+	}*/
 
 }
