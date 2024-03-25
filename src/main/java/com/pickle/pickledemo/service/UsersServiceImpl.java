@@ -3,7 +3,7 @@ package com.pickle.pickledemo.service;
 import com.pickle.pickledemo.dao.UsersRepository;
 import com.pickle.pickledemo.entity.Address;
 import com.pickle.pickledemo.entity.Users;
-import com.pickle.pickledemo.rest.UserNotFoundException;
+import com.pickle.pickledemo.exception.UserNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,9 +34,9 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public void deleteById(int id) {
-        /*if (!usersRepository.getAllIds().contains(id)) {
+        if (!usersRepository.getAllIds().contains(id)) {
             throw new UserNotFoundException("Id not found");
-        }*/
+        }
         usersRepository.deleteById(id);
     }
 

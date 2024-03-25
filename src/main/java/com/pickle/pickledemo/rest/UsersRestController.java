@@ -1,8 +1,8 @@
 package com.pickle.pickledemo.rest;
 
-import com.pickle.pickledemo.dao.UsersRepository;
 import com.pickle.pickledemo.entity.Address;
 import com.pickle.pickledemo.entity.Users;
+import com.pickle.pickledemo.exception.UserNotFoundException;
 import com.pickle.pickledemo.service.UsersService;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,14 +47,14 @@ public class UsersRestController {
         return user;
     }
 
-    /*@PutMapping("/users")
+    @PutMapping("/users")
     public Users updateUser(@RequestBody Users user) {
-        if (!usersService.getAllIds().contains(user.getId())) {
+        Users dbUser = usersService.findById(user.getId());
+        if (dbUser==null) {
             throw new UserNotFoundException("Id not found");
         }
-        usersService.save(user);
-        return user;
-    }*/
+        return usersService.save(user);
+    }
 
     @DeleteMapping("/users/{userId}")
     public String deleteUser(@PathVariable int userId) {

@@ -1,4 +1,4 @@
-package com.pickle.pickledemo.rest;
+package com.pickle.pickledemo.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

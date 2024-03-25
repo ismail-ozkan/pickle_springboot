@@ -42,3 +42,9 @@ Controller sınıfı gelen HTTP isteğini alır, Service katmanına ileterek iş
 4. section REST CRUD APIs done today.
 JPA repository is learnt. But:  
 Before implementing the JPA repository, a new branch and trial will be made regarding the global handle exception.
+
+25.03.2024
+gereksiz eski, fazlalık alanlar silindi
+putmapping uygulaması yapıldı
+exceptionlar bir packagede toplanıldı
+exception handle lar controllerda mı service classlarında mı olacak bilinmediği için karışık konuldu

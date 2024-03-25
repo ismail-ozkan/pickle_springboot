@@ -12,6 +12,7 @@ public interface UsersService {
     Users findById(int id);
 
     Users save(Users Users);
+
     void deleteById(int id);
 
     List<Integer> getAllIds();
