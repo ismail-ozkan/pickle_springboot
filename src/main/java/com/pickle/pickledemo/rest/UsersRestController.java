@@ -1,6 +1,5 @@
 package com.pickle.pickledemo.rest;
 
-import com.pickle.pickledemo.dao.UsersDAO;
 import com.pickle.pickledemo.entity.Address;
 import com.pickle.pickledemo.entity.Users;
 import com.pickle.pickledemo.rest.exceptions.UserNotFoundException;
@@ -58,7 +57,7 @@ public class UsersRestController {
 
     @DeleteMapping("/users/{userId}")
     public String deleteUser(@PathVariable int userId) {
-        if (!usersDAO.getAllIds().contains(userId)) {
+        if (!usersDAO.getAlIds().contains(userId)) {
             throw new UserNotFoundException("Id not found");
         }
         usersDAO.deleteById(userId);
