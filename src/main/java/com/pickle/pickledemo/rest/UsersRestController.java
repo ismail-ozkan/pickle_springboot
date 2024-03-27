@@ -35,16 +35,13 @@ public class UsersRestController {
     // @PathVariable should have the same name in the method signature
     @GetMapping("/users/{userId}")
     public Users getUsersById(@PathVariable int userId) {
-        if (!usersService.findAll().contains(userId)) {
-            throw new UserNotFoundException("Id not found");
-        }
         return usersService.findById(userId);
     }
 
     @PostMapping("/users")
     public Users createUser(@RequestBody Users user) {
-        usersService.save(user);
-        return user;
+        user.setId(0);
+        return usersService.save(user);
     }
 
     @PutMapping("/users")

@@ -7,6 +7,7 @@ import com.pickle.pickledemo.exceptions.UserNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UsersServiceImpl implements UsersService {
@@ -24,12 +25,19 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public Users findById(int id) {
-        return null;
+        Optional<Users> result = usersRepository.findById(id);
+        Users user = null;
+        if (result.isPresent()) {
+            user = result.get();
+        } else {
+            throw new UserNotFoundException("Didn't find users id - " + id);
+        }
+        return user;
     }
 
     @Override
-    public Users save(Users Users) {
-        return null;
+    public Users save(Users users) {
+        return usersRepository.save(users);
     }
 
     @Override

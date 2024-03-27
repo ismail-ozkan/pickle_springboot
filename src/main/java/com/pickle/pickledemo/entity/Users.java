@@ -1,5 +1,9 @@
 package com.pickle.pickledemo.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -7,6 +11,10 @@ import java.util.Date;
 
 @Entity
 @Table(name = "users")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Users {
 
     @Id
@@ -27,10 +35,16 @@ public class Users {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "role")
+    private Roles role;
 
 
-
-    public Users() {
+    public Users(int id, String firstName, String lastName, Roles role) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
     }
 
     public Users(String firstName, String lastName, String email, int age, Address address) {
@@ -50,7 +64,7 @@ public class Users {
         this.createdDate = createdDate;
         this.address = address;
     }
-
+/*
     public int getId() {
         return id;
     }
@@ -97,7 +111,7 @@ public class Users {
 
     public void setAddress(Address address) {
         this.address = address;
-    }
+    }*/
 
     @Override
     public String toString() {

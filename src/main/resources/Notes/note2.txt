@@ -48,3 +48,7 @@ gereksiz eski, fazlalık alanlar silindi
 putmapping uygulaması yapıldı
 exceptionlar bir packagede toplanıldı
 exception handle lar controllerda mı service classlarında mı olacak bilinmediği için karışık konuldu
+
+26.03.2024
+role and claim table will be created and connected to the user table
+role and claim repo service and impl created
