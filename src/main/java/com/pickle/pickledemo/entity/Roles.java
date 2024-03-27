@@ -34,6 +34,15 @@ public class Roles {
         this.roleClaims = roleClaims;
     }
 
+    public Roles(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public Roles(int id, List<Claims> roleClaims) {
+        this.id = id;
+        this.roleClaims = roleClaims;
+    }
+
     @Override
     public String toString() {
         return "Roles{" + "id=" + id +

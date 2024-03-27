@@ -52,3 +52,6 @@ exception handle lar controllerda mı service classlarında mı olacak bilinmedi
 26.03.2024
 role and claim table will be created and connected to the user table
 role and claim repo service and impl created
+
+27.03.2024
+add claim to role impl

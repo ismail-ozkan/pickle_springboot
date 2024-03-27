@@ -1,7 +1,7 @@
 package com.pickle.pickledemo.rest;
 
+import com.pickle.pickledemo.entity.Claims;
 import com.pickle.pickledemo.entity.Roles;
-import com.pickle.pickledemo.exceptions.UserNotFoundException;
 import com.pickle.pickledemo.service.RolesService;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,7 +47,7 @@ public class RolesRestController {
     public Roles updateUser(@RequestBody Roles role) {
         Roles dbRole = rolesService.findById(role.getId());
         if (dbRole==null) {
-            throw new UserNotFoundException("Id not found");
+            throw new RuntimeException("Id not found");
         }
         return rolesService.save(role);
     }
@@ -58,5 +58,10 @@ public class RolesRestController {
         return "Role with " + roleId + " was deleted.";
     }
 
-
+    @PutMapping("/roles/addClaim/{roleId}")
+    public Roles addClaimToRole(@PathVariable int roleId, @RequestBody List<Claims> claims) {
+        Roles dbRole = rolesService.findById(roleId);
+        dbRole.setRoleClaims(claims);
+        return rolesService.save(dbRole);
+    }
 }
