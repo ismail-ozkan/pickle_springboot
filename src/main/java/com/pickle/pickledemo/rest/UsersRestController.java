@@ -47,10 +47,12 @@ public class UsersRestController {
     @PutMapping("/users")
     public Users updateUser(@RequestBody Users user) {
         Users dbUser = usersService.findById(user.getId());
+        System.out.println(dbUser);
         if (dbUser==null) {
             throw new UserNotFoundException("Id not found");
         }
-        return usersService.save(user);
+        dbUser = usersService.save(user);
+        return dbUser;
     }
 
     @DeleteMapping("/users/{userId}")
