@@ -1,8 +1,8 @@
-package com.pickle.pickledemo.rest;
+package com.pickle.pickledemo.controller;
 
-import com.pickle.pickledemo.entity.Claims;
-import com.pickle.pickledemo.entity.Roles;
-import com.pickle.pickledemo.service.RolesService;
+import com.pickle.pickledemo.entity.Claim;
+import com.pickle.pickledemo.entity.Role;
+import com.pickle.pickledemo.service.RoleService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
@@ -12,9 +12,9 @@ import java.util.List;
 @RequestMapping("/api")
 public class RolesRestController {
 
-    private RolesService rolesService;
+    private RoleService rolesService;
 
-    public RolesRestController(RolesService rolesService) {
+    public RolesRestController(RoleService rolesService) {
         this.rolesService = rolesService;
     }
 
@@ -26,26 +26,26 @@ public class RolesRestController {
     }
 
     @GetMapping("/roles")
-    public List<Roles> getRoles() {
-        List<Roles> rolesList = rolesService.findAll();
+    public List<Role> getRoles() {
+        List<Role> rolesList = rolesService.findAll();
         return rolesList;
     }
 
     // @PathVariable should have the same name in the method signature
     @GetMapping("/roles/{roleId}")
-    public Roles getRolesById(@PathVariable int roleId) {
+    public Role getRolesById(@PathVariable int roleId) {
         return rolesService.findById(roleId);
     }
 
     @PostMapping("/roles")
-    public Roles createUser(@RequestBody Roles role) {
+    public Role createUser(@RequestBody Role role) {
         role.setId(0);
         return rolesService.save(role);
     }
 
     @PutMapping("/roles")
-    public Roles updateUser(@RequestBody Roles role) {
-        Roles dbRole = rolesService.findById(role.getId());
+    public Role updateUser(@RequestBody Role role) {
+        Role dbRole = rolesService.findById(role.getId());
         if (dbRole==null) {
             throw new RuntimeException("Id not found");
         }
@@ -59,8 +59,8 @@ public class RolesRestController {
     }
 
     @PutMapping("/roles/addClaim/{roleId}")
-    public Roles addClaimToRole(@PathVariable int roleId, @RequestBody List<Claims> claims) {
-        Roles dbRole = rolesService.findById(roleId);
+    public Role addClaimToRole(@PathVariable int roleId, @RequestBody List<Claim> claims) {
+        Role dbRole = rolesService.findById(roleId);
         dbRole.setRoleClaims(claims);
         return rolesService.save(dbRole);
     }

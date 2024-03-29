@@ -1,9 +1,9 @@
-package com.pickle.pickledemo.rest;
+package com.pickle.pickledemo.controller;
 
+import com.pickle.pickledemo.dto.UserDto;
 import com.pickle.pickledemo.entity.Address;
-import com.pickle.pickledemo.entity.Users;
-import com.pickle.pickledemo.exceptions.UserNotFoundException;
-import com.pickle.pickledemo.service.UsersService;
+import com.pickle.pickledemo.entity.User;
+import com.pickle.pickledemo.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
@@ -13,10 +13,10 @@ import java.util.List;
 @RequestMapping("/api")
 public class UsersRestController {
 
-    private UsersService usersService;
+    private UserService userService;
 
-    public UsersRestController(UsersService usersService) {
-        this.usersService = usersService;
+    public UsersRestController(UserService userService) {
+        this.userService = userService;
     }
 
     // define @PostConstruct to load the users data ... only once!! like static methods, we can think
@@ -27,43 +27,44 @@ public class UsersRestController {
     }
 
     @GetMapping("/users")
-    public List<Users> getUsers() {
-        List<Users> usersList = usersService.findAll();
+    public List<User> getUsers() {
+        List<User> usersList = userService.findAll();
         return usersList;
     }
 
     // @PathVariable should have the same name in the method signature
     @GetMapping("/users/{userId}")
-    public Users getUsersById(@PathVariable int userId) {
-        return usersService.findById(userId);
+    public User getUsersById(@PathVariable int userId) {
+        return userService.findById(userId);
     }
 
     @PostMapping("/users")
-    public Users createUser(@RequestBody Users user) {
+    public User createUser(@RequestBody User user) {
         user.setId(0);
-        return usersService.save(user);
+        return userService.save(user);
     }
 
     @PutMapping("/users")
-    public Users updateUser(@RequestBody Users user) {
-        Users dbUser = usersService.findById(user.getId());
+    public UserDto updateUser(@RequestBody UserDto user) {
+       /* User dbUser = userService.findById(user.getId());
         System.out.println(dbUser);
         if (dbUser==null) {
             throw new UserNotFoundException("Id not found");
         }
-        dbUser = usersService.save(user);
-        return dbUser;
+        dbUser = userService.save(user);
+        return dbUser;*/
+        return userService.update(user);
     }
 
     @DeleteMapping("/users/{userId}")
     public String deleteUser(@PathVariable int userId) {
-        usersService.deleteById(userId);
+        userService.deleteById(userId);
         return "User with " + userId + " was deleted.";
     }
 
     @GetMapping({"/users/address/{userId}"})
     public Address getUserAddress(@PathVariable int userId) {
-        return usersService.getAddressById(userId);
+        return userService.getAddressById(userId);
     }
 
 }

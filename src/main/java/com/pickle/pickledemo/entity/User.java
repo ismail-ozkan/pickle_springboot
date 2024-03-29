@@ -15,7 +15,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Users {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
@@ -37,17 +37,17 @@ public class Users {
     private Address address;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "role")
-    private Roles role;
+    private Role role;
 
 
-    public Users(int id, String firstName, String lastName, Roles role) {
+    public User(int id, String firstName, String lastName, Role role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
     }
 
-    public Users(String firstName, String lastName, String email, int age, Address address) {
+    public User(String firstName, String lastName, String email, int age, Address address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -55,7 +55,7 @@ public class Users {
         this.address = address;
     }
 
-    public Users(int id, String firstName, String lastName, String email, int age, Date createdDate, Address address) {
+    public User(int id, String firstName, String lastName, String email, int age, Date createdDate, Address address) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -105,11 +105,11 @@ public class Users {
         this.age = age;
     }
 
-    public Address getAddress() {
+    public AddressDto getAddressDto() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddressDto(AddressDto address) {
         this.address = address;
     }*/
 

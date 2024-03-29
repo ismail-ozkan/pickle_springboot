@@ -1,7 +1,7 @@
-package com.pickle.pickledemo.rest;
+package com.pickle.pickledemo.controller;
 
-import com.pickle.pickledemo.entity.Claims;
-import com.pickle.pickledemo.service.ClaimsService;
+import com.pickle.pickledemo.entity.Claim;
+import com.pickle.pickledemo.service.ClaimService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
@@ -11,9 +11,9 @@ import java.util.List;
 @RequestMapping("/api")
 public class ClaimsRestController {
 
-    private ClaimsService claimsService;
+    private ClaimService claimsService;
 
-    public ClaimsRestController(ClaimsService claimsService) {
+    public ClaimsRestController(ClaimService claimsService) {
         this.claimsService = claimsService;
     }
 
@@ -25,26 +25,26 @@ public class ClaimsRestController {
     }
 
     @GetMapping("/claims")
-    public List<Claims> getClaims() {
-        List<Claims> claimsList = claimsService.findAll();
+    public List<Claim> getClaims() {
+        List<Claim> claimsList = claimsService.findAll();
         return claimsList;
     }
 
     // @PathVariable should have the same name in the method signature
     @GetMapping("/claims/{claimId}")
-    public Claims getClaimsById(@PathVariable int claimId) {
+    public Claim getClaimsById(@PathVariable int claimId) {
         return claimsService.findById(claimId);
     }
 
     @PostMapping("/claims")
-    public Claims createClaim(@RequestBody Claims claim) {
+    public Claim createClaim(@RequestBody Claim claim) {
         claim.setId(0);
         return claimsService.save(claim);
     }
 
     @PutMapping("/claims")
-    public Claims updateUser(@RequestBody Claims claim) {
-        Claims dbClaim = claimsService.findById(claim.getId());
+    public Claim updateUser(@RequestBody Claim claim) {
+        Claim dbClaim = claimsService.findById(claim.getId());
         if (dbClaim==null) {
             throw new RuntimeException("Id not found");
         }

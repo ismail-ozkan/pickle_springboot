@@ -1,4 +1,4 @@
-package com.pickle.pickledemo.entity;
+package com.pickle.pickledemo.dto;
 
 
 import lombok.AllArgsConstructor;
@@ -6,46 +6,37 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
 import java.util.List;
 
-@Entity
-@Table(name = "roles")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class Roles {
+public class RoleDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
-    @Column(name = "id")
     private int id;
 
-    @Column(name = "name")
     private String roleName;
 
-    @Column(name = "claims")
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Claims> roleClaims;
+    private List<ClaimDto> roleClaims;
 
-    public Roles(String roleName, List<Claims> roleClaims) {
+    public RoleDto(String roleName, List<ClaimDto> roleClaims) {
         this.roleName = roleName;
         this.roleClaims = roleClaims;
     }
 
-    public Roles(String roleName) {
+    public RoleDto(String roleName) {
         this.roleName = roleName;
     }
 
-    public Roles(int id, List<Claims> roleClaims) {
+    public RoleDto(int id, List<ClaimDto> roleClaims) {
         this.id = id;
         this.roleClaims = roleClaims;
     }
 
     @Override
     public String toString() {
-        return "Roles{" + "id=" + id +
+        return "Role{" + "id=" + id +
                 ", roleName='" + roleName + '\'' +
                 ", roleClaims=" + roleClaims +
                 '}';

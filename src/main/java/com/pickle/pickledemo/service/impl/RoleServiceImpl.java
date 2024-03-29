@@ -1,30 +1,31 @@
-package com.pickle.pickledemo.service;
+package com.pickle.pickledemo.service.impl;
 
-import com.pickle.pickledemo.dao.RolesRepository;
-import com.pickle.pickledemo.entity.Roles;
+import com.pickle.pickledemo.repository.RoleRepository;
+import com.pickle.pickledemo.entity.Role;
+import com.pickle.pickledemo.service.RoleService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class RolesServiceImpl implements RolesService {
+public class RoleServiceImpl implements RoleService {
 
-    private RolesRepository rolesRepository;
+    private RoleRepository rolesRepository;
 
-    public RolesServiceImpl(RolesRepository rolesRepository) {
+    public RoleServiceImpl(RoleRepository rolesRepository) {
         this.rolesRepository = rolesRepository;
     }
 
     @Override
-    public List<Roles> findAll() {
+    public List<Role> findAll() {
         return rolesRepository.findAll();
     }
 
     @Override
-    public Roles findById(int id) {
-        Optional<Roles> result = rolesRepository.findById(id);
-        Roles roles = null;
+    public Role findById(int id) {
+        Optional<Role> result = rolesRepository.findById(id);
+        Role roles = null;
         if (result.isPresent()) {
             roles = result.get();
         } else {
@@ -34,7 +35,7 @@ public class RolesServiceImpl implements RolesService {
     }
 
     @Override
-    public Roles save(Roles roles) {
+    public Role save(Role roles) {
         return rolesRepository.save(roles);
     }
 

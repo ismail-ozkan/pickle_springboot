@@ -1,29 +1,30 @@
-package com.pickle.pickledemo.service;
+package com.pickle.pickledemo.service.impl;
 
-import com.pickle.pickledemo.dao.ClaimsRepository;
-import com.pickle.pickledemo.entity.Claims;
+import com.pickle.pickledemo.repository.ClaimRepository;
+import com.pickle.pickledemo.entity.Claim;
+import com.pickle.pickledemo.service.ClaimService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 @Service
-public class ClaimsServiceImpl implements ClaimsService {
+public class ClaimServiceImpl implements ClaimService {
 
-    private ClaimsRepository claimsRepository;
+    private ClaimRepository claimsRepository;
 
-    public ClaimsServiceImpl(ClaimsRepository claimsRepository) {
+    public ClaimServiceImpl(ClaimRepository claimsRepository) {
         this.claimsRepository = claimsRepository;
     }
 
     @Override
-    public List<Claims> findAll() {
+    public List<Claim> findAll() {
         return claimsRepository.findAll();
     }
 
     @Override
-    public Claims findById(int id) {
-        Optional<Claims> result = claimsRepository.findById(id);
-        Claims claims = null;
+    public Claim findById(int id) {
+        Optional<Claim> result = claimsRepository.findById(id);
+        Claim claims = null;
         if (result.isPresent()) {
             claims = result.get();
         } else {
@@ -33,7 +34,7 @@ public class ClaimsServiceImpl implements ClaimsService {
     }
 
     @Override
-    public Claims save(Claims claim) {
+    public Claim save(Claim claim) {
         return claimsRepository.save(claim);
     }
 

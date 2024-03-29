@@ -1,7 +1,7 @@
-package com.pickle.pickledemo.dao;
+package com.pickle.pickledemo.repository;
 
 import com.pickle.pickledemo.entity.Address;
-import com.pickle.pickledemo.entity.Users;
+import com.pickle.pickledemo.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -9,13 +9,13 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 
-public interface UsersRepository extends JpaRepository<Users, Integer> {
+public interface UserRepository extends JpaRepository<User, Integer> {
 
 
     @Query(value = "select id from Users", nativeQuery = true)
     List<Integer> getAllIds();
 
-    @Query(value = "select a from Address a where a.id = (select u.address.id from Users u where u.id = :userId)")
+    @Query(value = "select a from Address a where a.id = (select u.address.id from User u where u.id = :userId)")
     Address getUserAddress(@Param("userId") int userId);
 
 
