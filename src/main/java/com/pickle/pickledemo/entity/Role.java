@@ -35,7 +35,11 @@ public class Role {
     }
 
     public Role(String roleName) {
-        this.roleName = roleName;
+        setRoleName(roleName);
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = "ROLE_"+roleName;
     }
 
     public Role(int id, List<Claim> roleClaims) {

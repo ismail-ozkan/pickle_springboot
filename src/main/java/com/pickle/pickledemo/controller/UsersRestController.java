@@ -1,13 +1,13 @@
 package com.pickle.pickledemo.controller;
 
 import com.pickle.pickledemo.dto.UserDto;
-import com.pickle.pickledemo.entity.Address;
 import com.pickle.pickledemo.entity.User;
 import com.pickle.pickledemo.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -28,7 +28,10 @@ public class UsersRestController {
 
     @GetMapping("/users")
     public List<User> getUsers() {
-        List<User> usersList = userService.findAll();
+        List<User> usersList = userService.findAll().stream().map(p -> {
+            p.setPassword("####");
+            return p;
+        }).collect(Collectors.toList());
         return usersList;
     }
 
@@ -39,8 +42,8 @@ public class UsersRestController {
     }
 
     @PostMapping("/users")
-    public User createUser(@RequestBody User user) {
-        user.setId(0);
+    public UserDto createUser(@RequestBody User user) {
+        user.setId(0l);
         return userService.save(user);
     }
 
@@ -62,9 +65,9 @@ public class UsersRestController {
         return "User with " + userId + " was deleted.";
     }
 
-    @GetMapping({"/users/address/{userId}"})
+    /*@GetMapping({"/users/address/{userId}"})
     public Address getUserAddress(@PathVariable int userId) {
         return userService.getAddressById(userId);
-    }
+    }*/
 
 }

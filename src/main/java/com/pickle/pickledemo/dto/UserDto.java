@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Collection;
 import java.util.Date;
 
 @NoArgsConstructor
@@ -17,6 +18,12 @@ public class UserDto {
 
 
     private int id;
+
+    private String userName;
+
+    private String password;
+
+    private boolean enabled;
 
     private String firstName;
 
@@ -30,14 +37,20 @@ public class UserDto {
 
     private Address address;
 
-    private Role role;
+    private Collection<Role> roles;
 
+    public UserDto(int id, String userName, String password, boolean enabled) {
+        this.id = id;
+        this.userName = userName;
+        this.password = password;
+        this.enabled = enabled;
+    }
 
-    public UserDto(int id, String firstName, String lastName, Role role) {
+    public UserDto(int id, String firstName, String lastName, Collection<Role> roles) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.role = role;
+        this.roles = roles;
     }
 
     public UserDto(String firstName, String lastName, String email, int age, Address address) {
@@ -67,12 +80,6 @@ public class UserDto {
 
     @Override
     public String toString() {
-        return "Users{" + "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", age=" + age +
-                ", address" + address + '\'' +
-                '}';
+        return "UserDto{" + "id=" + id + ", userName='" + userName + '\'' + ", password='" + password + '\'' + ", enabled=" + enabled + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", email='" + email + '\'' + ", age=" + age + ", createdDate=" + createdDate + ", address=" + address + ", roles=" + roles + '}';
     }
 }

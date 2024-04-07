@@ -13,10 +13,15 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 
     @Query(value = "select id from Users", nativeQuery = true)
-    List<Integer> getAllIds();
+    List<Long> getAllIds();
 
     @Query(value = "select a from Address a where a.id = (select u.address.id from User u where u.id = :userId)")
     Address getUserAddress(@Param("userId") int userId);
+
+    @Query(value = "select u from User u where u.userName=:uName and u.enabled=true")
+    User findByUserName(@Param("uName") String uName);
+
+
 
 
 }

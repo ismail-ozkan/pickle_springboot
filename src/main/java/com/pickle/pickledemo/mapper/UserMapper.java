@@ -20,6 +20,9 @@ public class UserMapper {
     }
 
     public UserDto convertToDto(User user) {
-        return mapper.map(user,UserDto.class);
+
+        UserDto mapDto = mapper.map(user, UserDto.class);
+        mapDto.setPassword("###");
+        return mapDto;
     }
 }

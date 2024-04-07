@@ -65,3 +65,17 @@ The most important changing in the project structure is adding and using Mapper
 we need to add new dependency modelmapper
 Adding mapper package
 entity and dto class names updated
+
+04.04.2024
+project structure will be changed adding security configuration
+1. add security dependency in pom.xml
+2. Create Spring Security Configuration (@Configuration)
+3. @Bean public SecurityFilterChain() in Config class
+4. Add database support dependency mysql-connector-j to Maven POM file (it's already added before)
+5. Drop user table and create again with new configuration
+    comment out User Entity class old version and create new structure
+    we need to comment out some places to handle creating new structure once
+    then step by step configuration will be updated
+6. Drop role table and create again with new configuration to set custom authentication
+7. Lots of other changes in the classes and related other classes
+8. setters for password encoding

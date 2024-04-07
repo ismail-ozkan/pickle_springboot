@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Date;
 
 @Entity
@@ -18,6 +19,63 @@ import java.util.Date;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @Column(name = "username", length = 50, nullable = false)
+    private String userName;
+
+    @Column(name = "password", length = 68, nullable = false)
+    private String password;
+
+    @Column(name = "enabled", nullable = false)
+    private boolean enabled;
+
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    //@Column(name = "email")//opitonal
+    private String email;
+
+    private int age;
+
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_date", updatable = false)
+    private Date createdDate;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id")
+    private Address address;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Collection<Role> roles;
+
+    public User(String userName, String password, boolean enabled) {
+        this.userName = userName;
+        this.password = password;
+        this.enabled = enabled;
+    }
+
+    // for create method
+    public User(String userName, String password, boolean enabled,
+            Collection<Role> roles) {
+        this.userName = userName;
+        this.password = password;
+        this.enabled = enabled;
+        this.roles = roles;
+    }
+
+
+    /*@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     @Column(name = "id") // it's optional
     private int id;
@@ -63,7 +121,7 @@ public class User {
         this.age = age;
         this.createdDate = createdDate;
         this.address = address;
-    }
+    }*/
 /*
     public int getId() {
         return id;
@@ -111,9 +169,8 @@ public class User {
 
     public void setAddressDto(AddressDto address) {
         this.address = address;
-    }*/
-
-    @Override
+    }
+     @Override
     public String toString() {
         return "Users{" + "id=" + id +
                 ", firstName='" + firstName + '\'' +
@@ -121,6 +178,23 @@ public class User {
                 ", email='" + email + '\'' +
                 ", age=" + age +
                 ", address" + address + '\'' +
+                '}';
+    }
+    */
+
+    @Override
+    public String toString() {
+        return "User{" + "id=" + id +
+                ", username='" + userName + '\'' +
+                //", password='" + password + '\'' +
+                ", enabled=" + enabled +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", age=" + age +
+                ", createdDate=" + createdDate +
+                ", address=" + address +
+                ", roles=" + roles +
                 '}';
     }
 }
