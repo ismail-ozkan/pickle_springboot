@@ -43,7 +43,7 @@ public class UsersRestController {
 
     @PostMapping("/users")
     public UserDto createUser(@RequestBody User user) {
-        user.setId(0l);
+        user.setId(0);
         return userService.save(user);
     }
 
@@ -70,4 +70,10 @@ public class UsersRestController {
         return userService.getAddressById(userId);
     }*/
 
+    // Kullanıcıya role tanımlaması sadece admin tarafından yapılması
+    @PutMapping("/users/roles")
+    public UserDto giveRoleToUser(@RequestBody UserDto userRq) {
+        return userService.giveRoleToUser(userRq);
+
+    }
 }

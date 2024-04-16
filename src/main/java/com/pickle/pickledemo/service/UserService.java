@@ -20,11 +20,12 @@ public interface UserService extends UserDetailsService {
 
     void deleteById(Integer id);
 
-    List<Long> getAllIds();
+    List<Integer> getAllIds();
 
     Address getAddressById(int id);
 
     // for security configuration
     User findByUserName(String userName);
 
+    UserDto giveRoleToUser(UserDto userRq);
 }

@@ -4,7 +4,7 @@ import com.pickle.pickledemo.dto.UserDto;
 import com.pickle.pickledemo.entity.Address;
 import com.pickle.pickledemo.entity.Role;
 import com.pickle.pickledemo.entity.User;
-import com.pickle.pickledemo.exceptions.UserNotFoundException;
+import com.pickle.pickledemo.exceptions.user.UserNotFoundException;
 import com.pickle.pickledemo.mapper.UserMapper;
 import com.pickle.pickledemo.repository.RoleRepository;
 import com.pickle.pickledemo.repository.UserRepository;
@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
         dbUser.setAge(userDto.getAge());
         validation(userDto.getEmail());
         dbUser.setEmail(userDto.getEmail());
-        //if (userDto.getRole()!=null) {dbUser.setRole(userDto.getRole());}
+        if (userDto.getRoles()!=null) {dbUser.setRoles(userDto.getRoles());}
         if (userDto.getAddress()!=null) {dbUser.setAddress(userDto.getAddress());}
     }
 
@@ -100,6 +100,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteById(Integer id) {
+        System.out.println("userRepository.getAllIds() = " + userRepository.getAllIds());
         if (!userRepository.getAllIds().contains(id)) {
             throw new UserNotFoundException("Id not found");
         }
@@ -107,7 +108,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Long> getAllIds() {
+    public List<Integer> getAllIds() {
         return userRepository.getAllIds();
     }
 
@@ -120,6 +121,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUserName(String userName) {
         return userRepository.findByUserName(userName);
+    }
+
+    @Override
+    public UserDto giveRoleToUser(UserDto userRq) {
+        Optional<User> dbUser = userRepository.findById(userRq.getId());
+        if (!dbUser.isPresent()) {
+            throw new UserNotFoundException("Didn't find users id - " + userRq.getId());
+        }
+        updateUserData(dbUser.get(),userRq);
+        return userMapper.convertToDto(dbUser.get());
     }
 
     @Override

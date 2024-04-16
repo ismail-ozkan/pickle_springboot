@@ -33,6 +33,7 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(configurer ->
                 configurer
+                        .antMatchers(HttpMethod.PUT, "/api/users/roles").hasRole("ADMIN")
                         .antMatchers(HttpMethod.GET, "/api/roles").hasRole("ADMIN")
                         .antMatchers(HttpMethod.GET, "/api/roles/**").hasRole("ADMIN")
                         .antMatchers(HttpMethod.POST, "/api/roles").hasRole("ADMIN")

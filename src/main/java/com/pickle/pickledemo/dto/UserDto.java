@@ -78,6 +78,11 @@ public class UserDto {
         this.address = address;
     }
 
+    public UserDto(int id, Collection<Role> roles) {
+        this.id = id;
+        this.roles = roles;
+    }
+
     @Override
     public String toString() {
         return "UserDto{" + "id=" + id + ", userName='" + userName + '\'' + ", password='" + password + '\'' + ", enabled=" + enabled + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", email='" + email + '\'' + ", age=" + age + ", createdDate=" + createdDate + ", address=" + address + ", roles=" + roles + '}';

@@ -13,7 +13,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 
     @Query(value = "select id from Users", nativeQuery = true)
-    List<Long> getAllIds();
+    List<Integer> getAllIds();
 
     @Query(value = "select a from Address a where a.id = (select u.address.id from User u where u.id = :userId)")
     Address getUserAddress(@Param("userId") int userId);

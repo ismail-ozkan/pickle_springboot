@@ -1,15 +1,15 @@
 package com.pickle.pickledemo.exceptions;
 
-public class UsersErrorResponse {
+public abstract class ErrorResponse {
 
     private int status;
     public String message;
     public long timeStamp;
 
-    public UsersErrorResponse() {
+    public ErrorResponse() {
     }
 
-    public UsersErrorResponse(int status, String message, long timeStamp) {
+    public ErrorResponse(int status, String message, long timeStamp) {
         this.status = status;
         this.message = message;
         this.timeStamp = timeStamp;
