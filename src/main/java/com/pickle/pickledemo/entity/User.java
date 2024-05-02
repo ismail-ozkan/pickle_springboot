@@ -7,6 +7,10 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.Collection;
 import java.util.Date;
 
@@ -25,23 +29,32 @@ public class User {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     @Column(name = "username", length = 50, nullable = false)
+    @NotNull(message = "is required")
     private String userName;
 
     @Column(name = "password", length = 68, nullable = false)
+    @NotNull(message = "is required")
     private String password;
 
     @Column(name = "enabled", nullable = false)
     private boolean enabled;
 
     @Column(name = "first_name")
+    @NotNull(message = "is required")
     private String firstName;
 
     @Column(name = "last_name")
+    @NotNull(message = "is required")
     private String lastName;
 
     //@Column(name = "email")//opitonal
+    @NotNull(message = "is required")
+    //@Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\\\.[A-Z|a-z]{2,}$", message = "must be a valid email address")
+    @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$", message = "must be a valid email address")
     private String email;
 
+    @Min(value = 1, message = "age must be greater than 1")
+    @Max(value = 150, message = "age must be less than 150")
     private int age;
 
     @CreationTimestamp

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @Entity
@@ -23,6 +24,7 @@ public class Role {
     private int id;
 
     @Column(name = "name")
+    @Pattern(regexp = "^(male|female)$", message = "name must be either male or female")
     private String roleName;
 
     @Column(name = "claims")

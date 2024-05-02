@@ -33,7 +33,13 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(configurer ->
                 configurer
+                        .antMatchers(HttpMethod.GET, "/api/users").hasRole("EMPLOYEE")
+                        .antMatchers(HttpMethod.POST, "/api/users").permitAll()
+                        .antMatchers(HttpMethod.PUT, "/api/users").permitAll()
                         .antMatchers(HttpMethod.PUT, "/api/users/roles").hasRole("ADMIN")
+                        .antMatchers(HttpMethod.GET, "/api/users/{userId}").hasRole("EMPLOYEE")
+                        .antMatchers(HttpMethod.GET, "/api/users/address/{userId}").hasRole("EMPLOYEE")
+
                         .antMatchers(HttpMethod.GET, "/api/roles").hasRole("ADMIN")
                         .antMatchers(HttpMethod.GET, "/api/roles/**").hasRole("ADMIN")
                         .antMatchers(HttpMethod.POST, "/api/roles").hasRole("ADMIN")
@@ -44,6 +50,8 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.DELETE, "/api/claims/**").hasRole("ADMIN")
 
         );
+        //.oauth2Login();
+
         // use HTTP Basic authentication
         http.httpBasic();
 

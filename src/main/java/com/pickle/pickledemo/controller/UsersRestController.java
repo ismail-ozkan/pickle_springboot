@@ -1,11 +1,16 @@
 package com.pickle.pickledemo.controller;
 
 import com.pickle.pickledemo.dto.UserDto;
+import com.pickle.pickledemo.entity.Address;
 import com.pickle.pickledemo.entity.User;
 import com.pickle.pickledemo.service.UserService;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.WebRequestDataBinder;
 
 import javax.annotation.PostConstruct;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +19,12 @@ import java.util.stream.Collectors;
 public class UsersRestController {
 
     private UserService userService;
+
+    @InitBinder
+    public void initBinder(WebRequestDataBinder binder) {
+        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+        binder.registerCustomEditor(String.class, stringTrimmerEditor);
+    }
 
     public UsersRestController(UserService userService) {
         this.userService = userService;
@@ -42,9 +53,13 @@ public class UsersRestController {
     }
 
     @PostMapping("/users")
-    public UserDto createUser(@RequestBody User user) {
-        user.setId(0);
-        return userService.save(user);
+    public UserDto createUser(@Valid @RequestBody User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return null;
+        } else {
+            user.setId(0);
+            return userService.save(user);
+        }
     }
 
     @PutMapping("/users")
@@ -65,15 +80,14 @@ public class UsersRestController {
         return "User with " + userId + " was deleted.";
     }
 
-    /*@GetMapping({"/users/address/{userId}"})
+    @GetMapping({"/users/address/{userId}"})
     public Address getUserAddress(@PathVariable int userId) {
         return userService.getAddressById(userId);
-    }*/
+    }
 
     // Kullanıcıya role tanımlaması sadece admin tarafından yapılması
     @PutMapping("/users/roles")
     public UserDto giveRoleToUser(@RequestBody UserDto userRq) {
         return userService.giveRoleToUser(userRq);
-
     }
 }

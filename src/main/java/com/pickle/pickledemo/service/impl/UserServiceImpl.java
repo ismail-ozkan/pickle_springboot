@@ -53,6 +53,7 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new UserNotFoundException("Didn't find users id - " + id);
         }
+        user.setPassword("###");
         return user;
     }
 
@@ -73,19 +74,19 @@ public class UserServiceImpl implements UserService {
     }
 
     private void updateUserData(User dbUser, UserDto userDto) {
-        validation(userDto.getFirstName());
+
         dbUser.setFirstName(userDto.getFirstName());
-        validation(userDto.getLastName());
+
         dbUser.setLastName(userDto.getLastName());
-        validation(userDto.getAge());
+
         dbUser.setAge(userDto.getAge());
-        validation(userDto.getEmail());
+
         dbUser.setEmail(userDto.getEmail());
         if (userDto.getRoles()!=null) {dbUser.setRoles(userDto.getRoles());}
         if (userDto.getAddress()!=null) {dbUser.setAddress(userDto.getAddress());}
     }
 
-    private void validation(String data) {
+    /*private void validation(String data) {
         if (data.isBlank() || data.isEmpty() || data==null) {
             throw new RuntimeException("Required field must be filled");
         }
@@ -94,7 +95,7 @@ public class UserServiceImpl implements UserService {
         if (data==0 || (Integer)data==null) {
             throw new RuntimeException("Required field must be filled");
         }
-    }
+    }*/
 
 
 
