@@ -33,8 +33,8 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(configurer ->
                 configurer
-                        .antMatchers(HttpMethod.GET, "/api/users").hasRole("EMPLOYEE")
-                        .antMatchers(HttpMethod.POST, "/api/users").permitAll()
+                        .antMatchers(HttpMethod.GET, "/api/users").hasRole("ADMIN")
+                       //.antMatchers(HttpMethod.POST, "/api/users").permitAll()
                         .antMatchers(HttpMethod.PUT, "/api/users").permitAll()
                         .antMatchers(HttpMethod.PUT, "/api/users/roles").hasRole("ADMIN")
                         .antMatchers(HttpMethod.GET, "/api/users/{userId}").hasRole("EMPLOYEE")

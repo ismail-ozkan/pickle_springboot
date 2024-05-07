@@ -2,12 +2,15 @@ package com.pickle.pickledemo.controller;
 
 import com.pickle.pickledemo.dto.UserDto;
 import com.pickle.pickledemo.entity.Address;
+import com.pickle.pickledemo.entity.Register;
 import com.pickle.pickledemo.entity.User;
+import com.pickle.pickledemo.entity.UserTemp;
 import com.pickle.pickledemo.service.UserService;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.WebRequestDataBinder;
 
 import javax.annotation.PostConstruct;
 import javax.validation.Valid;
@@ -21,7 +24,7 @@ public class UsersRestController {
     private UserService userService;
 
     @InitBinder
-    public void initBinder(WebRequestDataBinder binder) {
+    public void initBinder(WebDataBinder binder) {
         StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
         binder.registerCustomEditor(String.class, stringTrimmerEditor);
     }
@@ -38,12 +41,12 @@ public class UsersRestController {
     }
 
     @GetMapping("/users")
-    public List<User> getUsers() {
+    public ResponseEntity<List<User>> getUsers() {
         List<User> usersList = userService.findAll().stream().map(p -> {
             p.setPassword("####");
             return p;
         }).collect(Collectors.toList());
-        return usersList;
+        return ResponseEntity.ok(usersList);
     }
 
     // @PathVariable should have the same name in the method signature
@@ -53,12 +56,12 @@ public class UsersRestController {
     }
 
     @PostMapping("/users")
-    public UserDto createUser(@Valid @RequestBody User user, BindingResult bindingResult) {
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return null;
+            return ResponseEntity.badRequest().body(new UserDto());
         } else {
             user.setId(0);
-            return userService.save(user);
+            return ResponseEntity.ok(userService.save(user));
         }
     }
 
@@ -89,5 +92,12 @@ public class UsersRestController {
     @PutMapping("/users/roles")
     public UserDto giveRoleToUser(@RequestBody UserDto userRq) {
         return userService.giveRoleToUser(userRq);
+    }
+
+    //Register user endpoint
+    @PostMapping("/users/register")
+    public ResponseEntity<Register> registerUser(@RequestBody UserTemp userTemp) {
+        Register register = userService.saveTemp(userTemp);
+        return ResponseEntity.ok(register);
     }
 }

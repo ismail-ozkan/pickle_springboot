@@ -1,13 +1,14 @@
 package com.pickle.pickledemo.service.impl;
 
 import com.pickle.pickledemo.dto.UserDto;
-import com.pickle.pickledemo.entity.Address;
-import com.pickle.pickledemo.entity.Role;
-import com.pickle.pickledemo.entity.User;
+import com.pickle.pickledemo.entity.*;
 import com.pickle.pickledemo.exceptions.user.UserNotFoundException;
 import com.pickle.pickledemo.mapper.UserMapper;
+import com.pickle.pickledemo.mapper.UserTempMapper;
+import com.pickle.pickledemo.repository.RegisterRepository;
 import com.pickle.pickledemo.repository.RoleRepository;
 import com.pickle.pickledemo.repository.UserRepository;
+import com.pickle.pickledemo.repository.UserTempRepository;
 import com.pickle.pickledemo.service.UserService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,15 +28,21 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
+    private UserTempRepository userTempRepository;
+    private RegisterRepository registerRepository;
     private RoleRepository roleRepository;
     private final UserMapper userMapper;
+    private final UserTempMapper userTempMapper;
 
     private PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, UserTempRepository userTempRepository, RegisterRepository registerRepository, RoleRepository roleRepository, UserMapper userMapper, UserTempMapper userTempMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.userTempRepository = userTempRepository;
+        this.registerRepository = registerRepository;
         this.roleRepository = roleRepository;
         this.userMapper = userMapper;
+        this.userTempMapper = userTempMapper;
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
@@ -132,6 +139,14 @@ public class UserServiceImpl implements UserService {
         }
         updateUserData(dbUser.get(),userRq);
         return userMapper.convertToDto(dbUser.get());
+    }
+
+    @Override
+    public Register saveTemp(UserTemp user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userTempRepository.save(user);
+        return registerRepository.save(new Register(1231, user.getEmail()));
+
     }
 
     @Override

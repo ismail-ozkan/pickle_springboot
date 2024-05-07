@@ -83,6 +83,17 @@ public class UserDto {
         this.roles = roles;
     }
 
+    //For registration
+
+
+    public UserDto(String userName, String password, String firstName, String lastName, String email) {
+        this.userName = userName;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+
     @Override
     public String toString() {
         return "UserDto{" + "id=" + id + ", userName='" + userName + '\'' + ", password='" + password + '\'' + ", enabled=" + enabled + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", email='" + email + '\'' + ", age=" + age + ", createdDate=" + createdDate + ", address=" + address + ", roles=" + roles + '}';

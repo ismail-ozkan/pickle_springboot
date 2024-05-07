@@ -30,32 +30,32 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     @Column(name = "username", length = 50, nullable = false)
     @NotNull(message = "is required")
-    private String userName;
+    private String userName = "userName";
 
     @Column(name = "password", length = 68, nullable = false)
     @NotNull(message = "is required")
-    private String password;
+    private String password = "pass12";
 
     @Column(name = "enabled", nullable = false)
-    private boolean enabled;
+    private boolean enabled = true;
 
     @Column(name = "first_name")
     @NotNull(message = "is required")
-    private String firstName;
+    private String firstName = "firstName";
 
     @Column(name = "last_name")
     @NotNull(message = "is required")
-    private String lastName;
+    private String lastName = "lastName";
 
     //@Column(name = "email")//opitonal
     @NotNull(message = "is required")
     //@Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\\\.[A-Z|a-z]{2,}$", message = "must be a valid email address")
     @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$", message = "must be a valid email address")
-    private String email;
+    private String email = "email@example.com";
 
     @Min(value = 1, message = "age must be greater than 1")
     @Max(value = 150, message = "age must be less than 150")
-    private int age;
+    private int age = 30;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
@@ -87,6 +87,24 @@ public class User {
         this.roles = roles;
     }
 
+
+
+    @Override
+    public String toString() {
+        return "User{" + "id=" + id +
+                ", username='" + userName + '\'' +
+                //", password='" + password + '\'' +
+                ", enabled=" + enabled +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", age=" + age +
+                ", createdDate=" + createdDate +
+                ", address=" + address +
+                ", roles=" + roles +
+                '}';
+    }
+}
 
     /*@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
@@ -194,20 +212,3 @@ public class User {
                 '}';
     }
     */
-
-    @Override
-    public String toString() {
-        return "User{" + "id=" + id +
-                ", username='" + userName + '\'' +
-                //", password='" + password + '\'' +
-                ", enabled=" + enabled +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", age=" + age +
-                ", createdDate=" + createdDate +
-                ", address=" + address +
-                ", roles=" + roles +
-                '}';
-    }
-}
