@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -145,7 +146,17 @@ public class UserServiceImpl implements UserService {
     public Register saveTemp(UserTemp user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userTempRepository.save(user);
-        return registerRepository.save(new Register(1231, user.getEmail()));
+        Register register = new Register(generateRandomNumber(4), user.getEmail());
+        return registerRepository.save(register);
+    }
+    @Override
+    public User validateSave(Register register) {
+        Register dbRegister = registerRepository.findByEmail(register.getEmail());
+        if (!register.getCode().equals(dbRegister.getCode())) {
+            throw new RuntimeException("Registration is not valid - ");
+        }
+        UserTemp userTemp = userTempRepository.findByEmail(dbRegister.getEmail());
+        return userRepository.save(userMapper.convertToUserTemp(userTemp));
 
     }
 
@@ -161,5 +172,12 @@ public class UserServiceImpl implements UserService {
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getRoleName())).collect(Collectors.toList());
+    }
+
+    public int generateRandomNumber(int numberOfDigits) {
+        Random random = new Random();
+        int min = (int) Math.pow(10, numberOfDigits - 1);
+        int max = (int) Math.pow(10, numberOfDigits) - 1;
+        return min + random.nextInt(max - min + 1);
     }
 }

@@ -32,4 +32,7 @@ public interface UserService extends UserDetailsService {
     UserDto giveRoleToUser(UserDto userRq);
 
     Register saveTemp(UserTemp user);
+
+    User validateSave(Register register);
+
 }

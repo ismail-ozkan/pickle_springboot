@@ -100,4 +100,12 @@ public class UsersRestController {
         Register register = userService.saveTemp(userTemp);
         return ResponseEntity.ok(register);
     }
+    //Register-2 user endpoint
+    @PostMapping("/users/validate")
+    public ResponseEntity<User> registerUser(@RequestBody Register register) {
+        return ResponseEntity.ok(userService.validateSave(register));
+
+    }
+
+
 }
