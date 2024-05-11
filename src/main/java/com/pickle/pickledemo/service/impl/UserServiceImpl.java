@@ -1,51 +1,36 @@
 package com.pickle.pickledemo.service.impl;
 
+import com.pickle.pickledemo.config.security.JwtService;
 import com.pickle.pickledemo.dto.UserDto;
 import com.pickle.pickledemo.entity.*;
 import com.pickle.pickledemo.exceptions.user.UserNotFoundException;
 import com.pickle.pickledemo.mapper.UserMapper;
 import com.pickle.pickledemo.mapper.UserTempMapper;
 import com.pickle.pickledemo.repository.RegisterRepository;
-import com.pickle.pickledemo.repository.RoleRepository;
 import com.pickle.pickledemo.repository.UserRepository;
 import com.pickle.pickledemo.repository.UserTempRepository;
 import com.pickle.pickledemo.service.UserService;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 @Service
-
+@AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private UserRepository userRepository;
-    private UserTempRepository userTempRepository;
-    private RegisterRepository registerRepository;
-    private RoleRepository roleRepository;
+    private final UserRepository userRepository;
+    private final UserTempRepository userTempRepository;
+    private final RegisterRepository registerRepository;
     private final UserMapper userMapper;
     private final UserTempMapper userTempMapper;
-
-    private PasswordEncoder passwordEncoder;
-
-    public UserServiceImpl(UserRepository userRepository, UserTempRepository userTempRepository, RegisterRepository registerRepository, RoleRepository roleRepository, UserMapper userMapper, UserTempMapper userTempMapper, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.userTempRepository = userTempRepository;
-        this.registerRepository = registerRepository;
-        this.roleRepository = roleRepository;
-        this.userMapper = userMapper;
-        this.userTempMapper = userTempMapper;
-        this.passwordEncoder = new BCryptPasswordEncoder();
-    }
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
     @Override
     public List<User> findAll() {
@@ -90,22 +75,8 @@ public class UserServiceImpl implements UserService {
         dbUser.setAge(userDto.getAge());
 
         dbUser.setEmail(userDto.getEmail());
-        if (userDto.getRoles()!=null) {dbUser.setRoles(userDto.getRoles());}
         if (userDto.getAddress()!=null) {dbUser.setAddress(userDto.getAddress());}
     }
-
-    /*private void validation(String data) {
-        if (data.isBlank() || data.isEmpty() || data==null) {
-            throw new RuntimeException("Required field must be filled");
-        }
-    }
-    private void validation(int data) {
-        if (data==0 || (Integer)data==null) {
-            throw new RuntimeException("Required field must be filled");
-        }
-    }*/
-
-
 
     @Override
     public void deleteById(Integer id) {
@@ -128,8 +99,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByUserName(String userName) {
-        return userRepository.findByUserName(userName);
+    public User findByEmail(String email) {
+        Optional<User> byEmail = userRepository.findByEmail(email);
+        if (byEmail.isPresent()) {
+            throw new UserNotFoundException("Didn't find users email - " + email);
+        }
+        return byEmail.get();
     }
 
     @Override
@@ -156,22 +131,9 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Registration is not valid - ");
         }
         UserTemp userTemp = userTempRepository.findByEmail(dbRegister.getEmail());
-        return userRepository.save(userMapper.convertToUserTemp(userTemp));
-
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        User user = userRepository.findByUserName(userName);
-        if (user == null) {
-            throw new UsernameNotFoundException("Invalid username or password.");
-        }
-        return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),
-                mapRolesToAuthorities(user.getRoles()));
-    }
-
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getRoleName())).collect(Collectors.toList());
+        User user = userMapper.convertToUserTemp(userTemp);
+        user.setRole(Role.SELLER);
+        return userRepository.save(user);
     }
 
     public int generateRandomNumber(int numberOfDigits) {

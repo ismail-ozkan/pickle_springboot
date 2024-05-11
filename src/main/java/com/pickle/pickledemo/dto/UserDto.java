@@ -2,14 +2,12 @@ package com.pickle.pickledemo.dto;
 
 import com.pickle.pickledemo.entity.Address;
 import com.pickle.pickledemo.entity.Role;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Collection;
 import java.util.Date;
-
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -18,8 +16,6 @@ public class UserDto {
 
 
     private int id;
-
-    private String userName;
 
     private String password;
 
@@ -37,20 +33,18 @@ public class UserDto {
 
     private Address address;
 
-    private Collection<Role> roles;
+    private Role role;
 
-    public UserDto(int id, String userName, String password, boolean enabled) {
+    public UserDto(int id, String userName, String passwor) {
         this.id = id;
-        this.userName = userName;
         this.password = password;
-        this.enabled = enabled;
     }
 
-    public UserDto(int id, String firstName, String lastName, Collection<Role> roles) {
+    public UserDto(int id, String firstName, String lastName, Role role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.roles = roles;
+        this.role = role;
     }
 
     public UserDto(String firstName, String lastName, String email, int age, Address address) {
@@ -78,16 +72,13 @@ public class UserDto {
         this.address = address;
     }
 
+    //For registration
     public UserDto(int id, Collection<Role> roles) {
         this.id = id;
-        this.roles = roles;
+        this.role = role;
     }
 
-    //For registration
-
-
-    public UserDto(String userName, String password, String firstName, String lastName, String email) {
-        this.userName = userName;
+    public UserDto( String password, String firstName, String lastName, String email) {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -96,6 +87,16 @@ public class UserDto {
 
     @Override
     public String toString() {
-        return "UserDto{" + "id=" + id + ", userName='" + userName + '\'' + ", password='" + password + '\'' + ", enabled=" + enabled + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", email='" + email + '\'' + ", age=" + age + ", createdDate=" + createdDate + ", address=" + address + ", roles=" + roles + '}';
+        return "UserDto{" + "id=" + id +
+                ", userName='" +  + '\'' +
+                ", password='" + password +
+                '\'' + ", enabled=" + enabled +
+                ", firstName='" + firstName +
+                '\'' + ", lastName='" + lastName +
+                '\'' + ", email='" + email + '\'' +
+                ", age=" + age +
+                ", createdDate=" + createdDate +
+                ", address=" + address +
+                ", role=" + role + '}';
     }
 }

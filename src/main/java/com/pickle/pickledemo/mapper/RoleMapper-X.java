@@ -1,4 +1,4 @@
-package com.pickle.pickledemo.mapper;
+/*package com.pickle.pickledemo.mapper;
 
 import com.pickle.pickledemo.dto.RoleDto;
 import com.pickle.pickledemo.entity.Role;
@@ -23,3 +23,4 @@ public class RoleMapper {
         return mapper.map(role,RoleDto.class);
     }
 }
+*/

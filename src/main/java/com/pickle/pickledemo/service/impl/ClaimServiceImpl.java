@@ -3,18 +3,16 @@ package com.pickle.pickledemo.service.impl;
 import com.pickle.pickledemo.repository.ClaimRepository;
 import com.pickle.pickledemo.entity.Claim;
 import com.pickle.pickledemo.service.ClaimService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 @Service
+@AllArgsConstructor
 public class ClaimServiceImpl implements ClaimService {
 
     private ClaimRepository claimsRepository;
-
-    public ClaimServiceImpl(ClaimRepository claimsRepository) {
-        this.claimsRepository = claimsRepository;
-    }
 
     @Override
     public List<Claim> findAll() {

@@ -1,10 +1,9 @@
 package com.pickle.pickledemo.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -13,24 +12,20 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.Collection;
 import java.util.Date;
-
+@Data
+@Builder
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
-    @Column(name = "username", length = 50, nullable = false)
-    @NotNull(message = "is required")
-    private String userName = "userName";
 
     @Column(name = "password", length = 68, nullable = false)
     @NotNull(message = "is required")
@@ -66,34 +61,25 @@ public class User {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<Role> roles;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
-    public User(String userName, String password, boolean enabled) {
-        this.userName = userName;
+    // authenticate request body
+    public User(String email, String password) {
+        this.email = email;
         this.password = password;
-        this.enabled = enabled;
     }
 
-    // for create method
-    public User(String userName, String password, boolean enabled,
-            Collection<Role> roles) {
-        this.userName = userName;
+    // Admin add user in the system
+    public User(String email, String password, Role role) {
+        this.email = email;
         this.password = password;
-        this.enabled = enabled;
-        this.roles = roles;
+        this.role = role;
     }
-
-
 
     @Override
     public String toString() {
         return "User{" + "id=" + id +
-                ", username='" + userName + '\'' +
-                //", password='" + password + '\'' +
                 ", enabled=" + enabled +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
@@ -101,114 +87,36 @@ public class User {
                 ", age=" + age +
                 ", createdDate=" + createdDate +
                 ", address=" + address +
-                ", roles=" + roles +
+                ", role=" + role +
                 '}';
     }
-}
 
-    /*@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
-    @Column(name = "id") // it's optional
-    private int id;
-    @Column(name = "first_name")
-    private String firstName;
-    @Column(name = "last_name")
-    private String lastName;
-    //@Column(name = "email")//opitonal
-    private String email;
-    private int age;
-    @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_date", updatable = false)
-    private Date createdDate;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id")
-    private Address address;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "role")
-    private Role role;
-
-
-    public User(int id, String firstName, String lastName, Role role) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.role = role;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 
-    public User(String firstName, String lastName, String email, int age, Address address) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.age = age;
-        this.address = address;
-    }
-
-    public User(int id, String firstName, String lastName, String email, int age, Date createdDate, Address address) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.age = age;
-        this.createdDate = createdDate;
-        this.address = address;
-    }*/
-/*
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
+    @Override
+    public String getUsername() {
         return email;
     }
-
-    public void setEmail(String email) {
-        this.email = email;
+    @Override
+    public String getPassword() {
+        return password;
     }
 
-    public int getAge() {
-        return age;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
     }
 
-    public AddressDto getAddressDto() {
-        return address;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
-
-    public void setAddressDto(AddressDto address) {
-        this.address = address;
-    }
-     @Override
-    public String toString() {
-        return "Users{" + "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", age=" + age +
-                ", address" + address + '\'' +
-                '}';
-    }
-    */
+}

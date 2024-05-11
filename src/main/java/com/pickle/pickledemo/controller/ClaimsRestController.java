@@ -11,7 +11,7 @@ import java.util.List;
 @RequestMapping("/api")
 public class ClaimsRestController {
 
-    private ClaimService claimsService;
+    private final ClaimService claimsService;
 
     public ClaimsRestController(ClaimService claimsService) {
         this.claimsService = claimsService;

@@ -1,18 +1,17 @@
 package com.pickle.pickledemo.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
-
+@Data
+@Builder
 @Entity
 @Table(name = "register")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+
 public class Register {
 
     @Id
@@ -28,4 +27,5 @@ public class Register {
         this.code = code;
         this.email = email;
     }
+
 }

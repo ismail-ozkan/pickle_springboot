@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api")
 public class UsersRestController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -93,7 +93,6 @@ public class UsersRestController {
     public UserDto giveRoleToUser(@RequestBody UserDto userRq) {
         return userService.giveRoleToUser(userRq);
     }
-
     //Register user endpoint
     @PostMapping("/users/register")
     public ResponseEntity<Register> registerUser(@RequestBody UserTemp userTemp) {
@@ -102,10 +101,9 @@ public class UsersRestController {
     }
     //Register-2 user endpoint
     @PostMapping("/users/validate")
-    public ResponseEntity<User> registerUser(@RequestBody Register register) {
+    public ResponseEntity<User> validateUser(@RequestBody Register register) {
         return ResponseEntity.ok(userService.validateSave(register));
 
     }
-
 
 }

@@ -5,11 +5,10 @@ import com.pickle.pickledemo.entity.Address;
 import com.pickle.pickledemo.entity.Register;
 import com.pickle.pickledemo.entity.User;
 import com.pickle.pickledemo.entity.UserTemp;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
-public interface UserService extends UserDetailsService {
+public interface UserService {
 
     List<User> findAll();
 
@@ -27,7 +26,7 @@ public interface UserService extends UserDetailsService {
     Address getAddressById(int id);
 
     // for security configuration
-    User findByUserName(String userName);
+    User findByEmail(String userName);
 
     UserDto giveRoleToUser(UserDto userRq);
 
