@@ -41,6 +41,7 @@ public class UsersRestController {
     }
 
     @GetMapping("/users")
+    //@PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<List<User>> getUsers() {
         List<User> usersList = userService.findAll().stream().map(p -> {
             p.setPassword("####");

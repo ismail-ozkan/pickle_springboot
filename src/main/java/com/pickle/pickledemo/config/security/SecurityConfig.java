@@ -3,7 +3,9 @@ package com.pickle.pickledemo.config.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -12,6 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -25,52 +28,28 @@ public class SecurityConfig {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .antMatchers( "/api/users/register").permitAll()
-                .antMatchers( "/api/users/validate").permitAll()
-                .antMatchers( "/api/authenticate").permitAll()
-                /*.antMatchers(HttpMethod.GET, "/api/users").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/api/users").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/api/users/roles").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/api/users/{userId}").hasRole("EMPLOYEE")
-                .antMatchers(HttpMethod.GET, "/api/users/address/{userId}").hasRole("EMPLOYEE")*/
-
-                /*.antMatchers(HttpMethod.GET, "/api/roles").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/api/roles/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/api/roles").hasRoßle("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/api/roles/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/api/roles/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/api/claims").hasAnyRole("SELLER","ADMIN")
-                .antMatchers(HttpMethod.POST, "/api/claims").hasRole("EMPLOYEE")
-                .antMatchers(HttpMethod.DELETE, "/api/claims/**").hasRole("ADMIN")*/
+                .antMatchers(HttpMethod.POST, "/api/users/register").permitAll()
+                .antMatchers(HttpMethod.POST,  "/api/users/validate").permitAll()
+                .antMatchers(HttpMethod.POST,  "/api/authenticate").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/users").hasAnyAuthority("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
+                .authenticationProvider(authenticationProvider)
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-        /*http.authorizeHttpRequests(http ->
-                http
-                        .antMatchers(HttpMethod.GET, "/api/users").hasRole("ADMIN")
-                       //.antMatchers(HttpMethod.POST, "/api/users").permitAll()
-                        .antMatchers(HttpMethod.PUT, "/api/users").permitAll()
-                        .antMatchers(HttpMethod.PUT, "/api/users/roles").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.GET, "/api/users/{userId}").hasRole("EMPLOYEE")
-                        .antMatchers(HttpMethod.GET, "/api/users/address/{userId}").hasRole("EMPLOYEE")
-
-                        .antMatchers(HttpMethod.GET, "/api/roles").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.GET, "/api/roles/**").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.POST, "/api/roles").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.PUT, "/api/roles/**").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.DELETE, "/api/roles/**").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.GET, "/api/claims").hasAnyRole("SELLER","ADMIN")
-                        .antMatchers(HttpMethod.POST, "/api/claims").hasRole("EMPLOYEE")
-                        .antMatchers(HttpMethod.DELETE, "/api/claims/**").hasRole("ADMIN")
-
-        );*/
 
         return http.build();
     }
 
 }
+/*
+                .antMatchers(HttpMethod.POST, "/api/users").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/api/users/roles").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/users/{userId}").hasRole("EMPLOYEE")
+                .antMatchers(HttpMethod.GET, "/api/users/address/{userId}").hasRole("EMPLOYEE")
+                .antMatchers(HttpMethod.GET, "/api/claims").hasAnyRole("SELLER","ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/claims").hasRole("EMPLOYEE")
+                .antMatchers(HttpMethod.DELETE, "/api/claims/**").hasRole("ADMIN")*/

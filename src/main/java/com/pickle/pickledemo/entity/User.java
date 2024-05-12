@@ -3,6 +3,7 @@ package com.pickle.pickledemo.entity;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -12,6 +13,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+
 @Data
 @Builder
 @Entity
@@ -93,7 +96,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
