@@ -28,7 +28,6 @@ public interface UserService {
     // for security configuration
     User findByEmail(String userName);
 
-    UserDto giveRoleToUser(UserDto userRq);
 
     Register saveTemp(UserTemp user);
 

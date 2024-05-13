@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
-public class UsersRestController {
+public class UsersController {
 
     private final UserService userService;
 
@@ -29,7 +29,7 @@ public class UsersRestController {
         binder.registerCustomEditor(String.class, stringTrimmerEditor);
     }
 
-    public UsersRestController(UserService userService) {
+    public UsersController(UserService userService) {
         this.userService = userService;
     }
 
@@ -89,17 +89,13 @@ public class UsersRestController {
         return userService.getAddressById(userId);
     }
 
-    // Kullanıcıya role tanımlaması sadece admin tarafından yapılması
-    @PutMapping("/users/roles")
-    public UserDto giveRoleToUser(@RequestBody UserDto userRq) {
-        return userService.giveRoleToUser(userRq);
-    }
     //Register user endpoint
     @PostMapping("/users/register")
     public ResponseEntity<Register> registerUser(@RequestBody UserTemp userTemp) {
         Register register = userService.saveTemp(userTemp);
         return ResponseEntity.ok(register);
     }
+
     //Register-2 user endpoint
     @PostMapping("/users/validate")
     public ResponseEntity<User> validateUser(@RequestBody Register register) {

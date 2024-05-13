@@ -1,5 +1,6 @@
 package com.pickle.pickledemo.config.security;
 
+import com.pickle.pickledemo.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -18,7 +19,14 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
+
+    private final UserRepository userRepository;
+
     private static final String SECRET_KEY = "3tqPUqIhom4aNcQ7FxPoKZtTIi1g8IYS";
+
+    public JwtService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     private Claims extractAllClaims(String jwtToken) {
         return Jwts.parser()
@@ -69,5 +77,9 @@ public class JwtService {
         byte[] keyBytes = Base64.getDecoder().decode(SECRET_KEY);
 //        byte[] keyBytes = SECRET_KEY.getBytes(StandardCharsets.UTF_8);
         return new SecretKeySpec(keyBytes,"AES");
+    }
+
+    public Integer extractUserId(String bearerToken) {
+        return userRepository.findByEmail(extractUsername(bearerToken.substring(7))).get().getId();
     }
 }

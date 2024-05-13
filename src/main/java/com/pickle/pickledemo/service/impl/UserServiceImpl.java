@@ -1,6 +1,5 @@
 package com.pickle.pickledemo.service.impl;
 
-import com.pickle.pickledemo.config.security.JwtService;
 import com.pickle.pickledemo.dto.UserDto;
 import com.pickle.pickledemo.entity.*;
 import com.pickle.pickledemo.exceptions.user.UserNotFoundException;
@@ -11,7 +10,6 @@ import com.pickle.pickledemo.repository.UserRepository;
 import com.pickle.pickledemo.repository.UserTempRepository;
 import com.pickle.pickledemo.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +27,6 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final UserTempMapper userTempMapper;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
 
     @Override
     public List<User> findAll() {
@@ -105,16 +101,6 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException("Didn't find users email - " + email);
         }
         return byEmail.get();
-    }
-
-    @Override
-    public UserDto giveRoleToUser(UserDto userRq) {
-        Optional<User> dbUser = userRepository.findById(userRq.getId());
-        if (!dbUser.isPresent()) {
-            throw new UserNotFoundException("Didn't find users id - " + userRq.getId());
-        }
-        updateUserData(dbUser.get(),userRq);
-        return userMapper.convertToDto(dbUser.get());
     }
 
     @Override
