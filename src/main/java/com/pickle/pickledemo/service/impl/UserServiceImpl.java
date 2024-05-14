@@ -27,6 +27,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final UserTempMapper userTempMapper;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
     @Override
     public List<User> findAll() {
@@ -107,7 +108,9 @@ public class UserServiceImpl implements UserService {
     public Register saveTemp(UserTemp user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userTempRepository.save(user);
-        Register register = new Register(generateRandomNumber(4), user.getEmail());
+        Integer otp = generateRandomNumber(4);
+        emailService.sendOtpMail(user.getEmail(), otp);
+        Register register = new Register(otp, user.getEmail());
         return registerRepository.save(register);
     }
     @Override
