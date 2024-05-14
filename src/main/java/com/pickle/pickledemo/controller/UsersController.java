@@ -68,20 +68,13 @@ public class UsersController {
 
     @PutMapping("/users")
     public UserDto updateUser(@RequestBody UserDto user) {
-       /* User dbUser = userService.findById(user.getId());
-        System.out.println(dbUser);
-        if (dbUser==null) {
-            throw new UserNotFoundException("Id not found");
-        }
-        dbUser = userService.save(user);
-        return dbUser;*/
         return userService.update(user);
     }
 
     @DeleteMapping("/users/{userId}")
-    public String deleteUser(@PathVariable int userId) {
+    public ResponseEntity<String> deleteUser(@PathVariable int userId) {
         userService.deleteById(userId);
-        return "User with " + userId + " was deleted.";
+        return ResponseEntity.ok("User with " + userId + " was deleted.");
     }
 
     @GetMapping({"/users/address/{userId}"})
