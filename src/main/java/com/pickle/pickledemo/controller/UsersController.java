@@ -6,6 +6,7 @@ import com.pickle.pickledemo.entity.Register;
 import com.pickle.pickledemo.entity.User;
 import com.pickle.pickledemo.entity.UserTemp;
 import com.pickle.pickledemo.service.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
+@AllArgsConstructor
 public class UsersController {
 
     private final UserService userService;
@@ -29,9 +31,6 @@ public class UsersController {
         binder.registerCustomEditor(String.class, stringTrimmerEditor);
     }
 
-    public UsersController(UserService userService) {
-        this.userService = userService;
-    }
 
     // define @PostConstruct to load the users data ... only once!! like static methods, we can think
     // Veritabanı bağlantısının başlatılması, Cache'in başlatılması, Gerekli başlangıç ayarlarının yapılması:, Servislerin başlatılması gibi işlemler için kullanılabilir
@@ -52,8 +51,8 @@ public class UsersController {
 
     // @PathVariable should have the same name in the method signature
     @GetMapping("/users/{userId}")
-    public User getUsersById(@PathVariable int userId) {
-        return userService.findById(userId);
+    public ResponseEntity<User> getUsersById(@PathVariable int userId) {
+        return ResponseEntity.ok(userService.findById(userId));
     }
 
     @PostMapping("/users")
@@ -67,8 +66,8 @@ public class UsersController {
     }
 
     @PutMapping("/users")
-    public UserDto updateUser(@RequestBody UserDto user) {
-        return userService.update(user);
+    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto user) {
+        return ResponseEntity.ok(userService.update(user));
     }
 
     @DeleteMapping("/users/{userId}")
@@ -78,8 +77,8 @@ public class UsersController {
     }
 
     @GetMapping({"/users/address/{userId}"})
-    public Address getUserAddress(@PathVariable int userId) {
-        return userService.getAddressById(userId);
+    public ResponseEntity<Address> getUserAddress(@PathVariable int userId) {
+        return ResponseEntity.ok(userService.getAddressById(userId));
     }
 
     //Register user endpoint
@@ -93,7 +92,6 @@ public class UsersController {
     @PostMapping("/users/validate")
     public ResponseEntity<User> validateUser(@RequestBody Register register) {
         return ResponseEntity.ok(userService.validateSave(register));
-
     }
 
 }

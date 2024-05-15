@@ -1,5 +1,6 @@
 package com.pickle.pickledemo.service;
 
+import com.pickle.pickledemo.dto.PickleCustomerDto;
 import com.pickle.pickledemo.dto.PickleDto;
 import com.pickle.pickledemo.entity.Pickle;
 
@@ -8,6 +9,7 @@ import java.util.List;
 public interface PickleService {
 
     List<Pickle> findAll();
+    List<PickleCustomerDto> findAllForCustomer();
 
     Pickle findById(int id);
 

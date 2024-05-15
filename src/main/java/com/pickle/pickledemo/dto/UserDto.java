@@ -14,7 +14,6 @@ import java.util.Date;
 @Setter
 public class UserDto {
 
-
     private int id;
 
     private String password;
@@ -35,7 +34,7 @@ public class UserDto {
 
     private Role role;
 
-    public UserDto(int id, String userName, String passwor) {
+    public UserDto(int id, String password) {
         this.id = id;
         this.password = password;
     }

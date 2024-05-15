@@ -1,5 +1,6 @@
 package com.pickle.pickledemo.mapper;
 
+import com.pickle.pickledemo.dto.PickleCustomerDto;
 import com.pickle.pickledemo.dto.PickleDto;
 import com.pickle.pickledemo.entity.Pickle;
 import org.modelmapper.ModelMapper;
@@ -21,5 +22,8 @@ public class PickleMapper {
 
     public PickleDto convertToDto(Pickle pickle) {
         return mapper.map(pickle,PickleDto.class);
+    }
+    public PickleCustomerDto convertToPickleForCustomerDto(Pickle pickle) {
+        return mapper.map(pickle, PickleCustomerDto.class);
     }
 }

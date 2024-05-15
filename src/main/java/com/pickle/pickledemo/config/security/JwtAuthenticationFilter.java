@@ -1,5 +1,6 @@
 package com.pickle.pickledemo.config.security;
 
+import com.pickle.pickledemo.service.impl.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

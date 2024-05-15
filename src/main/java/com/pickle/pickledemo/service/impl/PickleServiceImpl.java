@@ -1,6 +1,6 @@
 package com.pickle.pickledemo.service.impl;
 
-import com.pickle.pickledemo.config.security.JwtService;
+import com.pickle.pickledemo.dto.PickleCustomerDto;
 import com.pickle.pickledemo.dto.PickleDto;
 import com.pickle.pickledemo.entity.Pickle;
 import com.pickle.pickledemo.mapper.PickleMapper;
@@ -25,6 +25,11 @@ public class PickleServiceImpl implements PickleService {
     @Override
     public List<Pickle> findAll() {
         return pickleRepository.findAll();
+    }
+
+    @Override
+    public List<PickleCustomerDto> findAllForCustomer() {
+        return findAll().stream().map(p -> pickleMapper.convertToPickleForCustomerDto(p)).collect(Collectors.toList());
     }
 
     @Override

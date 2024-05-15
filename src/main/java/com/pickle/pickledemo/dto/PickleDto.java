@@ -18,6 +18,7 @@ public class PickleDto {
     private String name;
 
     private Integer price;
+
     private Integer sellerId;
 
     private Integer cost = 0;
@@ -29,4 +30,11 @@ public class PickleDto {
         this.cost = cost;
     }
 
+    public PickleDto(Integer id, String name, Integer price, Integer sellerId, Date createdDate) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.sellerId = sellerId;
+        this.createdDate = createdDate;
+    }
 }

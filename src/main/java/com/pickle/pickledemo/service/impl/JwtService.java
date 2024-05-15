@@ -1,4 +1,4 @@
-package com.pickle.pickledemo.config.security;
+package com.pickle.pickledemo.service.impl;
 
 import com.pickle.pickledemo.repository.UserRepository;
 import io.jsonwebtoken.Claims;

@@ -1,6 +1,6 @@
-package com.pickle.pickledemo.auth;
+package com.pickle.pickledemo.service.impl;
 
-import com.pickle.pickledemo.config.security.JwtService;
+import com.pickle.pickledemo.dto.LoginResponseDto;
 import com.pickle.pickledemo.entity.Role;
 import com.pickle.pickledemo.entity.User;
 import com.pickle.pickledemo.entity.UserTemp;
@@ -13,14 +13,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class AuthenticationService {
+public class AuthenticationServiceImpl {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(UserTemp userTemp) {
+    public LoginResponseDto register(UserTemp userTemp) {
         var user = User.builder()
                 .firstName(userTemp.getFirstName())
                 .lastName(userTemp.getLastName())
@@ -30,19 +30,19 @@ public class AuthenticationService {
                 .build();
         userRepository.save(user);
         var jwtToken =jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
+        return LoginResponseDto.builder()
                 .token(jwtToken)
                 .build();
     }
 
-    public AuthenticationResponse authenticate(User userRq) {
+    public LoginResponseDto authenticate(User userRq) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(userRq.getEmail(), userRq.getPassword())
         );
         var user = userRepository.findByEmail(userRq.getEmail())
                 .orElseThrow();
         var jwtToken =jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
+        return LoginResponseDto.builder()
                 .token(jwtToken)
                 .build();
     }
