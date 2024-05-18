@@ -1,10 +1,13 @@
 package com.pickle.pickledemo.service.impl;
 
+import com.pickle.pickledemo.dto.PickleDto;
 import com.pickle.pickledemo.dto.UserDto;
 import com.pickle.pickledemo.entity.*;
 import com.pickle.pickledemo.exceptions.user.UserNotFoundException;
+import com.pickle.pickledemo.mapper.PickleMapper;
 import com.pickle.pickledemo.mapper.UserMapper;
 import com.pickle.pickledemo.mapper.UserTempMapper;
+import com.pickle.pickledemo.repository.PickleRepository;
 import com.pickle.pickledemo.repository.RegisterRepository;
 import com.pickle.pickledemo.repository.UserRepository;
 import com.pickle.pickledemo.repository.UserTempRepository;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -28,6 +32,9 @@ public class UserServiceImpl implements UserService {
     private final UserTempMapper userTempMapper;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
+    private final JwtService jwtService;
+    private final PickleRepository pickleRepository;
+    private final PickleMapper pickleMapper;
 
     @Override
     public List<User> findAll() {
@@ -121,8 +128,30 @@ public class UserServiceImpl implements UserService {
         }
         UserTemp userTemp = userTempRepository.findByEmail(dbRegister.getEmail());
         User user = userMapper.convertToUserTemp(userTemp);
-        user.setRole(Role.SELLER);
+        // We give Customer role to the User as default
+        user.setRole(Role.CUSTOMER);
+        user.setId(0);
         return userRepository.save(user);
+    }
+
+    @Override
+    public Set<Pickle> favoritePickles(Integer userId) {
+        return userRepository.getUserFavoritePickles(userId);
+    }
+
+    @Override
+    public Pickle addFavoritePickle(String token, PickleDto pickleDto) {
+        if (pickleRepository.findById(pickleDto.getId()).isPresent()) {
+            Optional<User> userDb = userRepository.findById(jwtService.extractUserId(token));
+            Optional<Pickle> pickleDb = pickleRepository.findById(pickleDto.getId());
+            User user = userDb.get();
+            Pickle pickle = pickleDb.get();
+            user.getFavoritePickles().add(pickle);
+            userRepository.save(user);
+            return pickle;
+        } else {
+            throw new RuntimeException("Pickles not found with id " + pickleDto.getId());
+        }
     }
 
     public int generateRandomNumber(int numberOfDigits) {

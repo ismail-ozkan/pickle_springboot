@@ -37,4 +37,9 @@ public class PickleDto {
         this.sellerId = sellerId;
         this.createdDate = createdDate;
     }
+
+    // add favorites to a pickle
+    public PickleDto(Integer id) {
+        this.id = id;
+    }
 }

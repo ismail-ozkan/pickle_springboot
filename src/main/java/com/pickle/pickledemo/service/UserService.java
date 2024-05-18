@@ -1,12 +1,11 @@
 package com.pickle.pickledemo.service;
 
+import com.pickle.pickledemo.dto.PickleDto;
 import com.pickle.pickledemo.dto.UserDto;
-import com.pickle.pickledemo.entity.Address;
-import com.pickle.pickledemo.entity.Register;
-import com.pickle.pickledemo.entity.User;
-import com.pickle.pickledemo.entity.UserTemp;
+import com.pickle.pickledemo.entity.*;
 
 import java.util.List;
+import java.util.Set;
 
 public interface UserService {
 
@@ -33,4 +32,7 @@ public interface UserService {
 
     User validateSave(Register register);
 
+    Set<Pickle> favoritePickles(Integer userId);
+
+    Pickle addFavoritePickle(String token, PickleDto pickle);
 }

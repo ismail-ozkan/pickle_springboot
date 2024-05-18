@@ -1,11 +1,10 @@
 package com.pickle.pickledemo.controller;
 
+import com.pickle.pickledemo.dto.PickleDto;
 import com.pickle.pickledemo.dto.UserDto;
-import com.pickle.pickledemo.entity.Address;
-import com.pickle.pickledemo.entity.Register;
-import com.pickle.pickledemo.entity.User;
-import com.pickle.pickledemo.entity.UserTemp;
+import com.pickle.pickledemo.entity.*;
 import com.pickle.pickledemo.service.UserService;
+import com.pickle.pickledemo.service.impl.JwtService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 public class UsersController {
 
     private final UserService userService;
+    private final JwtService jwtService;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -42,19 +43,18 @@ public class UsersController {
     @GetMapping("/users")
     //@PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<List<User>> getUsers() {
-        List<User> usersList = userService.findAll().stream().map(p -> {
-            p.setPassword("####");
-            return p;
-        }).collect(Collectors.toList());
+        List<User> usersList = userService.findAll().stream().peek(p -> p.setPassword("####")).collect(Collectors.toList());
         return ResponseEntity.ok(usersList);
     }
 
     // @PathVariable should have the same name in the method signature
     @GetMapping("/users/{userId}")
-    public ResponseEntity<User> getUsersById(@PathVariable int userId) {
+    public ResponseEntity<User> getUserById(@PathVariable int userId) {
         return ResponseEntity.ok(userService.findById(userId));
     }
 
+    // bu method implemetasyonu değşimeli
+    // sisteme Seller Kaydetmede kullanılacak - belki sonra Employee ve Customer
     @PostMapping("/users")
     public ResponseEntity<UserDto> createUser(@Valid @RequestBody User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -73,7 +73,7 @@ public class UsersController {
     @DeleteMapping("/users/{userId}")
     public ResponseEntity<String> deleteUser(@PathVariable int userId) {
         userService.deleteById(userId);
-        return ResponseEntity.ok("User with " + userId + " was deleted.");
+        return ResponseEntity.ok("User with ID " + userId + " was deleted.");
     }
 
     @GetMapping({"/users/address/{userId}"})
@@ -92,6 +92,21 @@ public class UsersController {
     @PostMapping("/users/validate")
     public ResponseEntity<User> validateUser(@RequestBody Register register) {
         return ResponseEntity.ok(userService.validateSave(register));
+    }
+
+    // User favorites a pickle
+    @PostMapping("/users/favoritePickles")
+    public ResponseEntity<String> addFavoritePickle(@RequestHeader("Authorization") String token, @RequestBody PickleDto pickle) {
+        Pickle addFavoritePickle = userService.addFavoritePickle(token, pickle);
+        return ResponseEntity.ok(addFavoritePickle.getName() + " is added to favorites");
+    }
+
+
+
+    // List of user favorite pickles
+    @GetMapping("/users/favoritePickles")
+    public ResponseEntity<Set<Pickle>> getFavoritePickles(@RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok(userService.favoritePickles(jwtService.extractUserId(token)));
     }
 
 }

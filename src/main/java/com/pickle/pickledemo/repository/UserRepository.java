@@ -1,6 +1,7 @@
 package com.pickle.pickledemo.repository;
 
 import com.pickle.pickledemo.entity.Address;
+import com.pickle.pickledemo.entity.Pickle;
 import com.pickle.pickledemo.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -8,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 public interface UserRepository extends JpaRepository<User, Integer> {
@@ -20,6 +22,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Address getUserAddress(@Param("userId") int userId);
 
     Optional<User> findByEmail(String username);
+
+    @Query(value = "select u.favoritePickles from User u Where u.id = :userId")
+    Set<Pickle> getUserFavoritePickles(@Param("userId") int userId);
+
 }
 //@Query(value = "select u from User u where u.userName=:uName and u.enabled=true")
 //User findByUserName(@Param("uName") String uName);

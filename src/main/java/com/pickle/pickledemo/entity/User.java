@@ -1,5 +1,6 @@
 package com.pickle.pickledemo.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,9 +12,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Data
 @Builder
@@ -67,6 +66,15 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType. DETACH, CascadeType.REFRESH})
+    @JoinTable(
+            name = "user_favorite_pickles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "pickle_id"))
+    @JsonManagedReference
+    private List<Pickle> favoritePickles;
+
     // authenticate request body
     public User(String email, String password) {
         this.email = email;
@@ -82,16 +90,7 @@ public class User implements UserDetails {
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id +
-                ", enabled=" + enabled +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", age=" + age +
-                ", createdDate=" + createdDate +
-                ", address=" + address +
-                ", role=" + role +
-                '}';
+        return "User{" + "id=" + id + ", password='" + password + '\'' + ", enabled=" + enabled + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", email='" + email + '\'' + ", age=" + age + ", createdDate=" + createdDate + ", address=" + address + ", role=" + role + ", favoritePickles=" + favoritePickles + '}';
     }
 
     @Override
