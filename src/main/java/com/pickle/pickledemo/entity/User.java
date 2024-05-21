@@ -67,7 +67,8 @@ public class User implements UserDetails {
     private Role role;
 
     @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType. DETACH, CascadeType.REFRESH})
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+                    CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(
             name = "user_favorite_pickles",
             joinColumns = @JoinColumn(name = "user_id"),

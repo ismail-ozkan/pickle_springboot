@@ -5,7 +5,6 @@ import com.pickle.pickledemo.dto.UserDto;
 import com.pickle.pickledemo.entity.*;
 
 import java.util.List;
-import java.util.Set;
 
 public interface UserService {
 
@@ -32,7 +31,7 @@ public interface UserService {
 
     User validateSave(Register register);
 
-    Set<Pickle> favoritePickles(Integer userId);
+    List<Pickle> favoritePickles(Integer userId);
 
     Pickle addFavoritePickle(String token, PickleDto pickle);
 }

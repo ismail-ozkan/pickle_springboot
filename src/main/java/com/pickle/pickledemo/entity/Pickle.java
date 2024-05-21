@@ -44,14 +44,7 @@ public class Pickle {
     @Column(name = "seller_id")
     private Integer sellerId;
 
-
     @ManyToMany(mappedBy = "favoritePickles")
-//            (fetch = FetchType.LAZY,
-//    cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType. DETACH, CascadeType.REFRESH})
-//    @JoinTable(
-//            name = "user_favorite_pickles",
-//            joinColumns = @JoinColumn(name = "pickle_id"),
-//            inverseJoinColumns = @JoinColumn(name = "user_id"))
     @JsonBackReference
     private List<User> usersWhoFavorited;
 

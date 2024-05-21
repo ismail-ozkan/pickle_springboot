@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -95,17 +94,15 @@ public class UsersController {
     }
 
     // User favorites a pickle
-    @PostMapping("/users/favoritePickles")
+    @PutMapping("/users/favoritePickles")
     public ResponseEntity<String> addFavoritePickle(@RequestHeader("Authorization") String token, @RequestBody PickleDto pickle) {
         Pickle addFavoritePickle = userService.addFavoritePickle(token, pickle);
         return ResponseEntity.ok(addFavoritePickle.getName() + " is added to favorites");
     }
 
-
-
     // List of user favorite pickles
     @GetMapping("/users/favoritePickles")
-    public ResponseEntity<Set<Pickle>> getFavoritePickles(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<List<Pickle>> getFavoritePickles(@RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(userService.favoritePickles(jwtService.extractUserId(token)));
     }
 
