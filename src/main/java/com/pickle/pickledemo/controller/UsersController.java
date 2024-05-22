@@ -96,7 +96,11 @@ public class UsersController {
     // User favorites a pickle
     @PutMapping("/users/favoritePickles")
     public ResponseEntity<String> addFavoritePickle(@RequestHeader("Authorization") String token, @RequestBody PickleDto pickle) {
+
         Pickle addFavoritePickle = userService.addFavoritePickle(token, pickle);
+        if (addFavoritePickle==null) {
+            return ResponseEntity.badRequest().body("You already have added this pickle in your favorite list,!");
+        }
         return ResponseEntity.ok(addFavoritePickle.getName() + " is added to favorites");
     }
 

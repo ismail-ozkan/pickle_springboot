@@ -152,6 +152,9 @@ public class UserServiceImpl implements UserService {
         if (!user.getFavoritePickles().contains(pickle)) {
             user.getFavoritePickles().add(pickle);
             userRepository.save(user); // This will update the join table automatically
+        } else {
+            return null;
+            //throw new RuntimeException("You already have added " + pickle.getName() + " in your favorites.");
         }
 
         return pickle;
