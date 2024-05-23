@@ -1,7 +1,6 @@
 package com.pickle.pickledemo.pojos;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -9,14 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
-@Data
-@Builder
-@Entity
-@Table(name = "pickles")
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
+
 public class Pickle {
 
 

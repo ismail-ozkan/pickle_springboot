@@ -1,16 +1,10 @@
 package com.pickle.pickledemo.pojos;
 
-import lombok.*;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-import javax.persistence.*;
-@Data
-@Builder
-@Entity
-@Table(name = "addresses")
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 public class Address {
 
     @Id

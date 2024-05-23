@@ -11,7 +11,7 @@ public abstract class BaseTest {
 
     @BeforeAll
     public static void init() {
-        baseURI = Environment.getVariable("BaseURL");
+        baseURI = Environment.getVariable("baseURL");
     }
 
     @AfterEach

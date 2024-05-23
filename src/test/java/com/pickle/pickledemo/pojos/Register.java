@@ -3,14 +3,6 @@ package com.pickle.pickledemo.pojos;
 import lombok.*;
 
 import javax.persistence.*;
-@Data
-@Builder
-@Entity
-@Table(name = "register")
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 
 public class Register {
 

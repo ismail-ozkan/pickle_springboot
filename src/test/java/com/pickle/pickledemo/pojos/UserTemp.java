@@ -1,18 +1,12 @@
 package com.pickle.pickledemo.pojos;
 
-import lombok.*;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-@Data
-@Builder
-@Entity
-@Table(name = "user_temps")
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
+
 public class UserTemp {
 
     @Id
