@@ -1,5 +1,6 @@
 package com.pickle.pickledemo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -12,7 +13,9 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.util.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 @Data
 @Builder
@@ -22,6 +25,7 @@ import java.util.*;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class User implements UserDetails {
 
     @Id
@@ -74,6 +78,7 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "pickle_id"))
     @JsonManagedReference
+    @JsonIgnore
     private List<Pickle> favoritePickles;
 
     // authenticate request body
