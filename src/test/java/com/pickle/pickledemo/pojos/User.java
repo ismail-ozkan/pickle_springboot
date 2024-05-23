@@ -6,7 +6,6 @@ import lombok.*;
 import java.util.Date;
 import java.util.List;
 
-
 @Getter
 @Setter
 @ToString
@@ -15,26 +14,16 @@ import java.util.List;
 @AllArgsConstructor
 public class User {
 
-
+    @JsonIgnoreProperties
     private Integer id;
-
-    private String password = "pass12";
-
-
-    private boolean enabled = true;
-
-    private String firstName = "firstName";
-
-   private String lastName = "lastName";
-
+    private String password;
+    private Boolean enabled;
+    private String firstName;
+    private String lastName;
     private String email;
-
-    private int age = 30;
-
+    private Integer age;
     private Date createdDate;
-
     private Address address;
-
     private Role role;
 
     private List<Pickle> favoritePickles;
@@ -53,3 +42,4 @@ public class User {
     }
 
 }
+

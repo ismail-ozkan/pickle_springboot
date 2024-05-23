@@ -1,5 +1,6 @@
 package com.pickle.pickledemo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -74,6 +75,7 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "pickle_id"))
     @JsonManagedReference
+    @JsonIgnore
     private List<Pickle> favoritePickles;
 
     // authenticate request body
