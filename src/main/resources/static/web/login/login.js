@@ -4,12 +4,12 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     event.preventDefault(); // Prevent the form from submitting the traditional way
 
     // Get the form data
-    const username = document.getElementById('username').value;
+    const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
     // Prepare the request payload
     const payload = {
-        username: username,
+        email: email,
         password: password,
     };
 

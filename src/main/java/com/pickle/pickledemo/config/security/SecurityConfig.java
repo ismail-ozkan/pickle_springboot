@@ -27,6 +27,8 @@ public class SecurityConfig {
         http
                 .csrf()
                 .disable()
+                .cors()
+                .and()// Enable CORS
                 .authorizeHttpRequests()
                 .antMatchers(HttpMethod.POST, "/api/users/register").permitAll()
                 .antMatchers(HttpMethod.POST,  "/api/users/validate").permitAll()
