@@ -15,31 +15,40 @@ public class DemoTest extends BaseTest {
     @DisplayName("Demo Test1")
     public void testDemoTest1() {
 
-        UserLogin user1 = new UserLogin("admin@pickle.com","123456");
+        UserLogin user1 = new UserLogin("admin@pickle.com", "123456");
 
         given()
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
+                .contentType(ContentType.JSON).accept(ContentType.JSON)
                 .body(user1)
-        .when()
+                .when()
                 .post("/api/authenticate")
-        .then()
+                .then()
                 .statusCode(200)
                 .extract().response().prettyPrint();
 
     }
+
     @Test
     @DisplayName("Demo Test2")
     public void testDemoTest2() {
 
         given()
                 .spec(getSpec("Admin"))
-                .when()
+        .when()
                 .get("/api/users")
-                .then()
+        .then()
                 .statusCode(200)
                 .extract().response().prettyPrint();
 
+    }
+
+    @Test
+    @DisplayName("Admin User info with POJO")
+    public void testAdminUser() {
+        /*given()
+                .spec(getSpec("Admin"))
+        .when()
+                .get()*/
     }
 
 

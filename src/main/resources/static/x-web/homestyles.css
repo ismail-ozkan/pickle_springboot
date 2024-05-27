@@ -1,0 +1,210 @@
+/* Resetting default margins and paddings */
+body, h2, h3, ul, li, p {
+    margin: 0;
+    padding: 0;
+}
+
+/* Basic styles for layout */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
+header {
+    background-color: darkgreen;
+    padding: 20px;
+}
+
+nav ul {
+    list-style: none;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+main {
+    padding: 20px;
+}
+
+.login-container {
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccceee;
+}
+a {
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    font-size: 2em;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label, input, select {
+    color: darkblue;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #f2f2f2;
+}
+/*... (diğer stiller) ...*/
+
+.login-container {
+    width: 350px; /* Kutu genişliğini biraz artırdık */
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: white;
+    border-radius: 10px; /* Köşeleri oval hale getiriyoruz */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label,
+input,
+select {
+    margin-bottom: 15px; /* Biraz daha fazla boşluk */
+    padding: 10px; /* İçeriğin kenarlara olan uzaklığını artırdık */
+    border-radius: 8px; /* Input kutularının köşelerini oval yapıyoruz */
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 12px; /* Buton boyutunu biraz artırdık */
+    border-radius: 8px; /* Buton köşelerini oval yapıyoruz */
+}
+nav ul {
+    list-style: none;
+    text-align: center; /* Menüyü ortala */
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li {
+    text-decoration: none;
+    color: white;
+    padding: 8px 12px; /* Daha büyük butonlar */
+    border-radius: 5px;
+    transition: background-color 0.3s ease; /* Hover efekti için geçiş efekti eklendi */
+}
+
+nav ul li a:hover {
+    background-color: #145a32; /* Hover rengi */
+}
+
+header h1 {
+    background-color: #145a32; /* Koyu yeşil arka plan */
+    color: yellow; /* Beyaz yazı rengi */
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center; /* Yazıyı ortala */
+    font-size: 3em; /* Köşeleri yuvarla */
+}
+nav ul li a {
+    text-decoration: none;
+    color: yellowgreen;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    position: relative; /* Link içindeki içeriklerin pozisyonunu değiştirebilmek için */
+}
+
+nav ul li a:hover {
+    background-color: #145a32;
+}
+
+nav ul li a::before { /* Görsel alt çizgi oluşturmak için önceki (before) içerik */
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px; /* Alt çizgi kalınlığı */
+    bottom: 0;
+    left: 0;
+    background-color: transparent; /* Başlangıçta şeffaf */
+    transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover::before {
+    background-color: transparent; /* Hover durumunda alt çizgiyi kaldır */
+}
+
+.login-container {
+    width: 550px;
+    padding: 20px;
+    border: 1px solid darkgreen;
+    background-color: #f9f9f9; /* Arkaplan rengi */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Hafif gölge efekti */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label,
+input,
+select {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 12px;
+    border-radius: 8px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* special area for homepage list table part*/
+.custom-table {
+    border-collapse: collapse;
+    width: 50%;
+}
+.custom-table th, .custom-table td {
+    border: 1px solid darkgreen;
+    text-align: left;
+    padding: 8px;
+}
+.custom-table th {
+    background-color: #80a977;
+}
+
+.custom-tbody tr {
+    background-color: #94c532;
+    font-size: 24px;
+}

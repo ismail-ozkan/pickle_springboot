@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pickle Company</title>
+    <link rel="stylesheet" href="loginstyles.css">
+    <link rel="icon" href="favico/favicon-32x32.png" type="image/x-icon">
+</head>
+<body>
+<header>
+    <h1>Pickle Company</h1>
+    <nav>
+        <ul>
+            <li><a href="homepage.html">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <div class="login-container">
+        <form id="loginForm">
+            <h2>Login</h2>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br><br>
+            <label for="usertype">User Type:</label>
+            <select id="usertype" name="usertype">
+                <option value="admin">Admin</option>
+                <option value="customer">Customer</option>
+            </select><br><br>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2024 Pickle Company. All rights reserved.</p>
+</footer>
+</body>
+</html>
