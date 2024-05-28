@@ -81,23 +81,25 @@ public class User implements UserDetails {
     @JsonIgnore
     private List<Pickle> favoritePickles;
 
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id")
+    private Account account;
+
     // authenticate request body
     public User(String email, String password) {
         this.email = email;
         this.password = password;
     }
-
     // Admin add user in the system
+
     public User(String email, String password, Role role) {
         this.email = email;
         this.password = password;
         this.role = role;
     }
 
-    @Override
-    public String toString() {
-        return "User{" + "id=" + id + ", password='" + password + '\'' + ", enabled=" + enabled + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", email='" + email + '\'' + ", age=" + age + ", createdDate=" + createdDate + ", address=" + address + ", role=" + role + ", favoritePickles=" + favoritePickles + '}';
-    }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
