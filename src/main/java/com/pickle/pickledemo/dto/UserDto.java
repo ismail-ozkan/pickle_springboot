@@ -1,5 +1,6 @@
 package com.pickle.pickledemo.dto;
 
+import com.pickle.pickledemo.entity.Account;
 import com.pickle.pickledemo.entity.Address;
 import com.pickle.pickledemo.entity.Role;
 import lombok.*;
@@ -31,6 +32,8 @@ public class UserDto {
     private Date createdDate;
 
     private Address address;
+
+    private Account account;
 
     private Role role;
 

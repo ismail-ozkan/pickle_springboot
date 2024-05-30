@@ -1,5 +1,6 @@
 package com.pickle.pickledemo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -7,6 +8,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Builder
@@ -37,10 +40,16 @@ public class Account {
     @Column(name = "created_date", updatable = false)
     private Date createdDate;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "owner_user_id")
+    @NotNull(message = "is required")
+    private Integer ownerUserId;
 
+    @Column(name = "owner_user_email")
+    @NotNull(message = "is required")
+    private String ownerUserEmail;
 
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private Set<User> users = new HashSet<>();
 
 }

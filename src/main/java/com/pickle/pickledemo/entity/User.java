@@ -82,7 +82,7 @@ public class User implements UserDetails {
     private List<Pickle> favoritePickles;
 
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id")
     private Account account;
 

@@ -32,6 +32,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.POST,  "/api/users/validate").permitAll()
                 .antMatchers(HttpMethod.POST,  "/api/authenticate").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/users").hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/accounts").hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/pickle").hasAnyAuthority("ADMIN","SELLER")
                 .antMatchers(HttpMethod.GET, "/api/pickle/list").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/pickle").hasAnyAuthority("ADMIN","SELLER")
