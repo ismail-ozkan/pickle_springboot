@@ -1,12 +1,17 @@
 package com.pickle.pickledemo.controller;
 
 import com.pickle.pickledemo.dto.PickleCustomerDto;
+import com.pickle.pickledemo.entity.User;
 import com.pickle.pickledemo.service.impl.JwtService;
 import com.pickle.pickledemo.dto.PickleDto;
 import com.pickle.pickledemo.entity.Pickle;
 import com.pickle.pickledemo.service.PickleService;
+import io.jsonwebtoken.Jwt;
+import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,8 +48,8 @@ public class PickleController {
     }
 
     @PostMapping("/pickle")
-    public ResponseEntity<Pickle> createPickle(@RequestHeader("Authorization") String token, @RequestBody PickleDto pickleDto) {
-        pickleDto.setSellerId(jwtService.extractUserId(token));
+    public ResponseEntity<Pickle> createPickle(@AuthenticationPrincipal User user, @RequestBody PickleDto pickleDto) {
+        pickleDto.setSellerId((user.getId()));
         return ResponseEntity.ok(pickleService.save(pickleDto));
     }
 

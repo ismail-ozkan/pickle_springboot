@@ -2,6 +2,7 @@ package com.pickle.pickledemo.controller;
 
 import com.pickle.pickledemo.dto.EmailDto;
 import com.pickle.pickledemo.service.impl.EmailService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.InputStreamSource;
 import org.springframework.http.ResponseEntity;
@@ -12,15 +13,11 @@ import javax.mail.MessagingException;
 import java.io.IOException;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api")
 public class EmailController {
 
     private final EmailService emailService;
-
-
-    public EmailController(EmailService emailService) {
-        this.emailService = emailService;
-    }
 
     @GetMapping("/sendTestEmail")
     public void sendTestEmail() {
