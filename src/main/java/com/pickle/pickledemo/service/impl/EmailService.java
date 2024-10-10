@@ -4,6 +4,7 @@ import org.springframework.core.io.InputStreamSource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -26,6 +27,7 @@ public class EmailService {
         emailSender.send(message);
     }
 
+    @Async
     public void sendOtpMail(String to, Integer otp) {
         String subject = "Tek Kullanımlık Şifre (OTP)";
         String text = "Merhaba,\n\n"

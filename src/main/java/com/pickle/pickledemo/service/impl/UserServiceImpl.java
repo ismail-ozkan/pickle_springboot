@@ -13,6 +13,7 @@ import com.pickle.pickledemo.repository.UserRepository;
 import com.pickle.pickledemo.repository.UserTempRepository;
 import com.pickle.pickledemo.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,7 @@ public class UserServiceImpl implements UserService {
     private final JWTService jwtService;
     private final PickleRepository pickleRepository;
     private final PickleMapper pickleMapper;
+    private final TaskExecutor taskExecutor;
 
     @Override
     public List<User> findAll() {
@@ -115,7 +117,8 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userTempRepository.save(user);
         Integer otp = generateRandomNumber(4);
-        emailService.sendOtpMail(user.getEmail(), otp);
+        taskExecutor.execute(() -> emailService.sendOtpMail(user.getEmail(), otp));
+        //emailService.sendOtpMail(user.getEmail(), otp);
         Register register = new Register(otp, user.getEmail());
         return registerRepository.save(register);
     }
