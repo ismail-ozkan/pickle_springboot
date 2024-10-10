@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.pickle.pickledemo.config.CustomResponseEntity.ok;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api")
@@ -19,7 +21,7 @@ public class LoginController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<LoginResponseDto> login(@RequestBody User user) {
-        return ResponseEntity.ok(authenticationServiceImpl.authenticate(user));
+        return ok(authenticationServiceImpl.authenticate(user));
     }
 
 }

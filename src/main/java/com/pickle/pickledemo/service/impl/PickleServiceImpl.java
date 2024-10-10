@@ -19,7 +19,7 @@ public class PickleServiceImpl implements PickleService {
 
     private final PickleRepository pickleRepository;
     private final PickleMapper pickleMapper;
-    private final JwtService jwtService;
+    private final JWTService jwtService;
 
 
     @Override

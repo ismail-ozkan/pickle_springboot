@@ -17,7 +17,7 @@ public class AuthenticationServiceImpl {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
+    private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
 
     public LoginResponseDto register(UserTemp userTemp) {
@@ -26,10 +26,10 @@ public class AuthenticationServiceImpl {
                 .lastName(userTemp.getLastName())
                 .email(userTemp.getEmail())
                 .password(passwordEncoder.encode(userTemp.getPassword()))
-                .role(Role.EMPLOYEE)
+                .role(Role.ROLE_CUSTOMER)
                 .build();
         userRepository.save(user);
-        var jwtToken =jwtService.generateToken(user);
+        var jwtToken =jwtService.encode(user);
         return LoginResponseDto.builder()
                 .token(jwtToken)
                 .build();
@@ -41,7 +41,7 @@ public class AuthenticationServiceImpl {
         );
         var user = userRepository.findByEmail(userRq.getEmail())
                 .orElseThrow();
-        var jwtToken =jwtService.generateToken(user);
+        var jwtToken =jwtService.encode(user);
         return LoginResponseDto.builder()
                 .token(jwtToken)
                 .build();

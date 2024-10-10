@@ -1,6 +1,8 @@
 package com.pickle.pickledemo.exceptions;
 
-public abstract class ErrorResponse {
+import org.springframework.http.ResponseEntity;
+
+public class ErrorResponse {
 
     private int status;
     public String message;
@@ -27,8 +29,9 @@ public abstract class ErrorResponse {
         return message;
     }
 
-    public void setMessage(String message) {
+    public ResponseEntity<ErrorResponse> setMessage(String message) {
         this.message = message;
+        return null;
     }
 
     public long getTimeStamp() {

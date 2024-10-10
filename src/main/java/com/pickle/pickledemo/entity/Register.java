@@ -6,12 +6,8 @@ import javax.persistence.*;
 @Data
 @Builder
 @Entity
-@Table(name = "register")
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-
 public class Register {
 
     @Id

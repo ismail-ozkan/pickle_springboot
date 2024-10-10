@@ -1,8 +1,5 @@
 package com.pickle.pickledemo.entity;
 
 public enum Role {
-    ADMIN,
-    SELLER,
-    EMPLOYEE,
-    CUSTOMER;
+    ROLE_USER, ROLE_ADMIN, ROLE_SELLER, ROLE_CUSTOMER;
 }

@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
     private final UserTempMapper userTempMapper;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
-    private final JwtService jwtService;
+    private final JWTService jwtService;
     private final PickleRepository pickleRepository;
     private final PickleMapper pickleMapper;
 

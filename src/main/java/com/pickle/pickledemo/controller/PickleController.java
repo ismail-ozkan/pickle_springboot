@@ -2,19 +2,18 @@ package com.pickle.pickledemo.controller;
 
 import com.pickle.pickledemo.dto.PickleCustomerDto;
 import com.pickle.pickledemo.entity.User;
-import com.pickle.pickledemo.service.impl.JwtService;
 import com.pickle.pickledemo.dto.PickleDto;
 import com.pickle.pickledemo.entity.Pickle;
 import com.pickle.pickledemo.service.PickleService;
-import io.jsonwebtoken.Jwt;
-import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.pickle.pickledemo.config.CustomResponseEntity.ok;
 
 @RestController
 @RequestMapping("/api")
@@ -22,7 +21,6 @@ import java.util.List;
 public class PickleController {
 
     private final PickleService pickleService;
-    private final JwtService jwtService;
 
     @GetMapping("/pickle")
     public ResponseEntity<List<Pickle>> getPickles() {
@@ -48,6 +46,7 @@ public class PickleController {
     }
 
     @PostMapping("/pickle")
+    @PreAuthorize("hasAnyRole('ADMIN','SELLER')")
     public ResponseEntity<Pickle> createPickle(@AuthenticationPrincipal User user, @RequestBody PickleDto pickleDto) {
         pickleDto.setSellerId((user.getId()));
         return ResponseEntity.ok(pickleService.save(pickleDto));
@@ -65,7 +64,7 @@ public class PickleController {
     @DeleteMapping("/pickle/{pickleId}")
     public ResponseEntity<String> deleteUser(@PathVariable int pickleId) {
         pickleService.deleteById(pickleId);
-        return ResponseEntity.ok("Pickle with " + pickleId + " was deleted.");
+        return ok("Pickle with " + pickleId + " was deleted.");
     }
 
 

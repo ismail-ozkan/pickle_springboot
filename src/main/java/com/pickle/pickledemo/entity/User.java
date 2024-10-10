@@ -23,9 +23,6 @@ import java.util.List;
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-@ToString
 public class User implements UserDetails {
 
     @Id
@@ -81,16 +78,21 @@ public class User implements UserDetails {
     @JsonIgnore
     private List<Pickle> favoritePickles;
 
-    // authenticate request body
-    public User(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id")
+    private Account account;
+
 
     // Admin add user in the system
     public User(String email, String password, Role role) {
         this.email = email;
         this.password = password;
+        this.role = role;
+    }
+
+    public User(Integer id, String email, Role role) {
+        this.id = id;
+        this.email = email;
         this.role = role;
     }
 

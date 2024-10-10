@@ -8,11 +8,8 @@ import javax.validation.constraints.Pattern;
 @Data
 @Builder
 @Entity
-@Table(name = "user_temps")
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 public class UserTemp {
 
     @Id

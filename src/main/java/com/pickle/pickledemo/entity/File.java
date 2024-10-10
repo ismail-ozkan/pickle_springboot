@@ -8,11 +8,8 @@ import javax.validation.constraints.NotNull;
 @Data
 @Builder
 @Entity
-@Table(name = "files")
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 public class File {
 
     @Id
