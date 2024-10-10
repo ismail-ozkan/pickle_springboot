@@ -7,6 +7,8 @@ import org.springframework.data.repository.query.Param;
 
 public interface UserTempRepository extends JpaRepository<UserTemp, Integer> {
 
+    UserTemp findFirstByEmailOrderByIdDesc(String email);
+
     @Query(value = "select u from UserTemp u where u.email=:email")
     UserTemp findByEmail(@Param("email") String email);
 

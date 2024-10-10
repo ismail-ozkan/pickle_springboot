@@ -13,8 +13,10 @@ import com.pickle.pickledemo.repository.UserRepository;
 import com.pickle.pickledemo.repository.UserTempRepository;
 import com.pickle.pickledemo.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,13 +44,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(Integer id) {
-        Optional<User> result = userRepository.findById(id);
-        User user = null;
+        User user = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Didn't find users id - " + id));
+        /*User user = null;
         if (result.isPresent()) {
             user = result.get();
         } else {
-            throw new UserNotFoundException("Didn't find users id - " + id);
-        }
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Didn't find users id - " + id);
+//            throw new UserNotFoundException("Didn't find users id - " + id);
+        }*/
         user.setPassword("###");
         return user;
     }
@@ -59,14 +62,11 @@ public class UserServiceImpl implements UserService {
         return userMapper.convertToDto(userRepository.save(user));
     }
 
-    @Override
+    @Override//TODO test edilmedi
     public UserDto update(UserDto user) {
-        Optional<User> dbUser = userRepository.findById(user.getId());
-        if (!dbUser.isPresent()) {
-            throw new UserNotFoundException("Didn't find users id - " + user.getId());
-        }
-        updateUserData(dbUser.get(),user);
-        return userMapper.convertToDto(dbUser.get());
+        User dbUser = userRepository.findById(user.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Didn't find users id - " + user.getId()));
+        updateUserData(dbUser,user);
+        return userMapper.convertToDto(dbUser);
     }
 
     private void updateUserData(User dbUser, UserDto userDto) {
@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByEmail(String email) {
         Optional<User> byEmail = userRepository.findByEmail(email);
-        if (byEmail.isPresent()) {
+        if (!byEmail.isPresent()) {
             throw new UserNotFoundException("Didn't find users email - " + email);
         }
         return byEmail.get();
@@ -121,14 +121,14 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public User validateSave(Register register) {
-        Register dbRegister = registerRepository.findByEmail(register.getEmail());
+        Register dbRegister = registerRepository.findFirstByEmailOrderByIdDesc(register.getEmail());
         if (!register.getCode().equals(dbRegister.getCode())) {
             throw new RuntimeException("Registration is not valid - ");
         }
-        UserTemp userTemp = userTempRepository.findByEmail(dbRegister.getEmail());
+        UserTemp userTemp = userTempRepository.findFirstByEmailOrderByIdDesc(dbRegister.getEmail());
         User user = userMapper.convertToUserTemp(userTemp);
         // We give Customer role to the User as default
-        user.setRole(Role.CUSTOMER);
+        user.setRole(Role.ROLE_CUSTOMER);
         user.setId(0);
         return userRepository.save(user);
     }
@@ -144,7 +144,7 @@ public class UserServiceImpl implements UserService {
         Pickle pickle = pickleRepository.findById(pickleId)
                 .orElseThrow(() -> new RuntimeException("Pickle not found with id " + pickleId));
 
-        Integer userId = jwtService.extractUserId(token);
+        Integer userId = jwtService.decode(token).getId();
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with id " + userId));
 

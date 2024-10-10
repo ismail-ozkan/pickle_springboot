@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface RegisterRepository extends JpaRepository<Register, Integer> {
 
+    Register findFirstByEmailOrderByIdDesc(String email);
 
     @Query(value = "select r from Register r where r.email=:email")
     Register findByEmail(@Param("email") String email);

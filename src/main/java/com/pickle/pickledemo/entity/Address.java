@@ -3,7 +3,6 @@ package com.pickle.pickledemo.entity;
 import lombok.*;
 
 import javax.persistence.*;
-
 @Data
 @Builder
 @Entity
@@ -14,7 +13,7 @@ import javax.persistence.*;
 public class Address {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
     @Column(name = "id") // it's optional
     private int id;
     @Column(name = "city")
@@ -23,8 +22,8 @@ public class Address {
     private String fullAddress;
 
     //Use mappedBy attribute if the relationship is bidirectional.
-    //    @OneToOne(mappedBy = "address")
-    //    private Users user;
+//    @OneToOne(mappedBy = "address")
+//    private Users user;
 
     // I decided to use Lombok annotations here
 

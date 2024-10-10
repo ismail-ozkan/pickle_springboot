@@ -35,7 +35,7 @@ public class PickleServiceImpl implements PickleService {
     @Override
     public List<Pickle> findSellerPickle(String token, Integer sellerId) {
         if (sellerId == null) {
-            Integer userId = jwtService.extractUserId(token);
+            Integer userId = jwtService.decode(token).getId();
             return pickleRepository.findAll().stream().filter(p -> p.getSellerId().equals(userId)).collect(Collectors.toList());
         }
         return pickleRepository.findAll().stream().filter(p -> p.getSellerId().equals(sellerId)).collect(Collectors.toList());

@@ -1,8 +1,8 @@
 package com.pickle.pickledemo.controller;
 
 import com.pickle.pickledemo.dto.LoginResponseDto;
-import com.pickle.pickledemo.service.impl.AuthenticationServiceImpl;
 import com.pickle.pickledemo.entity.User;
+import com.pickle.pickledemo.service.impl.AuthenticationServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

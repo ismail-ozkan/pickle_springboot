@@ -3,7 +3,9 @@ package com.pickle.pickledemo.dto;
 import com.pickle.pickledemo.entity.Account;
 import com.pickle.pickledemo.entity.Address;
 import com.pickle.pickledemo.entity.Role;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Collection;
 import java.util.Date;

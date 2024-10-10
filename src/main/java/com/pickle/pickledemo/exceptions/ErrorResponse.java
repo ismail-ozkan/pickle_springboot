@@ -1,9 +1,13 @@
 package com.pickle.pickledemo.exceptions;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.http.ResponseEntity;
 
+@Getter
 public class ErrorResponse {
 
+    @Setter
     private int status;
     public String message;
     public long timeStamp;
@@ -17,25 +21,9 @@ public class ErrorResponse {
         this.timeStamp = timeStamp;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
     public ResponseEntity<ErrorResponse> setMessage(String message) {
         this.message = message;
         return null;
-    }
-
-    public long getTimeStamp() {
-        return timeStamp;
     }
 
     public void setTimeStamp(long timeStamp) {

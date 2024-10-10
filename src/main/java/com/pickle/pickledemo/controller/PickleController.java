@@ -1,9 +1,9 @@
 package com.pickle.pickledemo.controller;
 
 import com.pickle.pickledemo.dto.PickleCustomerDto;
-import com.pickle.pickledemo.entity.User;
 import com.pickle.pickledemo.dto.PickleDto;
 import com.pickle.pickledemo.entity.Pickle;
+import com.pickle.pickledemo.entity.User;
 import com.pickle.pickledemo.service.PickleService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +12,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static com.pickle.pickledemo.config.CustomResponseEntity.ok;
 
 @RestController
 @RequestMapping("/api")
@@ -64,7 +62,7 @@ public class PickleController {
     @DeleteMapping("/pickle/{pickleId}")
     public ResponseEntity<String> deleteUser(@PathVariable int pickleId) {
         pickleService.deleteById(pickleId);
-        return ok("Pickle with " + pickleId + " was deleted.");
+        return ResponseEntity.ok("Pickle with " + pickleId + " was deleted.");
     }
 
 
