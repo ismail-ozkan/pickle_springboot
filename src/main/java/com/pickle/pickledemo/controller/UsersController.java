@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -55,9 +57,10 @@ public class UsersController {
         return ok(userService.findById(userId));
     }
 
-    // bu method implemetasyonu değşimeli
-    // sisteme Seller Kaydetmede kullanılacak - belki sonra Employee ve Customer
+
+    // sisteme Seller Kaydetmede kullanılacak - Sadece admin erişebilir
     @PostMapping("/users")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UserDto> createUser(@Valid @RequestBody User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(new UserDto());
