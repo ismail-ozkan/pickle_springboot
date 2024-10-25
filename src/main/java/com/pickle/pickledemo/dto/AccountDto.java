@@ -17,6 +17,7 @@ public class AccountDto {
     private Date createdDate;
     private Integer ownerUserId;
     private String ownerUserEmail;
+    private String accountImageUrl;
 
     // Admin bir seller kullanıcı için account oluşturur
     public AccountDto(String title, String email, String ownerUserEmail) {

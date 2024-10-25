@@ -36,16 +36,16 @@ public class Account {
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_date", updatable = false)
+    @Column(updatable = false)
     private Date createdDate;
 
-    @Column(name = "owner_user_id")
     @NotNull(message = "is required")
     private Integer ownerUserId;
 
-    @Column(name = "owner_user_email")
     @NotNull(message = "is required")
     private String ownerUserEmail;
+
+    private String accountImageUrl;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonBackReference

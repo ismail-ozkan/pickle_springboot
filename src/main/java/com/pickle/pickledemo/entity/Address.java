@@ -8,17 +8,15 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
-    @Column(name = "id") // it's optional
+    //@Column(name = "id") // it's optional
     private int id;
-    @Column(name = "city")
+
     private String city;
-    @Column(name = "full_address")
+
     private String fullAddress;
 
     //Use mappedBy attribute if the relationship is bidirectional.
