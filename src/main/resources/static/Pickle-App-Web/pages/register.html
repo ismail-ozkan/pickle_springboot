@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Demo-Library-Course-App</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+</head>
+<body>
+<header>
+    <h1>Register</h1>
+    <nav id="nav-menu-container"></nav>
+</header>
+<main class="main-container">
+    <section class="form-container">
+        <form id="register-form">
+            <div class="form-group">
+                <label for="firstname">First Name:</label>
+                <input type="text" id="firstname" name="firstname" required>
+            </div>
+            <div class="form-group">
+                <label for="lastname">Last Name:</label>
+                <input type="text" id="lastname" name="lastname" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required minlength="6">
+            </div>
+
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password:</label>
+                <input type="password" id="confirm-password" name="confirm_password" required minlength="6">
+            </div>
+
+            <button type="submit">Register</button>
+        </form>
+
+        <!-- Popular Items Section -->
+        <div class="popular-items">
+            <h3>Populer Turşular</h3>
+            <ul>
+                <li>Salatalık</li>
+                <li>Lahana</li>
+                <li>Biber</li>
+                <li>Fasulye</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Image Section -->
+    <section class="image-container">
+        <img src="../images/register-image.jpg" alt="Welcome to the Course Library">
+    </section>
+</main>
+<footer id="footer-container"></footer>
+<script defer src="register.js"></script>
+<script src="../scripts/navigator.js" type="text/javascript"></script>
+<script src="../scripts/footer.js" type="text/javascript"></script>
+<script src="../scripts/register.js" type="text/javascript"></script>
+<script src="../scripts/config.js" type="text/javascript"></script>
+</body>
+</html>

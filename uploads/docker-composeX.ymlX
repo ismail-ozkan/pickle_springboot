@@ -1,0 +1,23 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:8.4.2-oraclelinux9
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: pickleapp
+    ports:
+      - "3306:3306"
+
+  app:
+    build:
+      context: ..
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/pickleapp
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    depends_on:
+      - mysql
+    ports:
+      - "8080:8080"
