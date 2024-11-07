@@ -43,10 +43,15 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
   @Bean
   CorsConfigurationSource corsConfigurationSource() {
     final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    CorsConfiguration corsConfiguration = new CorsConfiguration();//.applyPermitDefaultValues();
+    final CorsConfiguration corsConfiguration = new CorsConfiguration().applyPermitDefaultValues();
 
     // İzin verilen origin olarak Netlify URL'inizi ekleyin
-    corsConfiguration.setAllowedOriginPatterns(List.of("https://*.netlify.app"));
+    corsConfiguration.setAllowedOriginPatterns(List.of(
+            "*",
+            "https://*.netlify.app",
+            "http://*.netlify.app",
+            "https://pickle-web-app.netlify.app"
+    ));
 
     // İzin verilen HTTP metodları
     corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH"));
