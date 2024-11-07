@@ -14,6 +14,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.List;
+
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
@@ -41,9 +43,21 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
   @Bean
   CorsConfigurationSource corsConfigurationSource() {
     final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    CorsConfiguration corsConfiguration = new CorsConfiguration().applyPermitDefaultValues();
-    corsConfiguration.addAllowedMethod(HttpMethod.PATCH);
-    corsConfiguration.addAllowedMethod(HttpMethod.DELETE);
+    CorsConfiguration corsConfiguration = new CorsConfiguration();//.applyPermitDefaultValues();
+
+    // İzin verilen origin olarak Netlify URL'inizi ekleyin
+    corsConfiguration.setAllowedOriginPatterns(List.of("https://*.netlify.app"));
+
+    // İzin verilen HTTP metodları
+    corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH"));
+
+    // İzin verilen başlıklar
+    corsConfiguration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
+
+    // Kimlik bilgilerini (credentials) içerecek şekilde ayarlayın
+    corsConfiguration.setAllowCredentials(true);
+
+    // CORS yapılandırmasını endpointlere uygulayın
     source.registerCorsConfiguration("/**", corsConfiguration);
     return source;
   }

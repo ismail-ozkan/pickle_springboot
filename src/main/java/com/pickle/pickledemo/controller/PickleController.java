@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.pickle.pickledemo.config.CustomResponseEntity.ok;
+
 @RestController
 @RequestMapping("/api")
 @AllArgsConstructor
@@ -23,7 +25,7 @@ public class PickleController {
     @GetMapping("/pickle")
     public ResponseEntity<List<Pickle>> getPickles() {
         List<Pickle> pickleList = pickleService.findAll();
-        return ResponseEntity.ok(pickleList);
+        return ok(pickleList);
     }
 
     @GetMapping("/pickle/list")
