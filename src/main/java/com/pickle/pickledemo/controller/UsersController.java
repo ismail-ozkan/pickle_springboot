@@ -45,10 +45,14 @@ public class UsersController {
     }
 
     @GetMapping("/users")
-    //@PreAuthorize("hasAnyAuthority('ADMIN')")
-    public ResponseEntity<List<User>> getUsers() {
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<User>> getUsers(@AuthenticationPrincipal User user) {
         List<User> usersList = userService.findAll().stream().peek(p -> p.setPassword("####")).collect(Collectors.toList());
         return ok(usersList);
+    }
+    @GetMapping("/user")
+    public ResponseEntity<User> getUser(@AuthenticationPrincipal User user) {
+        return ok(userService.findById(user.getId()));
     }
 
     // @PathVariable should have the same name in the method signature
