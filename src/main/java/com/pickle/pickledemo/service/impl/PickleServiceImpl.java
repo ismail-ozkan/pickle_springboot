@@ -3,8 +3,10 @@ package com.pickle.pickledemo.service.impl;
 import com.pickle.pickledemo.dto.PickleCustomerDto;
 import com.pickle.pickledemo.dto.PickleDto;
 import com.pickle.pickledemo.entity.Pickle;
+import com.pickle.pickledemo.entity.Role;
 import com.pickle.pickledemo.mapper.PickleMapper;
 import com.pickle.pickledemo.repository.PickleRepository;
+import com.pickle.pickledemo.repository.UserRepository;
 import com.pickle.pickledemo.service.PickleService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ public class PickleServiceImpl implements PickleService {
     private final PickleRepository pickleRepository;
     private final PickleMapper pickleMapper;
     private final JWTService jwtService;
+    private final UserRepository userRepository;
 
 
     @Override
@@ -57,6 +60,18 @@ public class PickleServiceImpl implements PickleService {
 
     @Override
     public Pickle save(PickleDto pickleDto) {
+        pickleDto.setPrice((int) (pickleDto.getCost() * 1.2));
+        return pickleRepository.save(pickleMapper.convertToEntity(pickleDto));
+    }
+
+
+    @Override
+    public Pickle save(PickleDto pickleDto, Integer sellerId) {
+        if (userRepository.findById(sellerId).get().getRole().equals(Role.ROLE_ADMIN)) {
+            pickleDto.setSellerId(0);
+        } else {
+            pickleDto.setSellerId(sellerId);
+        }
         pickleDto.setPrice((int) (pickleDto.getCost() * 1.2));
         return pickleRepository.save(pickleMapper.convertToEntity(pickleDto));
     }

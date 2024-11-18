@@ -2,6 +2,7 @@ package com.pickle.pickledemo.service.impl;
 
 import com.pickle.pickledemo.dto.PickleDto;
 import com.pickle.pickledemo.dto.UserDto;
+import com.pickle.pickledemo.dto.responses.UserResponse;
 import com.pickle.pickledemo.entity.*;
 import com.pickle.pickledemo.exceptions.user.UserNotFoundException;
 import com.pickle.pickledemo.mapper.PickleMapper;
@@ -13,6 +14,7 @@ import com.pickle.pickledemo.repository.UserRepository;
 import com.pickle.pickledemo.repository.UserTempRepository;
 import com.pickle.pickledemo.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +24,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -37,38 +40,33 @@ public class UserServiceImpl implements UserService {
     private final JWTService jwtService;
     private final PickleRepository pickleRepository;
     private final PickleMapper pickleMapper;
+    @Qualifier("applicationTaskExecutor")
     private final TaskExecutor taskExecutor;
 
-    @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
+
+    public List<UserResponse> findAllUsers() {
+        return userRepository.findAll().stream()
+                .map(p -> userMapper.convertToResponse(p))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public User findById(Integer id) {
+    public UserResponse findById(Integer id) {
         User user = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Didn't find users id - " + id));
-        /*User user = null;
-        if (result.isPresent()) {
-            user = result.get();
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Didn't find users id - " + id);
-//            throw new UserNotFoundException("Didn't find users id - " + id);
-        }*/
-        user.setPassword("###");
-        return user;
+        return userMapper.convertToResponse(user);
     }
 
     @Override
-    public UserDto save(User user) {
+    public UserResponse save(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userMapper.convertToDto(userRepository.save(user));
+        return userMapper.convertToResponse(userRepository.save(user));
     }
 
     @Override//TODO test edilmedi
-    public UserDto update(UserDto user) {
+    public UserResponse update(UserDto user) {
         User dbUser = userRepository.findById(user.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Didn't find users id - " + user.getId()));
         updateUserData(dbUser,user);
-        return userMapper.convertToDto(dbUser);
+        return userMapper.convertToResponse(dbUser);
     }
 
     private void updateUserData(User dbUser, UserDto userDto) {
@@ -123,7 +121,7 @@ public class UserServiceImpl implements UserService {
         return registerRepository.save(register);
     }
     @Override
-    public User validateSave(Register register) {
+    public UserResponse validateSave(Register register) {
         Register dbRegister = registerRepository.findFirstByEmailOrderByIdDesc(register.getEmail());
         if (!register.getCode().equals(dbRegister.getCode())) {
             throw new RuntimeException("Registration is not valid - ");
@@ -133,7 +131,7 @@ public class UserServiceImpl implements UserService {
         // We give Customer role to the User as default
         user.setRole(Role.ROLE_CUSTOMER);
         user.setId(0);
-        return userRepository.save(user);
+        return userMapper.convertToResponse(userRepository.save(user));
     }
 
     @Override

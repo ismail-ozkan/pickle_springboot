@@ -2,20 +2,21 @@ package com.pickle.pickledemo.service;
 
 import com.pickle.pickledemo.dto.PickleDto;
 import com.pickle.pickledemo.dto.UserDto;
+import com.pickle.pickledemo.dto.responses.UserResponse;
 import com.pickle.pickledemo.entity.*;
 
 import java.util.List;
 
 public interface UserService {
 
-    List<User> findAll();
+    List<UserResponse> findAllUsers();
 
-    User findById(Integer id);
+    UserResponse findById(Integer id);
 
-    UserDto save(User users);
+    UserResponse save(User users);
 
     // dto-entity mapping first implementation
-    UserDto update(UserDto user);
+    UserResponse update(UserDto user);
 
     void deleteById(Integer id);
 
@@ -29,7 +30,7 @@ public interface UserService {
 
     Register saveTemp(UserTemp user);
 
-    User validateSave(Register register);
+    UserResponse validateSave(Register register);
 
     List<Pickle> favoritePickles(Integer userId);
 

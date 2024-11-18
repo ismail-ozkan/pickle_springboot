@@ -48,8 +48,7 @@ public class PickleController {
     @PostMapping("/pickle")
     @PreAuthorize("hasAnyRole('ADMIN','SELLER')")
     public ResponseEntity<Pickle> createPickle(@AuthenticationPrincipal User user, @RequestBody PickleDto pickleDto) {
-        pickleDto.setSellerId((user.getId()));
-        return ResponseEntity.ok(pickleService.save(pickleDto));
+        return ResponseEntity.ok(pickleService.save(pickleDto,user.getId()));
     }
 
     @PutMapping("/pickle")

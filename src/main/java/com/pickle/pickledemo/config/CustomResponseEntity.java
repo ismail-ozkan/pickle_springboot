@@ -21,4 +21,11 @@ public class CustomResponseEntity<T> {
         map.put("timestamp", System.currentTimeMillis());
         return new ResponseEntity<>((T)map,status);
     }
+    public static <T> ResponseEntity<T> fail(T responseObj) {
+        var map = new HashMap<String, Object>();
+        map.put("fail", false);
+        map.put("result", responseObj);
+        map.put("timestamp", System.currentTimeMillis());
+        return new ResponseEntity<>((T)map,HttpStatus.BAD_REQUEST);
+    }
 }

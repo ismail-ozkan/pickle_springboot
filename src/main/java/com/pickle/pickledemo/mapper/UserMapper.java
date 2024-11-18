@@ -1,6 +1,7 @@
 package com.pickle.pickledemo.mapper;
 
 import com.pickle.pickledemo.dto.UserDto;
+import com.pickle.pickledemo.dto.responses.UserResponse;
 import com.pickle.pickledemo.entity.User;
 import com.pickle.pickledemo.entity.UserTemp;
 import org.modelmapper.ModelMapper;
@@ -23,10 +24,10 @@ public class UserMapper {
         return mapper.map(userTemp,User.class);
     }
 
-    public UserDto convertToDto(User user) {
-
-        UserDto mapDto = mapper.map(user, UserDto.class);
-        mapDto.setPassword("###");
-        return mapDto;
+    public UserResponse convertToResponse(User user) {
+        return mapper.map(user, UserResponse.class);
+    }
+    public UserResponse convertToResponse(UserDto user) {
+        return mapper.map(user, UserResponse.class);
     }
 }

@@ -2,6 +2,7 @@ package com.pickle.pickledemo.controller;
 
 import com.pickle.pickledemo.dto.PickleDto;
 import com.pickle.pickledemo.dto.UserDto;
+import com.pickle.pickledemo.dto.responses.UserResponse;
 import com.pickle.pickledemo.entity.*;
 import com.pickle.pickledemo.service.UserService;
 import com.pickle.pickledemo.service.impl.JWTService;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.pickle.pickledemo.config.CustomResponseEntity.ok;
 
@@ -46,18 +46,18 @@ public class UsersController {
 
     @GetMapping("/users")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<User>> getUsers(@AuthenticationPrincipal User user) {
-        List<User> usersList = userService.findAll().stream().peek(p -> p.setPassword("####")).collect(Collectors.toList());
+    public ResponseEntity<List<UserResponse>> getUsers(@AuthenticationPrincipal User user) {
+        List<UserResponse> usersList = userService.findAllUsers();
         return ok(usersList);
     }
-    @GetMapping("/user")
-    public ResponseEntity<User> getUser(@AuthenticationPrincipal User user) {
+    @GetMapping("/users/self")
+    public ResponseEntity<UserResponse> getUser(@AuthenticationPrincipal User user) {
         return ok(userService.findById(user.getId()));
     }
 
     // @PathVariable should have the same name in the method signature
     @GetMapping("/users/{userId}")
-    public ResponseEntity<User> getUserById(@PathVariable int userId) {
+    public ResponseEntity<UserResponse> getUserById(@PathVariable int userId) {
         return ok(userService.findById(userId));
     }
 
@@ -65,17 +65,13 @@ public class UsersController {
     // sisteme Seller Kaydetmede kullanılacak - Sadece admin erişebilir
     @PostMapping("/users")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<UserDto> createUser(@Valid @RequestBody User user, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body(new UserDto());
-        } else {
-            user.setId(0);
-            return ok(userService.save(user));
-        }
+    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody User user, BindingResult bindingResult) {
+        user.setId(0);
+        return ok(userService.save(user));
     }
 
     @PutMapping("/users")
-    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto user) {
+    public ResponseEntity<UserResponse> updateUser(@RequestBody UserDto user) {
         return ok(userService.update(user));
     }
 
@@ -99,7 +95,7 @@ public class UsersController {
 
     //Register-2 user endpoint
     @PostMapping("/users/validate")
-    public ResponseEntity<User> validateUser(@RequestBody Register register) {
+    public ResponseEntity<UserResponse> validateUser(@RequestBody Register register) {
         return ok(userService.validateSave(register), HttpStatus.CREATED);
     }
 

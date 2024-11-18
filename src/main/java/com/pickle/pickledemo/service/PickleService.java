@@ -14,6 +14,7 @@ public interface PickleService {
     Pickle findById(int id);
 
     Pickle save(PickleDto pickleDto);
+    Pickle save(PickleDto pickleDto, Integer sellerId);
 
     void deleteById(int id);
     List<Pickle> findSellerPickle(String token, Integer sellerId);
