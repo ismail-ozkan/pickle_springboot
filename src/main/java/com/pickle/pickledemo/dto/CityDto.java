@@ -7,12 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddressDto {
+public class CityDto {
 
-    private int id;
-
-    private CityDto city;
-
-    private String fullAddress;
+    private String id;
+    private String name;
 
 }
