@@ -27,7 +27,6 @@ public interface UserService {
     // for security configuration
     User findByEmail(String userName);
 
-
     Register saveTemp(UserTemp user);
 
     UserResponse validateSave(Register register);
