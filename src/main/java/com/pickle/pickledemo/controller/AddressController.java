@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static com.pickle.pickledemo.config.CustomResponseEntity.ok;
+
 @RestController
 @RequestMapping("/api")
 @AllArgsConstructor
@@ -20,7 +22,7 @@ public class AddressController {
     @GetMapping("/cities")
     public ResponseEntity<List<CityDto>> cityList() {
 
-        return ResponseEntity.ok(getExternalCity.getExternalCityList());
+        return ok(getExternalCity.getExternalCityList());
     }
 
 }
