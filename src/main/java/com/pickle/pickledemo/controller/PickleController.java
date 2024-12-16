@@ -22,44 +22,55 @@ public class PickleController {
 
     private final PickleService pickleService;
 
+    // Admin list all pickles and Sellers lists only their pickles
     @GetMapping("/pickle")
-    public ResponseEntity<List<Pickle>> getPickles() {
-        List<Pickle> pickleList = pickleService.findAll();
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SELLER')")
+    public ResponseEntity<List<Pickle>> getPickles(@AuthenticationPrincipal User user) {
+        List<Pickle> pickleList = pickleService.findAll(user);
         return ok(pickleList);
     }
 
+    // Customers list all pickles
     @GetMapping("/pickle/list")
     public ResponseEntity<List<PickleCustomerDto>> getPicklesForCustomer() {
         List<PickleCustomerDto> pickleList = pickleService.findAllForCustomer();
         return ResponseEntity.ok(pickleList);
     }
-    @GetMapping("/pickle/SellerPickle/{sellerId}")
-    public ResponseEntity<List<Pickle>> getSellerPickles(@RequestHeader("Authorization") String token, @PathVariable(value = "sellerId", required = false) Integer sellerId) {
-        sellerId = sellerId == 0 ? null : sellerId;
-        return ResponseEntity.ok(pickleService.findSellerPickle(token,sellerId));
+
+    // Admin lists seller pickle
+    @GetMapping("/pickle/{sellerId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<List<Pickle>> getSellerPickles(@PathVariable(value = "sellerId", required = false) Integer sellerId) {
+        return ResponseEntity.ok(pickleService.findAllBySellerId(sellerId));
     }
 
     // @PathVariable should have the same name in the method signature
-    @GetMapping("/pickle/{pickleId}")
+    // Customers list a specific pickle
+    @GetMapping("/pickle/list/{pickleId}")
     public ResponseEntity<Pickle> getPicklesById(@PathVariable Integer pickleId) {
         return ResponseEntity.ok(pickleService.findById(pickleId));
     }
 
+    // Admin and Sellers create a new Pickle
     @PostMapping("/pickle")
-    @PreAuthorize("hasAnyRole('ADMIN','SELLER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SELLER')")
     public ResponseEntity<Pickle> createPickle(@AuthenticationPrincipal User user, @RequestBody PickleDto pickleDto) {
-        return ResponseEntity.ok(pickleService.save(pickleDto,user.getId()));
+        return ResponseEntity.ok(pickleService.save(pickleDto, user));
     }
 
+    // Admin and Sellers update Pickle
     @PutMapping("/pickle")
-    public ResponseEntity<Pickle> updateUser(@RequestBody PickleDto pickleDto) {
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SELLER')")
+    public ResponseEntity<Pickle> updateUser(@AuthenticationPrincipal User user, @RequestBody PickleDto pickleDto) {
         Pickle dbPickle = pickleService.findById(pickleDto.getId());
         if (dbPickle==null) {
             throw new RuntimeException("Id not found");
         }
-        return ResponseEntity.ok(pickleService.save(pickleDto));
+        return ResponseEntity.ok(pickleService.save(pickleDto, user));
     }
 
+    // Admin and Sellers delete Pickle
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SELLER')")
     @DeleteMapping("/pickle/{pickleId}")
     public ResponseEntity<String> deleteUser(@PathVariable int pickleId) {
         pickleService.deleteById(pickleId);

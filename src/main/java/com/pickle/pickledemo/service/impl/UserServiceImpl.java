@@ -58,6 +58,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse save(User user) {
+        // if a user is already registered with the same email address then throw exception
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            throw new RuntimeException("Email already registered");
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userMapper.convertToResponse(userRepository.save(user));
     }
@@ -112,6 +116,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Register saveTemp(UserTemp user) {
+        // if a user is already registered with the same email address then throw exception
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            throw new RuntimeException("Email already registered");
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userTempRepository.save(user);
         Integer otp = generateRandomNumber(4);
@@ -122,6 +130,10 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public UserResponse validateSave(Register register) {
+        // if a user is already registered with the same email address then throw exception
+        if (userRepository.findByEmail(register.getEmail()).isPresent()) {
+            throw new RuntimeException("Email already registered");
+        }
         Register dbRegister = registerRepository.findFirstByEmailOrderByIdDesc(register.getEmail());
         if (!register.getCode().equals(dbRegister.getCode())) {
             throw new RuntimeException("Registration is not valid - ");

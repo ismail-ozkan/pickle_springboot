@@ -2,15 +2,19 @@ package com.pickle.pickledemo.service.impl;
 
 import com.pickle.pickledemo.dto.PickleCustomerDto;
 import com.pickle.pickledemo.dto.PickleDto;
+import com.pickle.pickledemo.entity.Account;
 import com.pickle.pickledemo.entity.Pickle;
 import com.pickle.pickledemo.entity.Role;
+import com.pickle.pickledemo.entity.User;
 import com.pickle.pickledemo.mapper.PickleMapper;
+import com.pickle.pickledemo.repository.AccountRepository;
 import com.pickle.pickledemo.repository.PickleRepository;
 import com.pickle.pickledemo.repository.UserRepository;
 import com.pickle.pickledemo.service.PickleService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.Null;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,20 +27,34 @@ public class PickleServiceImpl implements PickleService {
     private final PickleMapper pickleMapper;
     private final JWTService jwtService;
     private final UserRepository userRepository;
+    private final AccountRepository accountRepository;
 
 
     @Override
-    public List<Pickle> findAll() {
-        return pickleRepository.findAll();
+    public List<Pickle> findAll(User user) {
+        if (user.getRole().equals(Role.ROLE_ADMIN)) {
+            return pickleRepository.findAll();
+        } else {
+            Integer accountId = accountRepository.findAccountByOwnerUserId(user.getId()).getId();
+            return pickleRepository.findAllBySellerId(accountId);
+        }
+    }
+
+    @Override
+    public List<Pickle> findAllBySellerId(Integer sellerId) {
+        return pickleRepository.findAllBySellerId(sellerId);
     }
 
     @Override
     public List<PickleCustomerDto> findAllForCustomer() {
-        return findAll().stream().map(p -> pickleMapper.convertToPickleForCustomerDto(p)).collect(Collectors.toList());
+        return pickleRepository.findAllByIsActive(true)
+                .stream()
+                .map(pickleMapper::convertToPickleForCustomerDto)
+                .collect(Collectors.toList());
     }
 
-    @Override
-    public List<Pickle> findSellerPickle(String token, Integer sellerId) {
+    /*@Override
+    public List<Pickle> findSellerPickle(Integer sellerId) {
         if (sellerId == null) {
             Integer userId = jwtService.decode(token).getId();
             return pickleRepository.findAll().stream().filter(p -> p.getSellerId().equals(userId)).collect(Collectors.toList());
@@ -44,7 +62,7 @@ public class PickleServiceImpl implements PickleService {
         return pickleRepository.findAll().stream().filter(p -> p.getSellerId().equals(sellerId)).collect(Collectors.toList());
 
 
-    }
+    }*/
 
     @Override
     public Pickle findById(int id) {
@@ -59,22 +77,26 @@ public class PickleServiceImpl implements PickleService {
     }
 
     @Override
-    public Pickle save(PickleDto pickleDto) {
-        pickleDto.setPrice((int) (pickleDto.getCost() * 1.2));
+    public Pickle save(PickleDto pickleDto, User user) {
+        if (user.getRole().equals(Role.ROLE_ADMIN)) {
+            pickleDto.setSellerId(pickleDto.getSellerId());
+        } else {
+            pickleDto.setSellerId(accountRepository.findAccountByOwnerUserId(user.getId()).getId());
+        } pickleDto.setPrice((int) (pickleDto.getCost() * 1.2));
         return pickleRepository.save(pickleMapper.convertToEntity(pickleDto));
     }
 
 
-    @Override
+    /*@Override
     public Pickle save(PickleDto pickleDto, Integer sellerId) {
         if (userRepository.findById(sellerId).get().getRole().equals(Role.ROLE_ADMIN)) {
-            pickleDto.setSellerId(0);
+            pickleDto.setSellerId(pickleDto.getSellerId());
         } else {
             pickleDto.setSellerId(sellerId);
         }
         pickleDto.setPrice((int) (pickleDto.getCost() * 1.2));
         return pickleRepository.save(pickleMapper.convertToEntity(pickleDto));
-    }
+    }*/
 
     @Override
     public void deleteById(int id) {
