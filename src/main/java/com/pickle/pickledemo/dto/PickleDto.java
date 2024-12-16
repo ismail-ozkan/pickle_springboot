@@ -1,8 +1,10 @@
 package com.pickle.pickledemo.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
 import java.util.Date;
 
@@ -22,6 +24,8 @@ public class PickleDto {
     private Integer cost = 0;
 
     private Date createdDate;
+
+    private Boolean isActive;
 
     public PickleDto(String name, Integer cost) {
         this.name = name;

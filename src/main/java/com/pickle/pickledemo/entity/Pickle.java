@@ -37,15 +37,12 @@ public class Pickle {
     @Column(updatable = false)
     private Date createdDate;
 
+    private Boolean isActive;
+
     private Integer sellerId;
 
     @ManyToMany(mappedBy = "favoritePickles")
     @JsonBackReference
     private List<User> usersWhoFavorited;
 
-
-    @Override
-    public String toString() {
-        return "Pickle{" + "id=" + id + ", name='" + name + '\'' + ", price=" + price + ", cost=" + cost + ", createdDate=" + createdDate + ", sellerId=" + sellerId + ", usersWhoFavorited=" + usersWhoFavorited + '}';
-    }
 }
