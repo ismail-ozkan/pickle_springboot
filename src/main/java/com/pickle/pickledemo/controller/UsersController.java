@@ -1,7 +1,7 @@
 package com.pickle.pickledemo.controller;
 
-import com.pickle.pickledemo.dto.PickleDto;
 import com.pickle.pickledemo.dto.UserDto;
+import com.pickle.pickledemo.dto.responses.UpdatePickleResponse;
 import com.pickle.pickledemo.dto.responses.UserResponse;
 import com.pickle.pickledemo.entity.*;
 import com.pickle.pickledemo.service.UserService;
@@ -100,20 +100,19 @@ public class UsersController {
     }
 
     // User favorites a pickle
-    @PutMapping("/users/favoritePickles")
-    public ResponseEntity<String> addFavoritePickle(@RequestHeader("Authorization") String token, @RequestBody PickleDto pickle) {
-
-        Pickle addFavoritePickle = userService.addFavoritePickle(token, pickle);
-        if (addFavoritePickle==null) {
+    @PutMapping("/users/favorites/pickles")
+    public ResponseEntity<UpdatePickleResponse> updateFavoritePickle(@AuthenticationPrincipal User user, @RequestParam Integer pickleId) {
+        /*if (addFavoritePickle==null) {
             return ResponseEntity.badRequest().body("You already have added this pickle in your favorite list,!");
-        }
-        return ok(addFavoritePickle.getName() + " is added to favorites");
+        }*/
+        //return ok(addFavoritePickle.getName() + " is added to favorites");
+        return ok(userService.updateFavoritePickle(user.getId(), pickleId));
     }
 
     // List of user favorite pickles
-    @GetMapping("/users/favoritePickles")
-    public ResponseEntity<List<Pickle>> getFavoritePickles(@RequestHeader("Authorization") String token) {
-        return ok(userService.favoritePickles(jwtService.decode(token).getId()));
+    @GetMapping("/users/favorites/pickles")
+    public ResponseEntity<List<Pickle>> getFavoritePickles(@AuthenticationPrincipal User user) {
+        return ok(userService.favoritePickles(user.getId()));
     }
 
 }
