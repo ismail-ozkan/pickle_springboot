@@ -74,7 +74,7 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "pickle_id"))
     @JsonManagedReference
-    @JsonIgnore
+   // @JsonIgnore
     private List<Pickle> favoritePickles;
 
     @ManyToOne(cascade = CascadeType.ALL)

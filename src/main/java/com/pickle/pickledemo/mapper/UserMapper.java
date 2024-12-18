@@ -27,6 +27,9 @@ public class UserMapper {
     public UserResponse convertToResponse(User user) {
         return mapper.map(user, UserResponse.class);
     }
+    public UserDto convertToDto(User user) {
+        return mapper.map(user, UserDto.class);
+    }
     public UserResponse convertToResponse(UserDto user) {
         return mapper.map(user, UserResponse.class);
     }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.lang.Nullable;
 
 import java.util.Date;
@@ -25,6 +26,7 @@ public class PickleDto {
 
     private Date createdDate;
 
+    @Value("true")
     private Boolean isActive;
 
     public PickleDto(String name, Integer cost) {

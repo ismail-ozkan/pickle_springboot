@@ -1,7 +1,7 @@
 package com.pickle.pickledemo.service.impl;
 
-import com.pickle.pickledemo.dto.PickleDto;
 import com.pickle.pickledemo.dto.UserDto;
+import com.pickle.pickledemo.dto.responses.UpdatePickleResponse;
 import com.pickle.pickledemo.dto.responses.UserResponse;
 import com.pickle.pickledemo.entity.*;
 import com.pickle.pickledemo.exceptions.user.UserNotFoundException;
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
 
     public List<UserResponse> findAllUsers() {
         return userRepository.findAll().stream()
-                .map(p -> userMapper.convertToResponse(p))
+                .map(userMapper::convertToResponse)
                 .collect(Collectors.toList());
     }
 
@@ -152,25 +152,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Pickle addFavoritePickle(String token, PickleDto pickleDto) {
-        Integer pickleId = pickleDto.getId();
+    public UpdatePickleResponse updateFavoritePickle(Integer userId, Integer pickleId) {
         Pickle pickle = pickleRepository.findById(pickleId)
                 .orElseThrow(() -> new RuntimeException("Pickle not found with id " + pickleId));
 
-        Integer userId = jwtService.decode(token).getId();
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found with id " + userId));
+        User user = userRepository.findById(userId).orElseThrow();
 
-        // Use the @ManyToMany relationship to handle the association
-        if (!user.getFavoritePickles().contains(pickle)) {
+        boolean isFavorite = user.getFavoritePickles().contains(pickle);
+        user.getFavoritePickles().removeIf(p -> p.getId().equals(pickleId));
+
+        if (!isFavorite) {
             user.getFavoritePickles().add(pickle);
-            userRepository.save(user); // This will update the join table automatically
-        } else {
-            return null;
-            //throw new RuntimeException("You already have added " + pickle.getName() + " in your favorites.");
         }
 
-        return pickle;
+        userRepository.save(user); // This will update the join table automatically
+        return new UpdatePickleResponse(!isFavorite, pickleId);
+
+
         /*Pickle pickle = pickleRepository.findById(pickleDto.getId())
                 .orElseThrow(() -> new RuntimeException("Pickle not found with id " + pickleDto.getId()));
 

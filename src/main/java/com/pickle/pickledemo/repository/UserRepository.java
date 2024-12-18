@@ -1,6 +1,7 @@
 package com.pickle.pickledemo.repository;
 
 import com.pickle.pickledemo.entity.Address;
+import com.pickle.pickledemo.entity.Pickle;
 import com.pickle.pickledemo.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,6 +22,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     Optional<User> findByEmail(String username);
 
+    // update a user favorite pickles with pickleId
+    @Query(value = "UPDATE User u SET u.favoritePickles = :pickles WHERE u.id = :userId", nativeQuery = true)
+    void updateFavoritePickles(@Param("userId") int userId, @Param("pickles") List<Pickle> pickles);
 
 }
 //@Query(value = "select u from User u where u.userName=:uName and u.enabled=true")
