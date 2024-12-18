@@ -73,7 +73,7 @@ public class User implements UserDetails {
             name = "user_favorite_pickles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "pickle_id"))
-    @JsonManagedReference
+    //@JsonManagedReference
    // @JsonIgnore
     private List<Pickle> favoritePickles;
 
@@ -93,6 +93,11 @@ public class User implements UserDetails {
         this.id = id;
         this.email = email;
         this.role = role;
+    }
+
+    public User(String password, String email) {
+        this.password = password;
+        this.email = email;
     }
 
     @Override

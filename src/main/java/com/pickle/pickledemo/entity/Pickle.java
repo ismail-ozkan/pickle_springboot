@@ -41,8 +41,13 @@ public class Pickle {
 
     private Integer sellerId;
 
-    @ManyToMany(mappedBy = "favoritePickles")
-    @JsonBackReference
-    private List<User> usersWhoFavorited;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id")
+    private File file;
+
+//    @ManyToMany(mappedBy = "favoritePickles")
+//    @JoinColumn(name = "user_id")
+//    @JsonBackReference
+//    private List<User> usersWhoFavorited;
 
 }

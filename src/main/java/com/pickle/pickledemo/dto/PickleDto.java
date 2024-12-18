@@ -1,6 +1,7 @@
 package com.pickle.pickledemo.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pickle.pickledemo.entity.File;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,8 +27,13 @@ public class PickleDto {
 
     private Date createdDate;
 
-    @Value("true")
-    private Boolean isActive;
+    // it should be true as default
+    @Value("${default.active:true}")
+    private Boolean isActive = true;
+
+    private Integer fileId;
+
+    private File file;;
 
     public PickleDto(String name, Integer cost) {
         this.name = name;

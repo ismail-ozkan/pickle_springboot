@@ -61,7 +61,7 @@ public class PickleController {
     // Admin and Sellers update Pickle
     @PutMapping("/pickle")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SELLER')")
-    public ResponseEntity<Pickle> updateUser(@AuthenticationPrincipal User user, @RequestBody PickleDto pickleDto) {
+    public ResponseEntity<Pickle> updatePickle(@AuthenticationPrincipal User user, @RequestBody PickleDto pickleDto) {
         Pickle dbPickle = pickleService.findById(pickleDto.getId());
         if (dbPickle==null) {
             throw new RuntimeException("Id not found");
@@ -72,7 +72,7 @@ public class PickleController {
     // Admin and Sellers delete Pickle
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SELLER')")
     @DeleteMapping("/pickle/{pickleId}")
-    public ResponseEntity<String> deleteUser(@PathVariable int pickleId) {
+    public ResponseEntity<String> deletePickle(@PathVariable int pickleId) {
         pickleService.deleteById(pickleId);
         return ResponseEntity.ok("Pickle with " + pickleId + " was deleted.");
     }

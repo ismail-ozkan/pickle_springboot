@@ -2,12 +2,10 @@ package com.pickle.pickledemo.service.impl;
 
 import com.pickle.pickledemo.dto.PickleCustomerDto;
 import com.pickle.pickledemo.dto.PickleDto;
-import com.pickle.pickledemo.entity.Account;
-import com.pickle.pickledemo.entity.Pickle;
-import com.pickle.pickledemo.entity.Role;
-import com.pickle.pickledemo.entity.User;
+import com.pickle.pickledemo.entity.*;
 import com.pickle.pickledemo.mapper.PickleMapper;
 import com.pickle.pickledemo.repository.AccountRepository;
+import com.pickle.pickledemo.repository.FileRepository;
 import com.pickle.pickledemo.repository.PickleRepository;
 import com.pickle.pickledemo.repository.UserRepository;
 import com.pickle.pickledemo.service.PickleService;
@@ -28,6 +26,7 @@ public class PickleServiceImpl implements PickleService {
     private final JWTService jwtService;
     private final UserRepository userRepository;
     private final AccountRepository accountRepository;
+    private final FileRepository fileRepository;
 
 
     @Override
@@ -82,21 +81,12 @@ public class PickleServiceImpl implements PickleService {
             pickleDto.setSellerId(pickleDto.getSellerId());
         } else {
             pickleDto.setSellerId(accountRepository.findAccountByOwnerUserId(user.getId()).getId());
-        } pickleDto.setPrice((int) (pickleDto.getCost() * 1.2));
-        return pickleRepository.save(pickleMapper.convertToEntity(pickleDto));
-    }
-
-
-    /*@Override
-    public Pickle save(PickleDto pickleDto, Integer sellerId) {
-        if (userRepository.findById(sellerId).get().getRole().equals(Role.ROLE_ADMIN)) {
-            pickleDto.setSellerId(pickleDto.getSellerId());
-        } else {
-            pickleDto.setSellerId(sellerId);
         }
         pickleDto.setPrice((int) (pickleDto.getCost() * 1.2));
+        File file = fileRepository.findById(pickleDto.getFileId()).orElseThrow();
+        pickleDto.setFile(file);
         return pickleRepository.save(pickleMapper.convertToEntity(pickleDto));
-    }*/
+    }
 
     @Override
     public void deleteById(int id) {

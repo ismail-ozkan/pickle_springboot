@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Service
 @AllArgsConstructor
@@ -19,11 +21,15 @@ public class FileService {
     private final Path rootLocation = Paths.get("uploads");
 
     public File storeFile(MultipartFile file) throws IOException {
-        Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
+
         File fileEntity = new File();
-        fileEntity.setFileName(file.getOriginalFilename());
+        long timestamp = System.currentTimeMillis();
+        fileEntity.setFileName(timestamp+file.getOriginalFilename());
         fileEntity.setFileType(file.getContentType());
-        fileEntity.setFilePath(this.rootLocation.resolve(file.getOriginalFilename()).toString());
+        fileEntity.setFilePath(this.rootLocation.resolve(timestamp+file.getOriginalFilename()).toString());
+
+        Files.copy(file.getInputStream(), this.rootLocation.resolve(timestamp+file.getOriginalFilename()));
+
         return fileRepository.save(fileEntity);
     }
 
