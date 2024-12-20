@@ -22,6 +22,8 @@ public interface PickleService {
 
     void deleteById(int id);
 
+    Pickle updatePickle(PickleDto pickleDto);
+
     //List<Pickle> findSellerPickle(String token, Integer sellerId);
 
 }

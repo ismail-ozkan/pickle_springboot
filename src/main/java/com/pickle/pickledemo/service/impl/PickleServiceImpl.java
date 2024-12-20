@@ -92,4 +92,25 @@ public class PickleServiceImpl implements PickleService {
     public void deleteById(int id) {
         pickleRepository.deleteById(id);
     }
+
+    @Override
+    public Pickle updatePickle(PickleDto pickleDto) {
+        // Find the existing pickle by its ID
+        Pickle dbPickle = pickleRepository.findById(pickleDto.getId()).orElseThrow();
+
+        // Update fields conditionally
+        Optional.ofNullable(pickleDto.getName()).ifPresent(dbPickle::setName);
+        Optional.ofNullable(pickleDto.getCost()).ifPresent(cost -> {
+            dbPickle.setCost(cost);
+            dbPickle.setPrice((int) (cost * 1.2));  // Update price if cost is updated
+        });
+        Optional.ofNullable(pickleDto.getIsActive()).ifPresent(dbPickle::setIsActive);
+
+        // If fileId is present, update file reference
+        Optional.ofNullable(pickleDto.getFileId())
+                .ifPresent(fileId -> dbPickle.setFile(fileRepository.findById(fileId).orElseThrow()));
+
+        // Save and return the updated pickle
+        return pickleRepository.save(dbPickle);
+    }
 }

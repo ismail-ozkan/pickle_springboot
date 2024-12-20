@@ -23,7 +23,7 @@ public class PickleDto {
 
     private Integer sellerId;
 
-    private Integer cost = 0;
+    private Integer cost;
 
     private Date createdDate;
 

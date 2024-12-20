@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.pickle.pickledemo.config.CustomResponseEntity.ok;
+
 @RestController
 @RequestMapping("/api")
 @AllArgsConstructor
@@ -20,13 +22,13 @@ public class AccountController {
     @GetMapping("/accounts")
     public ResponseEntity<List<Account>> getAccounts() {
         List<Account> accountsList = accountService.findAll();
-        return ResponseEntity.ok(accountsList);
+        return ok(accountsList);
     }
 
     // Admin bir seller kullanıcı için account oluşturur
     @PostMapping("/accounts")
     public ResponseEntity<AccountDto> createAccount(@RequestBody Account account) {
-        return ResponseEntity.ok(accountService.save(account));
+        return ok(accountService.save(account));
     }
 
 }
