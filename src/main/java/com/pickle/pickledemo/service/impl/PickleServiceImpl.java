@@ -11,6 +11,7 @@ import com.pickle.pickledemo.repository.UserRepository;
 import com.pickle.pickledemo.service.PickleService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.Null;
 import java.util.List;
@@ -76,6 +77,7 @@ public class PickleServiceImpl implements PickleService {
     }
 
     @Override
+    @Transactional
     public Pickle save(PickleDto pickleDto, User user) {
         if (user.getRole().equals(Role.ROLE_ADMIN)) {
             pickleDto.setSellerId(pickleDto.getSellerId());
@@ -89,11 +91,13 @@ public class PickleServiceImpl implements PickleService {
     }
 
     @Override
+    @Transactional
     public void deleteById(int id) {
         pickleRepository.deleteById(id);
     }
 
     @Override
+    @Transactional
     public Pickle updatePickle(PickleDto pickleDto) {
         // Find the existing pickle by its ID
         Pickle dbPickle = pickleRepository.findById(pickleDto.getId()).orElseThrow();

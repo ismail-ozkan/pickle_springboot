@@ -32,6 +32,9 @@ public class Pickle {
 
     private Integer cost;
 
+    //TODO: enum olarak pickleType eklenecek, çeşidine göre fiyatı otomatik belirlenecek. Örneğin typelar 1, 2, 3, 5 kg. Turşu eklenirken type bilgisi verilecek ve 1 kg lıkda cost * 1.5 olacak price, 5 likte 1.2
+    //private ENUM pickleType;
+
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(updatable = false)
