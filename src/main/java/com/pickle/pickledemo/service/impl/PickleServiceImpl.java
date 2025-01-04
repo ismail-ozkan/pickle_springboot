@@ -2,17 +2,18 @@ package com.pickle.pickledemo.service.impl;
 
 import com.pickle.pickledemo.dto.PickleCustomerDto;
 import com.pickle.pickledemo.dto.PickleDto;
-import com.pickle.pickledemo.entity.*;
+import com.pickle.pickledemo.entity.File;
+import com.pickle.pickledemo.entity.Pickle;
+import com.pickle.pickledemo.entity.Role;
+import com.pickle.pickledemo.entity.User;
 import com.pickle.pickledemo.mapper.PickleMapper;
 import com.pickle.pickledemo.repository.AccountRepository;
 import com.pickle.pickledemo.repository.FileRepository;
 import com.pickle.pickledemo.repository.PickleRepository;
-import com.pickle.pickledemo.repository.UserRepository;
 import com.pickle.pickledemo.service.PickleService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.Null;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,8 +24,6 @@ public class PickleServiceImpl implements PickleService {
 
     private final PickleRepository pickleRepository;
     private final PickleMapper pickleMapper;
-    private final JWTService jwtService;
-    private final UserRepository userRepository;
     private final AccountRepository accountRepository;
     private final FileRepository fileRepository;
 

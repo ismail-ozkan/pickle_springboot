@@ -19,7 +19,6 @@ public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
-    private final JWTService jwtService;
     private final UserService userService;
 
 

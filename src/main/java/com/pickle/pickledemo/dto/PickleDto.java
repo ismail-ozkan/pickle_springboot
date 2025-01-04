@@ -1,12 +1,10 @@
 package com.pickle.pickledemo.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pickle.pickledemo.entity.File;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.lang.Nullable;
 
 import java.util.Date;
 

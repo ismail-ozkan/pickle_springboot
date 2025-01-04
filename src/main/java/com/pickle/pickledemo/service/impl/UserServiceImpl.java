@@ -5,9 +5,7 @@ import com.pickle.pickledemo.dto.responses.UpdatePickleResponse;
 import com.pickle.pickledemo.dto.responses.UserResponse;
 import com.pickle.pickledemo.entity.*;
 import com.pickle.pickledemo.exceptions.user.UserNotFoundException;
-import com.pickle.pickledemo.mapper.PickleMapper;
 import com.pickle.pickledemo.mapper.UserMapper;
-import com.pickle.pickledemo.mapper.UserTempMapper;
 import com.pickle.pickledemo.repository.PickleRepository;
 import com.pickle.pickledemo.repository.RegisterRepository;
 import com.pickle.pickledemo.repository.UserRepository;
@@ -34,25 +32,23 @@ public class UserServiceImpl implements UserService {
     private final UserTempRepository userTempRepository;
     private final RegisterRepository registerRepository;
     private final UserMapper userMapper;
-    private final UserTempMapper userTempMapper;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
-    private final JWTService jwtService;
     private final PickleRepository pickleRepository;
-    private final PickleMapper pickleMapper;
     @Qualifier("applicationTaskExecutor")
     private final TaskExecutor taskExecutor;
 
 
     public List<UserResponse> findAllUsers() {
-        return userRepository.findAll().stream()
+        return userRepository.findAllWithAccount().stream()
                 .map(userMapper::convertToResponse)
                 .collect(Collectors.toList());
     }
 
     @Override
     public UserResponse findById(Integer id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Didn't find users id - " + id));
+        User user = userRepository.findByIdWithAccount(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Didn't find users id - " + id));
         return userMapper.convertToResponse(user);
     }
 

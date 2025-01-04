@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 
 @Service
@@ -29,6 +27,10 @@ public class FileService {
 
         // Extract the file's original name and extension
         String originalFilename = file.getOriginalFilename();
+        if (originalFilename == null) {
+            throw new RuntimeException("File name cannot be null");
+        }
+        
         String fileExtension = "";
         String fileNameWithoutExtension = originalFilename;
 

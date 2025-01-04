@@ -1,7 +1,7 @@
 package com.pickle.pickledemo.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,6 +26,10 @@ import java.util.List;
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class User implements UserDetails {
 
     @Id
@@ -34,24 +38,29 @@ public class User implements UserDetails {
 
     @Column(length = 68, nullable = false)
     @NotNull(message = "is required")
+    @Builder.Default
     private String password = "pass12";
 
     @Column(name = "enabled", nullable = false)
+    @Builder.Default
     private boolean enabled = true;
 
     @NotNull(message = "is required")
+    @Builder.Default
     private String firstName = "firstName";
 
     @NotNull(message = "is required")
+    @Builder.Default
     private String lastName = "lastName";
 
     @NotNull(message = "is required")
-    //@Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\\\.[A-Z|a-z]{2,}$", message = "must be a valid email address")
     @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$", message = "must be a valid email address")
+    @Builder.Default
     private String email = "email@example.com";
 
     @Min(value = 1, message = "age must be greater than 1")
     @Max(value = 150, message = "age must be less than 150")
+    @Builder.Default
     private int age = 30;
 
     @CreationTimestamp
@@ -77,7 +86,7 @@ public class User implements UserDetails {
    // @JsonIgnore
     private List<Pickle> favoritePickles;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "account_id")
     private Account account;
 

@@ -26,6 +26,12 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(value = "UPDATE User u SET u.favoritePickles = :pickles WHERE u.id = :userId", nativeQuery = true)
     void updateFavoritePickles(@Param("userId") int userId, @Param("pickles") List<Pickle> pickles);
 
+    @Query("SELECT u FROM User u LEFT JOIN FETCH u.account WHERE u.id = :id")
+    Optional<User> findByIdWithAccount(@Param("id") Integer id);
+
+    @Query("SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.account")
+    List<User> findAllWithAccount();
+
 }
 //@Query(value = "select u from User u where u.userName=:uName and u.enabled=true")
 //User findByUserName(@Param("uName") String uName);

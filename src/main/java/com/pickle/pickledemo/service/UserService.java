@@ -1,6 +1,5 @@
 package com.pickle.pickledemo.service;
 
-import com.pickle.pickledemo.dto.PickleDto;
 import com.pickle.pickledemo.dto.UserDto;
 import com.pickle.pickledemo.dto.responses.UpdatePickleResponse;
 import com.pickle.pickledemo.dto.responses.UserResponse;

@@ -1,11 +1,11 @@
 package com.pickle.pickledemo.controller;
 
+import com.pickle.pickledemo.config.ApiResponse;
 import com.pickle.pickledemo.dto.UserDto;
 import com.pickle.pickledemo.dto.responses.UpdatePickleResponse;
 import com.pickle.pickledemo.dto.responses.UserResponse;
 import com.pickle.pickledemo.entity.*;
 import com.pickle.pickledemo.service.UserService;
-import com.pickle.pickledemo.service.impl.JWTService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.HttpStatus;
@@ -20,15 +20,12 @@ import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 import java.util.List;
 
-import static com.pickle.pickledemo.config.CustomResponseEntity.ok;
-
 @RestController
 @RequestMapping("/api")
 @AllArgsConstructor
 public class UsersController {
 
     private final UserService userService;
-    private final JWTService jwtService;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -36,83 +33,68 @@ public class UsersController {
         binder.registerCustomEditor(String.class, stringTrimmerEditor);
     }
 
-
-    // define @PostConstruct to load the users data ... only once!! like static methods, we can think
-    // Veritabanı bağlantısının başlatılması, Cache'in başlatılması, Gerekli başlangıç ayarlarının yapılması:, Servislerin başlatılması gibi işlemler için kullanılabilir
     @PostConstruct
     public void initializeSomething() {
-        // we can create static data to load db first. But I use spring.jpa.hibernate.ddl-auto=update, so I have already some data
     }
 
     @GetMapping("/users")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<UserResponse>> getUsers(@AuthenticationPrincipal User user) {
+    public ResponseEntity<ApiResponse<List<UserResponse>>> getUsers(@AuthenticationPrincipal User user) {
         List<UserResponse> usersList = userService.findAllUsers();
-        return ok(usersList);
+        return ApiResponse.success(usersList, "Users retrieved successfully");
     }
+
     @GetMapping("/users/self")
-    public ResponseEntity<UserResponse> getUser(@AuthenticationPrincipal User user) {
-        return ok(userService.findById(user.getId()));
+    public ResponseEntity<ApiResponse<UserResponse>> getUser(@AuthenticationPrincipal User user) {
+        return ApiResponse.success(userService.findById(user.getId()), "User retrieved successfully");
     }
 
-    // @PathVariable should have the same name in the method signature
     @GetMapping("/users/{userId}")
-    public ResponseEntity<UserResponse> getUserById(@PathVariable int userId) {
-        return ok(userService.findById(userId));
+    public ResponseEntity<ApiResponse<UserResponse>> getUserById(@PathVariable int userId) {
+        return ApiResponse.success(userService.findById(userId), "User retrieved successfully");
     }
 
-
-    // sisteme Seller Kaydetmede kullanılacak - Sadece admin erişebilir
     @PostMapping("/users")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody User user, BindingResult bindingResult) {
+    public ResponseEntity<ApiResponse<UserResponse>> createUser(@Valid @RequestBody User user, BindingResult bindingResult) {
         user.setId(0);
-        return ok(userService.save(user));
+        return ApiResponse.success(userService.save(user), "User created successfully", HttpStatus.CREATED);
     }
 
     @PutMapping("/users")
-    public ResponseEntity<UserResponse> updateUser(@RequestBody UserDto user) {
-        return ok(userService.update(user));
+    public ResponseEntity<ApiResponse<UserResponse>> updateUser(@RequestBody UserDto user) {
+        return ApiResponse.success(userService.update(user), "User updated successfully");
     }
 
     @DeleteMapping("/users/{userId}")
-    public ResponseEntity<String> deleteUser(@PathVariable int userId) {
+    public ResponseEntity<ApiResponse<String>> deleteUser(@PathVariable int userId) {
         userService.deleteById(userId);
-        return ok("User with ID " + userId + " was deleted.");
+        return ApiResponse.success("User deleted successfully", "User with ID " + userId + " was deleted");
     }
 
     @GetMapping({"/users/address/{userId}"})
-    public ResponseEntity<Address> getUserAddress(@PathVariable int userId) {
-        return ok(userService.getAddressById(userId));
+    public ResponseEntity<ApiResponse<Address>> getUserAddress(@PathVariable int userId) {
+        return ApiResponse.success(userService.getAddressById(userId), "User address retrieved successfully");
     }
 
-    //Register user endpoint
     @PostMapping("/users/register")
-    public ResponseEntity<Register> registerUser(@RequestBody UserTemp userTemp) {
+    public ResponseEntity<ApiResponse<Register>> registerUser(@RequestBody UserTemp userTemp) {
         Register register = userService.saveTemp(userTemp);
-        return ok(register);
+        return ApiResponse.success(register, "User registration initiated successfully");
     }
 
-    //Register-2 user endpoint
     @PostMapping("/users/validate")
-    public ResponseEntity<UserResponse> validateUser(@RequestBody Register register) {
-        return ok(userService.validateSave(register), HttpStatus.CREATED);
+    public ResponseEntity<ApiResponse<UserResponse>> validateUser(@RequestBody Register register) {
+        return ApiResponse.success(userService.validateSave(register), "User validated successfully", HttpStatus.CREATED);
     }
 
-    // User favorites a pickle
     @PutMapping("/users/favorites/pickles")
-    public ResponseEntity<UpdatePickleResponse> updateFavoritePickle(@AuthenticationPrincipal User user, @RequestParam Integer pickleId) {
-        /*if (addFavoritePickle==null) {
-            return ResponseEntity.badRequest().body("You already have added this pickle in your favorite list,!");
-        }*/
-        //return ok(addFavoritePickle.getName() + " is added to favorites");
-        return ok(userService.updateFavoritePickle(user.getId(), pickleId));
+    public ResponseEntity<ApiResponse<UpdatePickleResponse>> updateFavoritePickle(@AuthenticationPrincipal User user, @RequestParam Integer pickleId) {
+        return ApiResponse.success(userService.updateFavoritePickle(user.getId(), pickleId), "Favorite pickle updated successfully");
     }
 
-    // List of user favorite pickles
     @GetMapping("/users/favorites/pickles")
-    public ResponseEntity<List<Pickle>> getFavoritePickles(@AuthenticationPrincipal User user) {
-        return ok(userService.favoritePickles(user.getId()));
+    public ResponseEntity<ApiResponse<List<Pickle>>> getFavoritePickles(@AuthenticationPrincipal User user) {
+        return ApiResponse.success(userService.favoritePickles(user.getId()), "Favorite pickles retrieved successfully");
     }
-
 }

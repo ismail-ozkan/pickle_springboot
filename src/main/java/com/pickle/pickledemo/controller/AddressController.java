@@ -1,5 +1,6 @@
 package com.pickle.pickledemo.controller;
 
+import com.pickle.pickledemo.config.ApiResponse;
 import com.pickle.pickledemo.dto.CityDto;
 import com.pickle.pickledemo.external_api.GetExternalCity;
 import lombok.AllArgsConstructor;
@@ -10,8 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static com.pickle.pickledemo.config.CustomResponseEntity.ok;
-
 @RestController
 @RequestMapping("/api")
 @AllArgsConstructor
@@ -20,9 +19,7 @@ public class AddressController {
     private final GetExternalCity getExternalCity;
 
     @GetMapping("/cities")
-    public ResponseEntity<List<CityDto>> cityList() {
-
-        return ok(getExternalCity.getExternalCityList());
+    public ResponseEntity<ApiResponse<List<CityDto>>> cityList() {
+        return ApiResponse.success(getExternalCity.getExternalCityList(), "Cities retrieved successfully");
     }
-
 }

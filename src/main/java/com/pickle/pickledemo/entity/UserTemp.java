@@ -21,12 +21,15 @@ public class UserTemp {
 
     @Column(length = 68, nullable = false)
     @NotNull(message = "is required")
+    @Builder.Default
     private String password = "pass12";
 
     @NotNull(message = "is required")
+    @Builder.Default
     private String firstName = "firstName";
 
     @NotNull(message = "is required")
+    @Builder.Default
     private String lastName = "lastName";
 
     @NotNull(message = "is required")

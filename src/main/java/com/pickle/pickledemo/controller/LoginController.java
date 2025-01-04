@@ -1,5 +1,6 @@
 package com.pickle.pickledemo.controller;
 
+import com.pickle.pickledemo.config.ApiResponse;
 import com.pickle.pickledemo.dto.LoginResponseDto;
 import com.pickle.pickledemo.entity.User;
 import com.pickle.pickledemo.service.impl.AuthenticationServiceImpl;
@@ -10,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.pickle.pickledemo.config.CustomResponseEntity.ok;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api")
@@ -20,8 +19,8 @@ public class LoginController {
     private final AuthenticationServiceImpl authenticationServiceImpl;
 
     @PostMapping("/authenticate")
-    public ResponseEntity<LoginResponseDto> login(@RequestBody User user) {
-        return ok(authenticationServiceImpl.authenticate(user));
+    public ResponseEntity<ApiResponse<LoginResponseDto>> login(@RequestBody User user) {
+        LoginResponseDto response = authenticationServiceImpl.authenticate(user);
+        return ApiResponse.success(response, "Login successful");
     }
-
 }

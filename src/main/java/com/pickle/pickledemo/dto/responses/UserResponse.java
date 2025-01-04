@@ -1,6 +1,6 @@
 package com.pickle.pickledemo.dto.responses;
 
-import com.pickle.pickledemo.entity.Account;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.pickle.pickledemo.entity.Address;
 import com.pickle.pickledemo.entity.Pickle;
 import com.pickle.pickledemo.entity.Role;
@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -33,7 +32,8 @@ public class UserResponse {
 
     private Address address;
 
-    private Account account;
+    @JsonIgnoreProperties("users")
+    private AccountResponse account;
 
     private Role role;
 

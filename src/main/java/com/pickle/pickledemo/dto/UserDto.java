@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -78,11 +77,6 @@ public class UserDto {
         this.address = address;
     }
 
-    //For registration
-    public UserDto(int id, Collection<Role> roles) {
-        this.id = id;
-        this.role = role;
-    }
 
     public UserDto( String password, String firstName, String lastName, String email) {
         this.password = password;
