@@ -34,4 +34,6 @@ public interface UserService {
     List<Pickle> favoritePickles(Integer userId);
 
     UpdatePickleResponse updateFavoritePickle(Integer userId, Integer pickleId);
+
+    Register resendVerification(Register register);
 }

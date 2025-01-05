@@ -21,6 +21,6 @@ public class LoginController {
     @PostMapping("/authenticate")
     public ResponseEntity<ApiResponse<LoginResponseDto>> login(@RequestBody User user) {
         LoginResponseDto response = authenticationServiceImpl.authenticate(user);
-        return ApiResponse.success(response, "Login successful");
+        return ApiResponse.success(response, "Login successful!");
     }
 }

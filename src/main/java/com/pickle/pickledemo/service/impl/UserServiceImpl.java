@@ -118,7 +118,7 @@ public class UserServiceImpl implements UserService {
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userTempRepository.save(user);
-        Integer otp = generateRandomNumber(4);
+        Integer otp = generateOTP(4);
         taskExecutor.execute(() -> emailService.sendOtpMail(user.getEmail(), otp));
         //emailService.sendOtpMail(user.getEmail(), otp);
         Register register = new Register(otp, user.getEmail());
@@ -257,10 +257,27 @@ public class UserServiceImpl implements UserService {
         }*/
     }
 
-    public int generateRandomNumber(int numberOfDigits) {
+    public int generateOTP(int numberOfDigits) {
         Random random = new Random();
         int min = (int) Math.pow(10, numberOfDigits - 1);
         int max = (int) Math.pow(10, numberOfDigits) - 1;
         return min + random.nextInt(max - min + 1);
+    }
+
+    @Override
+    public Register resendVerification(Register register) {
+        UserTemp userTemp = userTempRepository.findByEmail(register.getEmail())
+            .orElseThrow(() -> new UserNotFoundException("User not found with email: " + register.getEmail()));
+        
+        // Generate new OTP
+        int otp = generateOTP(4); // Assuming you have this method
+        
+        // Update the register entity with new OTP
+        Register newRegister = new Register(otp, register.getEmail());
+        
+        // Send new OTP via email
+        emailService.sendOtpMail(register.getEmail(), otp);
+        
+        return registerRepository.save(newRegister);
     }
 }

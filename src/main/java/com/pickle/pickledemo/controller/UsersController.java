@@ -88,6 +88,11 @@ public class UsersController {
         return ApiResponse.success(userService.validateSave(register), "User validated successfully", HttpStatus.CREATED);
     }
 
+    @PostMapping("/users/resendVerification")
+    public ResponseEntity<ApiResponse<Register>> resendVerification(@RequestBody Register register) {
+        return ApiResponse.success(userService.resendVerification(register), "Verification code has been resent to your email");
+    }
+
     @PutMapping("/users/favorites/pickles")
     public ResponseEntity<ApiResponse<UpdatePickleResponse>> updateFavoritePickle(@AuthenticationPrincipal User user, @RequestParam Integer pickleId) {
         return ApiResponse.success(userService.updateFavoritePickle(user.getId(), pickleId), "Favorite pickle updated successfully");

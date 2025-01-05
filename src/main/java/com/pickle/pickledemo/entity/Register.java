@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +21,7 @@ public class Register {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Nullable
     private Integer code;
 
     private String email;
