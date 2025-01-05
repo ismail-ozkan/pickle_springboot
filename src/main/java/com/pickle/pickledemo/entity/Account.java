@@ -1,5 +1,6 @@
 package com.pickle.pickledemo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -48,6 +49,7 @@ public class Account {
 
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
     @Builder.Default
+    @JsonBackReference
     private Set<User> users = new HashSet<>();
 
 }
